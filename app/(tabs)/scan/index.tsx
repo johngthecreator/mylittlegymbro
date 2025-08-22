@@ -25,6 +25,28 @@ interface FoodDataResponse {
   product: Product;
 }
 
+/**
+ * React Native screen that uses the device camera to scan barcodes and open a scanned food item's detail view.
+ *
+ * Renders a camera view (when permission is granted and the screen is focused), debounces duplicate/rapid scans,
+ * checks the local SQLite `food_items` table for an existing entry by EAN barcode, and if not present fetches product
+ * data from the Open Food Facts API and inserts a new row. On successful lookup or insertion the component navigates
+ * to `/scan/[id]` using the scanned barcode as `id`. If the remote lookup or insert fails an alert is shown.
+ *
+ * Behavior notes:
+ * - Prevents duplicate handling by ignoring scans within 500ms, repeated scans of the same barcode, or while a lookup
+ *   is already in progress.
+ * - Stores the API-provided `image_small_url` into the database `image_url` column when inserting a new item.
+ * - Only renders the camera while the screen is focused.
+ *
+ * Side effects:
+ * - Reads from and writes to the app's SQLite database.
+ * - Performs network requests to Open Food Facts.
+ * - Navigates via the app router and may display an Alert on error.
+ *
+ * Returns:
+ * - A React element for the scanner screen.
+ */
 export default function Scanner() {
   const [facing, setFacing] = useState<CameraType>('back');
   const [permission, requestPermission] = useCameraPermissions();
