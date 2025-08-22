@@ -17,6 +17,7 @@ interface Nutriments {
 interface Product {
   brands: string; // The brand name of the product [cite: 3]
   product_name: string; // The name of the product [cite: 107]
+  image_small_url: string;
   nutriments: Nutriments; // Nested object containing nutritional facts
 }
 
@@ -72,10 +73,11 @@ export default function Scanner() {
           }
         });
         const respData: FoodDataResponse = await response.json();
-        const result = await db.runAsync("INSERT INTO food_items (ean_id,name,brand,calories,g_protein,g_carbs,g_fats,g_fiber,g_sodium) VALUES (?,?,?,?,?,?,?,?,?)", [
+        const result = await db.runAsync("INSERT INTO food_items (ean_id,name,brand,image_url,calories,g_protein,g_carbs,g_fats,g_fiber,g_sodium) VALUES (?,?,?,?,?,?,?,?,?,?)", [
           data.data,
           respData.product.product_name,
           respData.product.brands,
+          respData.product.image_small_url,
           respData.product.nutriments['energy-kcal'],
           respData.product.nutriments.proteins,
           respData.product.nutriments.carbohydrates,

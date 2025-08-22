@@ -6,10 +6,11 @@ import {
   Text,
   Dimensions,
   ScrollView,
+  Pressable,
 } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useState } from "react";
 import { useFocusEffect } from "expo-router";
@@ -22,6 +23,7 @@ export default function ScaleScreen() {
   const { height } = Dimensions.get("window");
   const date = new Date();
   const midnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0)).toISOString();
+  const router = useRouter();
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -40,7 +42,6 @@ export default function ScaleScreen() {
 
   const loadData = async () => {
     try {
-      console.log("called");
       const result = await db.getAllAsync("SELECT * FROM log_entries WHERE date  < ? ORDER BY date DESC", [midnight]);
       console.log("Query result:", result);
       const entries: any = [];
@@ -60,14 +61,6 @@ export default function ScaleScreen() {
       loadData();
     }, [])
   );
-
-  // if (!logEntries) {
-  //   return (
-  //     <View>
-  //       <Text style={{color: "white"}}>Loading...</Text>
-  //     </View>
-  //   );
-  // }
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -103,18 +96,24 @@ export default function ScaleScreen() {
           </View>
           <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <Text style={{ fontSize: 20, fontWeight: 'semibold', marginTop: 20 }}>Food log</Text>
-            <Link href="/nutrition/1">Quick Add</Link>
+            {/* <Link href="/nutrition/1">Quick Add</Link> */}
           </View>
           {logEntries.length > 0 ?
             <FlatList data={logEntries} renderItem={(log_entry: any) => {
               const entry = log_entry.item;
               return (
-                <View key={entry.id} style={{ height: 300, width: 300, backgroundColor: 'lavender', marginRight: 10, borderRadius: 40, padding: 25 }}>
-                  <Text>
-                    {entry.name}
-                  </Text>
-                  <Button onPress={() => handleDelete(entry.entry_id)} title="Delete" />
-                </View>
+                <Pressable onPress={() =>
+                  router.navigate({
+                    pathname: '/nutrition/[id]',
+                    params: { id: entry.id }
+                  })} >
+                  <View key={entry.id} style={{ height: 300, width: 300, backgroundColor: 'lavender', marginRight: 10, borderRadius: 40, padding: 25 }}>
+                    <Text>
+                      {entry.name}
+                    </Text>
+                    <Button onPress={() => handleDelete(entry.entry_id)} title="Delete" />
+                  </View>
+                </Pressable>
               )
             }
             }
@@ -129,7 +128,7 @@ export default function ScaleScreen() {
             )}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 }
 
