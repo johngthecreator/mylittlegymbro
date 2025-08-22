@@ -16,6 +16,18 @@ import { useCallback, useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+/**
+ * Screen component that displays a daily nutrition summary and a horizontal food log.
+ *
+ * Loads log entries from a local SQLite database (all entries with date < UTC midnight of today), enriches each log with its food item data, and maintains them in component state. Shows totals for calories, protein, carbs, and fats; renders logged foods as tappable cards that navigate to a nutrition detail screen; and allows removing a log entry which updates local state and deletes the row from the database.
+ *
+ * Side effects:
+ * - Reads from the SQLite database on screen focus.
+ * - Deletes rows from the `log_entries` table when a user taps Delete.
+ * - Navigates to `/nutrition/[id]` when a food card is pressed.
+ *
+ * @returns A React element for the nutrition summary screen.
+ */
 export default function ScaleScreen() {
   const [logEntries, setLogEntries] = useState<any[]>([]);
 
