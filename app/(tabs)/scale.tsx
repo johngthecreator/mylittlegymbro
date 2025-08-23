@@ -7,14 +7,16 @@ import {
   Dimensions,
   ScrollView,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ImageBackground } from "expo-image";
+import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 
 /**
  * Screen component that displays a daily nutrition summary and a horizontal food log.
@@ -54,7 +56,7 @@ export default function ScaleScreen() {
 
   const loadData = async () => {
     try {
-      const result = await db.getAllAsync("SELECT * FROM log_entries WHERE date  < ? ORDER BY date DESC", [midnight]);
+      const result = await db.getAllAsync("SELECT * FROM log_entries WHERE date  > ? ORDER BY date DESC", [midnight]);
       console.log("Query result:", result);
       const entries: any = [];
       result.forEach((result: any) => {
@@ -119,17 +121,37 @@ export default function ScaleScreen() {
                     pathname: '/nutrition/[id]',
                     params: { id: entry.id }
                   })} >
-                  <View key={entry.id} style={{ height: 300, width: 300, backgroundColor: 'lavender', marginRight: 10, borderRadius: 40, padding: 25 }}>
-                    <Text>
-                      {entry.name}
-                    </Text>
-                    <Button onPress={() => handleDelete(entry.entry_id)} title="Delete" />
-                  </View>
+                  <ImageBackground
+                    blurRadius={20}
+                    source={{ uri: entry.image_url }}
+                    style={{
+                      overflow: 'hidden',
+                      marginRight: 10,
+                      borderRadius: 40,
+                    }}
+                  >
+                    <View key={entry.id} style={styles.logCard}>
+                      <View>
+                        <Text style={{ color: 'white' }}>
+                          {entry.name}
+                        </Text>
+                        <Text style={{ color: 'white' }}>
+                          {entry.calories} calories
+                        </Text>
+                        <Text style={{ color: 'white' }}>
+                          {entry.g_protein}g protein
+                        </Text>
+                      </View>
+                      <TouchableOpacity style={{ alignSelf: 'flex-end', backgroundColor: 'white', paddingVertical: 8, paddingHorizontal: 5, borderRadius: 100 }} onPress={() => handleDelete(entry.entry_id)}>
+                        <EvilIcons size={30} name="trash" />
+                      </TouchableOpacity>
+                    </View>
+                  </ImageBackground>
                 </Pressable>
               )
             }
             }
-              keyExtractor={item => `${item.id.toString()}-${item.entry_id.toString()}`}
+              keyExtractor={item => `${item?.id?.toString()}-${item?.entry_id.toString()}`}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
             />
@@ -174,5 +196,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 100,
     backgroundColor: 'lavender'
+  },
+  logCard: {
+    height: 400,
+    width: 300,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    padding: 25
   }
 });
