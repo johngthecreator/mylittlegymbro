@@ -36,7 +36,8 @@ export default function ScaleScreen() {
   const db = useSQLiteContext();
   const { height } = Dimensions.get("window");
   const date = new Date();
-  const midnight = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0, 0)).toISOString();
+  const midnight = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0).toISOString();
+  console.log(midnight)
   const router = useRouter();
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",

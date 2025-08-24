@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useFocusEffect, useRouter } from "expo-router";
-import { View, Text, Button, Alert, StyleSheet, TouchableOpacity, TextInput, Switch } from "react-native";
+import { View, Text, Button, Alert, StyleSheet, TouchableOpacity, TextInput, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useState } from "react";
 import { Image } from "expo-image";
@@ -61,72 +61,78 @@ export default function ScanDetails() {
     )
   }
 
+  const dismissInput = () => {
+    Keyboard.dismiss(); // Hides the keyboard
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.scanHeader}>
-        <Image
-          source={scanData.image_url}
-          style={{ height: 100, width: 100, borderRadius: 20, overflow: 'hidden' }}
-        />
-        <View style={{ display: 'flex', gap: 10 }}>
-          <Text>
-            {scanData.name}
-          </Text>
-          <Text>
-            {scanData.brand}
-          </Text>
-          <View style={{ width: '80%', display: 'flex', flexDirection: 'row', gap: 10 }}>
-            <TextInput keyboardType={'numeric'} style={{ borderWidth: 1, width: 100, borderColor: 'black', borderRadius: 5, padding: 5 }} value={String(servingAmount)} onChangeText={(input) => handleServingInput(input)} />
-            <TouchableOpacity style={{ paddingVertical: 5, paddingHorizontal: 10, borderRadius: 5, backgroundColor: 'lightgray' }} onPress={() => setIsUnit(!isUnit)}>
-              <Text>{isUnit ? `(${scanData.serving_unit}) amount` : "# of servings"}</Text>
-            </TouchableOpacity>
+    <TouchableWithoutFeedback onPress={dismissInput}>
+      <View style={styles.container}>
+        <View style={styles.scanHeader}>
+          <Image
+            source={scanData.image_url}
+            style={{ height: 100, width: 100, borderRadius: 20, overflow: 'hidden' }}
+          />
+          <View style={{ display: 'flex', gap: 10, width: '70%' }}>
+            <Text style={{ flexWrap: 'wrap' }}>
+              {scanData.name}
+            </Text>
+            <Text>
+              {scanData.brand}
+            </Text>
+            <View style={{ width: '80%', display: 'flex', flexDirection: 'row', gap: 10 }}>
+              <TextInput keyboardType={'numeric'} style={{ borderWidth: 1, width: 100, borderColor: 'black', borderRadius: 5, padding: 5 }} value={String(servingAmount)} onChangeText={(input) => handleServingInput(input)} />
+              <TouchableOpacity style={{ paddingVertical: 5, paddingHorizontal: 10, borderRadius: 5, backgroundColor: 'lightgray' }} onPress={() => setIsUnit(!isUnit)}>
+                <Text>{isUnit ? `(${scanData.serving_unit}) amount` : "# of servings"}</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 3, width: 130, backgroundColor: 'lightblue', padding: 5, borderRadius: 100 }} onPress={logScannedFoodItem}>
-            <EvilIcons name="plus" size={20} />
-            <Text>Log food</Text>
-          </TouchableOpacity>
         </View>
+        <Text style={{ fontSize: 20, marginBottom: 10 }}>Nutritional info</Text>
+        <View style={{ display: 'flex', flexDirection: 'column', backgroundColor: '#F5F4F6', padding: 15, gap: 10, borderRadius: 20 }}>
+          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, paddingBottom: 10, borderColor: 'lightgray' }}>
+            <Text>Total calories</Text>
+            <Text>{Math.round((scanData.calories || 0) * (
+              isUnit ? servingAmount / scanData.serving_quantity : servingAmount
+            ) * 100) / 100}</Text>
+          </View>
+          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, paddingBottom: 10, borderColor: 'lightgray' }}>
+            <Text>Protein (g)</Text>
+            <Text>{Math.round((scanData.g_protein || 0) * (
+              isUnit ? servingAmount / scanData.serving_quantity : servingAmount
+            ) * 100) / 100}</Text>
+          </View>
+          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, paddingBottom: 10, borderColor: 'lightgray' }}>
+            <Text>Carbs (g)</Text>
+            <Text>{Math.round((scanData.g_carbs || 0) * (
+              isUnit ? servingAmount / scanData.serving_quantity : servingAmount
+            ) * 100) / 100}</Text>
+          </View>
+          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, paddingBottom: 10, borderColor: 'lightgray' }}>
+            <Text>Fats (g)</Text>
+            <Text>{Math.round((scanData.g_fats || 0) * (
+              isUnit ? servingAmount / scanData.serving_quantity : servingAmount
+            ) * 100) / 100}</Text>
+          </View>
+          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, paddingBottom: 10, borderColor: 'lightgray' }}>
+            <Text>Fiber (g)</Text>
+            <Text>{Math.round((scanData.g_fiber || 0) * (
+              isUnit ? servingAmount / scanData.serving_quantity : servingAmount
+            ) * 100) / 100}</Text>
+          </View>
+          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text>Sodium (g)</Text>
+            <Text>{Math.round((scanData.g_sodium || 0) * (
+              isUnit ? servingAmount / scanData.serving_quantity : servingAmount
+            ) * 100) / 100}</Text>
+          </View>
+        </View>
+        <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 3, width: 'auto', backgroundColor: 'lightblue', padding: 10, marginTop: 20, borderRadius: 100 }} onPress={logScannedFoodItem}>
+          <EvilIcons name="plus" size={20} />
+          <Text>Log food</Text>
+        </TouchableOpacity>
       </View>
-      <Text style={{ fontSize: 20, marginBottom: 20 }}>Nutritional info</Text>
-      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', flexWrap: 'wrap', gap: 35 }}>
-        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-          <View style={styles.macrosWrapper}>
-            <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{scanData.calories}</Text>
-          </View>
-          <Text>Calories</Text>
-        </View>
-        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-          <View style={styles.macrosWrapper}>
-            <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{scanData.g_protein}</Text>
-          </View>
-          <Text>Protein (g)</Text>
-        </View>
-        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-          <View style={styles.macrosWrapper}>
-            <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{scanData.g_carbs}</Text>
-          </View>
-          <Text>Carbs (g)</Text>
-        </View>
-        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-          <View style={styles.macrosWrapper}>
-            <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{scanData.g_fats}</Text>
-          </View>
-          <Text>Fats (g)</Text>
-        </View>
-        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-          <View style={styles.macrosWrapper}>
-            <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{scanData.g_fiber}</Text>
-          </View>
-          <Text>Fiber (g)</Text>
-        </View>
-        <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-          <View style={styles.macrosWrapper}>
-            <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{scanData.serving_quantity}</Text>
-          </View>
-          <Text>Serving ({scanData.serving_unit})</Text>
-        </View>
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   )
 }
 

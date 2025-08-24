@@ -121,7 +121,7 @@ export default function Scanner() {
         searching.current = false;
         router.navigate({
           pathname: '/scan/[id]',
-          params: { id: data.data }
+          params: { id: ean_id }
         });
       } catch (error) {
         console.log(error);
