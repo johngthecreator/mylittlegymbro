@@ -56,12 +56,12 @@ export default function ScaleScreen() {
 
   const loadData = async () => {
     try {
-      const result = await db.getAllAsync("SELECT * FROM log_entries WHERE date  > ? ORDER BY date DESC", [midnight]);
+      const result = await db.getAllAsync("SELECT * FROM log_entries WHERE date > ? ORDER BY date DESC", [midnight]);
       console.log("Query result:", result);
       const entries: any = [];
       result.forEach((result: any) => {
         const foodData = db.getAllSync("SELECT * FROM food_items WHERE id = ?", [result.food_item_id])
-        entries.push({ ...foodData[0] as Object, date: result.date, entry_id: result.id });
+        entries.push({ ...foodData[0] as Object, date: result.date, entry_id: result.id, log_serving: result.log_serving });
       })
       setLogEntries(entries);
       console.log(entries);
@@ -84,27 +84,27 @@ export default function ScaleScreen() {
         <View style={{ height: height, display: 'flex', flexDirection: 'column', gap: 20 }}>
           <View style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <View style={styles.caloriesWrapper}>
-              <Text style={{ fontSize: 40, fontWeight: 'semibold' }}>{logEntries.reduce((acc, entry) => acc + entry.calories, 0)}</Text>
+              <Text style={{ fontSize: 40, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.calories * entry.log_serving, 0) * 10) / 10}</Text>
               <Text style={{ fontSize: 18 }}>Calories consumed</Text>
             </View>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
                 <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{logEntries.reduce((acc, entry) => acc + entry.g_protein, 0)}</Text>
+                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.g_protein * entry.log_serving, 0) * 10) / 10}</Text>
                 </View>
-                <Text>Protein</Text>
+                <Text>Protein (g)</Text>
               </View>
               <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
                 <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{logEntries.reduce((acc, entry) => acc + entry.g_carbs, 0)}</Text> Carbs (g)
+                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.g_carbs * entry.log_serving, 0) * 10) / 10}</Text>
                 </View>
-                <Text>Carbs</Text>
+                <Text>Carbs (g)</Text>
               </View>
               <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
                 <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{logEntries.reduce((acc, entry) => acc + entry.g_fats, 0)}</Text> Fats (g)
+                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.g_fats * entry.log_serving, 0) * 10) / 10}</Text>
                 </View>
-                <Text>Fats</Text>
+                <Text>Fats (g)</Text>
               </View>
             </View>
           </View>
@@ -136,10 +136,13 @@ export default function ScaleScreen() {
                           {entry.name}
                         </Text>
                         <Text style={{ color: 'white' }}>
-                          {entry.calories} calories
+                          {Math.round(entry.calories * entry.log_serving * 10) / 10} calories
                         </Text>
                         <Text style={{ color: 'white' }}>
-                          {entry.g_protein}g protein
+                          {Math.round(entry.g_protein * entry.log_serving * 10) / 10}g protein
+                        </Text>
+                        <Text style={{ color: 'white' }}>
+                          {Math.round(entry.log_serving * 10) / 10} servings
                         </Text>
                       </View>
                       <TouchableOpacity style={{ alignSelf: 'flex-end', backgroundColor: 'white', paddingVertical: 8, paddingHorizontal: 5, borderRadius: 100 }} onPress={() => handleDelete(entry.entry_id)}>

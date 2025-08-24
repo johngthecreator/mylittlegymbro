@@ -19,6 +19,8 @@ interface Product {
   product_name: string; // The name of the product [cite: 107]
   image_small_url: string;
   nutriments: Nutriments; // Nested object containing nutritional facts
+  serving_quantity: number;
+  serving_quantity_unit: string;
 }
 
 interface FoodDataResponse {
@@ -95,17 +97,19 @@ export default function Scanner() {
           }
         });
         const respData: FoodDataResponse = await response.json();
-        const result = await db.runAsync("INSERT INTO food_items (ean_id,name,brand,image_url,calories,g_protein,g_carbs,g_fats,g_fiber,g_sodium) VALUES (?,?,?,?,?,?,?,?,?,?)", [
+        const result = await db.runAsync("INSERT INTO food_items (ean_id,name,brand,image_url,calories,g_protein,g_carbs,g_fats,g_fiber,g_sodium,serving_quantity,serving_unit) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [
           data.data,
           respData.product.product_name,
           respData.product.brands,
           respData.product.image_small_url,
-          respData.product.nutriments['energy-kcal'],
-          respData.product.nutriments.proteins,
-          respData.product.nutriments.carbohydrates,
-          respData.product.nutriments.fat,
-          respData.product.nutriments.fiber,
-          respData.product.nutriments.sodium
+          Math.round(respData.product.nutriments['energy-kcal']),
+          Math.round(respData.product.nutriments.proteins),
+          Math.round(respData.product.nutriments.carbohydrates),
+          Math.round(respData.product.nutriments.fat),
+          Math.round(respData.product.nutriments.fiber),
+          Math.round(respData.product.nutriments.sodium),
+          Math.round(respData.product.serving_quantity),
+          respData.product.serving_quantity_unit
         ])
         console.log("last inserted: " + result.lastInsertRowId);
         searching.current = false;
