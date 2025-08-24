@@ -11,7 +11,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 export default function HomeScreen() {
   const db = useSQLiteContext();
   const deleteDB = async () => {
-    db.execAsync("DROP TABLE recipes; DROP TABLE food_items;")
+    db.execAsync("DROP TABLE recipes; DROP TABLE food_items; DROP TABLE log_entries;")
     Alert.alert("Dropped all tables")
   }
   return (

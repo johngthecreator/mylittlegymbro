@@ -7,14 +7,16 @@ import {
   Dimensions,
   ScrollView,
   Pressable,
+  TouchableOpacity,
 } from "react-native";
 
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ImageBackground } from "expo-image";
+import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 
 /**
  * Screen component that displays a daily nutrition summary and a horizontal food log.
@@ -54,12 +56,12 @@ export default function ScaleScreen() {
 
   const loadData = async () => {
     try {
-      const result = await db.getAllAsync("SELECT * FROM log_entries WHERE date  < ? ORDER BY date DESC", [midnight]);
+      const result = await db.getAllAsync("SELECT * FROM log_entries WHERE date > ? ORDER BY date DESC", [midnight]);
       console.log("Query result:", result);
       const entries: any = [];
       result.forEach((result: any) => {
         const foodData = db.getAllSync("SELECT * FROM food_items WHERE id = ?", [result.food_item_id])
-        entries.push({ ...foodData[0] as Object, date: result.date, entry_id: result.id });
+        entries.push({ ...foodData[0] as Object, date: result.date, entry_id: result.id, log_serving: result.log_serving });
       })
       setLogEntries(entries);
       console.log(entries);
@@ -82,27 +84,27 @@ export default function ScaleScreen() {
         <View style={{ height: height, display: 'flex', flexDirection: 'column', gap: 20 }}>
           <View style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <View style={styles.caloriesWrapper}>
-              <Text style={{ fontSize: 40, fontWeight: 'semibold' }}>{logEntries.reduce((acc, entry) => acc + entry.calories, 0)}</Text>
+              <Text style={{ fontSize: 40, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.calories * entry.log_serving, 0) * 10) / 10}</Text>
               <Text style={{ fontSize: 18 }}>Calories consumed</Text>
             </View>
             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
               <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
                 <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{logEntries.reduce((acc, entry) => acc + entry.g_protein, 0)}</Text>
+                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.g_protein * entry.log_serving, 0) * 10) / 10}</Text>
                 </View>
-                <Text>Protein</Text>
+                <Text>Protein (g)</Text>
               </View>
               <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
                 <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{logEntries.reduce((acc, entry) => acc + entry.g_carbs, 0)}</Text> Carbs (g)
+                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.g_carbs * entry.log_serving, 0) * 10) / 10}</Text>
                 </View>
-                <Text>Carbs</Text>
+                <Text>Carbs (g)</Text>
               </View>
               <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
                 <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{logEntries.reduce((acc, entry) => acc + entry.g_fats, 0)}</Text> Fats (g)
+                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.g_fats * entry.log_serving, 0) * 10) / 10}</Text>
                 </View>
-                <Text>Fats</Text>
+                <Text>Fats (g)</Text>
               </View>
             </View>
           </View>
@@ -119,17 +121,40 @@ export default function ScaleScreen() {
                     pathname: '/nutrition/[id]',
                     params: { id: entry.id }
                   })} >
-                  <View key={entry.id} style={{ height: 300, width: 300, backgroundColor: 'lavender', marginRight: 10, borderRadius: 40, padding: 25 }}>
-                    <Text>
-                      {entry.name}
-                    </Text>
-                    <Button onPress={() => handleDelete(entry.entry_id)} title="Delete" />
-                  </View>
+                  <ImageBackground
+                    blurRadius={20}
+                    source={{ uri: entry.image_url }}
+                    style={{
+                      overflow: 'hidden',
+                      marginRight: 10,
+                      borderRadius: 40,
+                    }}
+                  >
+                    <View key={entry.id} style={styles.logCard}>
+                      <View>
+                        <Text style={{ color: 'white' }}>
+                          {entry.name}
+                        </Text>
+                        <Text style={{ color: 'white' }}>
+                          {Math.round(entry.calories * entry.log_serving * 10) / 10} calories
+                        </Text>
+                        <Text style={{ color: 'white' }}>
+                          {Math.round(entry.g_protein * entry.log_serving * 10) / 10}g protein
+                        </Text>
+                        <Text style={{ color: 'white' }}>
+                          {Math.round(entry.log_serving * 10) / 10} servings
+                        </Text>
+                      </View>
+                      <TouchableOpacity style={{ alignSelf: 'flex-end', backgroundColor: 'white', paddingVertical: 8, paddingHorizontal: 5, borderRadius: 100 }} onPress={() => handleDelete(entry.entry_id)}>
+                        <EvilIcons size={30} name="trash" />
+                      </TouchableOpacity>
+                    </View>
+                  </ImageBackground>
                 </Pressable>
               )
             }
             }
-              keyExtractor={item => `${item.id.toString()}-${item.entry_id.toString()}`}
+              keyExtractor={item => `${item?.id?.toString()}-${item?.entry_id.toString()}`}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
             />
@@ -174,5 +199,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 100,
     backgroundColor: 'lavender'
+  },
+  logCard: {
+    height: 400,
+    width: 300,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    padding: 25
   }
 });
