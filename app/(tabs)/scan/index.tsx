@@ -73,20 +73,26 @@ export default function Scanner() {
     lastScanTimeRef.current = now;
     searching.current = true;
     console.log(`Barcode scanned with data: ${JSON.stringify(data)}`);
-    lastScanned.current = data.data;
-    const existingItems = await db.getAllAsync("SELECT * FROM food_items WHERE ean_id = ?", [data.data])
+    let ean_id = data.data
+    if (Array.from(ean_id).length < 13) {
+      ean_id = "0" + ean_id
+    }
+    lastScanned.current = ean_id;
+    const existingItems = await db.getAllAsync("SELECT * FROM food_items WHERE ean_id = ?", [ean_id])
 
     if (existingItems.length > 0) {
       console.log(JSON.stringify(existingItems[0]));
       searching.current = false;
       router.navigate({
         pathname: '/scan/[id]',
-        params: { id: data.data }
+        params: { id: ean_id }
       });
       return;
     } else {
       try {
-        const url = `https://world.openfoodfacts.net/api/v2/product/${data.data}.json`
+        console.log(ean_id)
+        const url = `https://world.openfoodfacts.org/api/v2/product/${ean_id}.json`
+        console.log(url)
         const response = await fetch(url, {
           method: 'GET',
           headers: {
@@ -98,7 +104,7 @@ export default function Scanner() {
         });
         const respData: FoodDataResponse = await response.json();
         const result = await db.runAsync("INSERT INTO food_items (ean_id,name,brand,image_url,calories,g_protein,g_carbs,g_fats,g_fiber,g_sodium,serving_quantity,serving_unit) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [
-          data.data,
+          ean_id,
           respData.product.product_name,
           respData.product.brands,
           respData.product.image_small_url,
@@ -118,6 +124,7 @@ export default function Scanner() {
           params: { id: data.data }
         });
       } catch (error) {
+        console.log(error);
         Alert.alert(
           "Can't find food item!",
           "",
