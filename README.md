@@ -1,6 +1,4 @@
-# Welcome to your Expo app 👋
-
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Welcome to mylittlegymbro 👋
 
 ## Get started
 
@@ -8,43 +6,35 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
    ```bash
    npm install
+   pnpm install
    ```
 
 2. Start the app
 
    ```bash
    npx expo start
+   pnpm exec expo start
    ```
 
-In the output, you'll find options to open the app in a
+## Setting up an IOS dev build
+1. Create IOS and Android native projects
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   ```bash
+   npx expo prebuild
+   pnpm exec expo prebuild
+   ```
+2. Bundle JS code and produce main.jsbundle for prod distribution
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+   ```bash
+   npx expo export:embed --entry-file='node_modules/expo-router/entry.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'
+   pnpm exec expo export:embed --entry-file='node_modules/expo-router/entry.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'
+   ```
+3. Open /ios in Finder and open project in Xcode by double-clicking the file with the .xcworkspace extension
 
-## Get a fresh project
+4. Right click on the main file directory above /Pods and click add files to "<app-name>" (make sure to only reference and not move or copy the files over)
 
-When you're ready, run:
+5. Double check that you've chosen a group for signing certificates and check the automatically sign checkbox.
 
-```bash
-npm run reset-project
-```
+6. Click the run button to build the app.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
