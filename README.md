@@ -1,6 +1,4 @@
-# Welcome to your Expo app 👋
-
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Welcome to mylittlegymbro 👋
 
 ## Get started
 
@@ -8,43 +6,39 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
    ```bash
    npm install
+   pnpm install
    ```
 
 2. Start the app
 
    ```bash
    npx expo start
+   pnpm exec expo start
    ```
 
-In the output, you'll find options to open the app in a
+## Setting up an IOS dev build
+1. Create IOS and Android native projects
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+   ```bash
+   npx expo prebuild
+   pnpm exec expo prebuild
+   ```
+2. Make sure EXPO_EXECUTION_ENV=prod in your .env file (set this to "expo" if you want to develop locally with expo go)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+3. Bundle JS code and produce main.jsbundle for prod distribution
 
-## Get a fresh project
+   ```bash
+   npx expo export:embed --entry-file='node_modules/expo-router/entry.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'
+   pnpm exec expo export:embed --entry-file='node_modules/expo-router/entry.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'
+   ```
+4. Open /ios in Finder and open project in Xcode by double-clicking the file with the .xcworkspace extension
 
-When you're ready, run:
+5. Right click on the main file directory above /Pods and click add files to "<app-name>" (make sure to only reference and not move or copy the files over)
 
-```bash
-npm run reset-project
-```
+6. Double check that you've chosen a group for signing certificates and check the automatically sign checkbox.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+7. Make sure your phone is in dev mode and that you trust the certificate you're signing the app with. This can be found in Settings > General > VPN & Device Management.
 
-## Learn more
+8. Click the run button to build the app.
 
-To learn more about developing your project with Expo, look at the following resources:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.

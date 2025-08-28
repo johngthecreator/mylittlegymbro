@@ -42,14 +42,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="magnifyingglass" color={color} />,
         }}
       />
-      <Tabs.Screen
-        name="scale"
-        options={{
-          title: 'Scale',
-          tabBarLabel: 'Scale',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="scalemass" color={color} />,
-        }}
-      />
+      
     </Tabs>
   );
 }

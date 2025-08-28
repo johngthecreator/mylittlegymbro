@@ -127,10 +127,16 @@ export default function ScanDetails() {
             ) * 100) / 100}</Text>
           </View>
         </View>
-        <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 3, width: 'auto', backgroundColor: 'lightblue', padding: 10, marginTop: 20, borderRadius: 100 }} onPress={logScannedFoodItem}>
-          <EvilIcons name="plus" size={20} />
-          <Text>Log food</Text>
-        </TouchableOpacity>
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: 10, marginTop: 20 }}>
+          <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 3, flex: 1, backgroundColor: 'lightblue', padding: 10, borderRadius: 100 }} onPress={logScannedFoodItem}>
+            <EvilIcons name="plus" size={20} />
+            <Text>Log food</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 3, flex: 1, backgroundColor: 'lightgray', padding: 10, borderRadius: 100 }} onPress={() => router.push(`/scan/edit/${params.id}`)}>
+            <EvilIcons name="pencil" size={20} />
+            <Text>Edit</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </TouchableWithoutFeedback>
   )

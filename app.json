@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "thegramscale",
-    "slug": "thegramscale",
+    "name": "mylittlegymbro",
+    "slug": "mylittlegymbro",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "thegramscale",
+    "scheme": "mylittlegymbro",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.thegramscale"
+      "bundleIdentifier": "com.anonymous.mylittlegymbro"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +22,7 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.anonymous.thegramscale"
+      "package": "com.anonymous.mylittlegymbro"
     },
     "web": {
       "bundler": "metro",
