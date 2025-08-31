@@ -16,7 +16,12 @@ import { useCallback, useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ImageBackground } from "expo-image";
-import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
+import { EvilIcons } from "@expo/vector-icons";
+
+import { container } from '@/core/container';
+import { TYPES } from '@/core/types';
+
+import { IGreetingController } from '@/core/interfaces';
 
 /**
  * Screen component that displays a daily nutrition summary and a horizontal food log.
@@ -71,6 +76,11 @@ export default function HomeScreen() {
     }
   };
 
+  const greetingController = container.get<IGreetingController>(TYPES.IGreetingController);
+  const greeting = greetingController.getGreeting();
+
+
+
   useFocusEffect(
     useCallback(() => {
       loadData();
@@ -80,6 +90,7 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.mainContainer}>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <Text>{greeting}</Text>
         <Text style={{ fontSize: 20, fontWeight: 'light', marginBottom: 20 }}>{`${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}`}</Text>
         <Text style={{ fontSize: 20, fontWeight: 'semibold', marginBottom: 20 }}>Daily summary</Text>
         <View style={{ height: height, display: 'flex', flexDirection: 'column', gap: 20 }}>
