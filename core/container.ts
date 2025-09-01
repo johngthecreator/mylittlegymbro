@@ -1,13 +1,19 @@
-import "reflect-metadata";
 import { Container } from "inversify";
-import { GreetingService } from "./GreetingService";
-import { GreetingController } from "./GreetingController";
+import "reflect-metadata";
+import { InsertController } from "./insert/insert.controller";
+import {
+  IInsertController,
+  IInsertRepository,
+  IInsertService,
+} from "./insert/insert.interface";
+import { InsertRepository } from "./insert/insert.repository";
+import { InsertService } from "./insert/insert.service";
 import { TYPES } from "./types";
-import { IGreetingController, IGreetingService } from "./interfaces";
 
 const container = new Container();
 
-container.bind<IGreetingService>(TYPES.IGreetingService).to(GreetingService);
-container.bind<IGreetingController>(TYPES.IGreetingController).to(GreetingController);
+container.bind<IInsertController>(TYPES.IInsertController).to(InsertController);
+container.bind<IInsertRepository>(TYPES.IInsertRepository).to(InsertRepository);
+container.bind<IInsertService>(TYPES.IInsertService).to(InsertService);
 
 export { container };
