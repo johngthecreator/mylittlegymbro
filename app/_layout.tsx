@@ -61,7 +61,6 @@ export default function RootLayout() {
     } else {
       console.log("Database already bound to Inversify container");
     }
-    console.log("Database bound to Inversify container");
   };
 
   return (
