@@ -1,13 +1,22 @@
+import { Colors } from "@/constants/Colors";
+import { EvilIcons } from "@expo/vector-icons";
 import { useFocusEffect, useRouter } from "expo-router";
-import { View, Text, Button, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useState } from "react";
-import { EvilIcons } from "@expo/vector-icons";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
 
 export default function AllItems() {
   const db = useSQLiteContext();
   const [allItems, setAllItems] = useState<any[]>([]);
   const router = useRouter();
+  const colorScheme = useColorScheme();
 
   const loadData = async () => {
     try {
@@ -25,26 +34,58 @@ export default function AllItems() {
   );
 
   const renderItem = ({ item }: { item: any }) => (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity
+      style={[
+        styles.itemContainer,
+        { borderBottomColor: Colors[colorScheme ?? "light"].tint },
+      ]}
+      onPress={() => router.push(`/scan/${item.id}`)}
+    >
       <View style={{ flex: 1, paddingRight: 10 }}>
-        <Text style={styles.itemName} numberOfLines={1} ellipsizeMode="tail">
+        <Text
+          style={[
+            styles.itemName,
+            { color: Colors[colorScheme ?? "light"].text },
+          ]}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
           {item.name}
         </Text>
-        <Text style={styles.itemBrand}>{item.brand}</Text>
+        <Text
+          style={[
+            styles.itemBrand,
+            { color: Colors[colorScheme ?? "light"].icon },
+          ]}
+        >
+          {item.brand}
+        </Text>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => router.push(`/scan/edit/${item.ean_id}`)}>
-          <EvilIcons name="pencil" size={24} color="blue" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => router.push(`/scan/${item.ean_id}`)}>
-          <EvilIcons name="plus" size={24} color="green" />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={(e) => {
+            e.stopPropagation();
+            router.push(`/scan/edit/${item.id}`);
+          }}
+        >
+          <EvilIcons
+            name="pencil"
+            size={24}
+            color={Colors[colorScheme ?? "light"].tint}
+          />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: Colors[colorScheme ?? "light"].background },
+      ]}
+    >
       <FlatList
         data={allItems}
         renderItem={renderItem}
@@ -58,7 +99,6 @@ export default function AllItems() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
   },
   itemContainer: {
     flexDirection: "row",
@@ -66,7 +106,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: "#eee",
   },
   itemName: {
     fontSize: 16,
@@ -74,7 +113,6 @@ const styles = StyleSheet.create({
   },
   itemBrand: {
     fontSize: 14,
-    color: "#888",
   },
   buttonContainer: {
     flexDirection: "row",

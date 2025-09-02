@@ -111,14 +111,23 @@ function HomeScreen({ container }: { container: Container }) {
   return (
     <SafeAreaView style={styles.mainContainer}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Link href="/quick-add">Quick Add</Link>
         <Text
-          style={{ fontSize: 20, fontWeight: "light", marginBottom: 20 }}
+          style={{
+            fontSize: 20,
+            fontWeight: "light",
+            marginBottom: 20,
+            color: "white",
+          }}
         >{`${days[date.getDay()]}, ${
           months[date.getMonth()]
         } ${date.getDate()}`}</Text>
         <Text
-          style={{ fontSize: 20, fontWeight: "semibold", marginBottom: 20 }}
+          style={{
+            fontSize: 20,
+            fontWeight: "semibold",
+            marginBottom: 20,
+            color: "white",
+          }}
         >
           Daily summary
         </Text>
@@ -132,7 +141,9 @@ function HomeScreen({ container }: { container: Container }) {
         >
           <View style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             <View style={styles.caloriesWrapper}>
-              <Text style={{ fontSize: 40, fontWeight: "semibold" }}>
+              <Text
+                style={{ fontSize: 40, fontWeight: "semibold", color: "white" }}
+              >
                 {Math.round(
                   logEntries.reduce(
                     (acc, entry) => acc + entry.calories * entry.log_serving,
@@ -140,7 +151,9 @@ function HomeScreen({ container }: { container: Container }) {
                   ) * 10
                 ) / 10}
               </Text>
-              <Text style={{ fontSize: 18 }}>Calories consumed</Text>
+              <Text style={{ fontSize: 18, color: "white" }}>
+                Calories consumed
+              </Text>
             </View>
             <View
               style={{
@@ -158,7 +171,13 @@ function HomeScreen({ container }: { container: Container }) {
                 }}
               >
                 <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: "semibold" }}>
+                  <Text
+                    style={{
+                      fontSize: 30,
+                      fontWeight: "semibold",
+                      color: "white",
+                    }}
+                  >
                     {Math.round(
                       logEntries.reduce(
                         (acc, entry) =>
@@ -168,7 +187,7 @@ function HomeScreen({ container }: { container: Container }) {
                     ) / 10}
                   </Text>
                 </View>
-                <Text>Protein (g)</Text>
+                <Text style={{ color: "white" }}>Protein (g)</Text>
               </View>
               <View
                 style={{
@@ -179,7 +198,13 @@ function HomeScreen({ container }: { container: Container }) {
                 }}
               >
                 <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: "semibold" }}>
+                  <Text
+                    style={{
+                      fontSize: 30,
+                      fontWeight: "semibold",
+                      color: "white",
+                    }}
+                  >
                     {Math.round(
                       logEntries.reduce(
                         (acc, entry) => acc + entry.g_carbs * entry.log_serving,
@@ -188,7 +213,7 @@ function HomeScreen({ container }: { container: Container }) {
                     ) / 10}
                   </Text>
                 </View>
-                <Text>Carbs (g)</Text>
+                <Text style={{ color: "white" }}>Carbs (g)</Text>
               </View>
               <View
                 style={{
@@ -199,7 +224,13 @@ function HomeScreen({ container }: { container: Container }) {
                 }}
               >
                 <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: "semibold" }}>
+                  <Text
+                    style={{
+                      fontSize: 30,
+                      fontWeight: "semibold",
+                      color: "white",
+                    }}
+                  >
                     {Math.round(
                       logEntries.reduce(
                         (acc, entry) => acc + entry.g_fats * entry.log_serving,
@@ -208,9 +239,40 @@ function HomeScreen({ container }: { container: Container }) {
                     ) / 10}
                   </Text>
                 </View>
-                <Text>Fats (g)</Text>
+                <Text style={{ color: "white" }}>Fats (g)</Text>
               </View>
             </View>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "semibold",
+                color: "white",
+              }}
+            >
+              Food log
+            </Text>
+            <Link
+              href="/quick-add"
+              style={{
+                color: "white",
+                fontSize: 16,
+                paddingHorizontal: 5,
+                paddingVertical: 8,
+                borderRadius: 100,
+                backgroundColor: "gray",
+              }}
+            >
+              <EvilIcons name="plus" size={25} />
+            </Link>
           </View>
           {logEntries.length > 0 ? (
             <FlatList
@@ -278,7 +340,7 @@ function HomeScreen({ container }: { container: Container }) {
               showsHorizontalScrollIndicator={false}
             />
           ) : (
-            <Text>No Food Logged!</Text>
+            <Text style={{ color: "white" }}>No Food Logged!</Text>
           )}
         </View>
       </ScrollView>
@@ -296,7 +358,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   mainContainer: {
-    backgroundColor: "white",
+    backgroundColor: "#1A1A1A",
     height: "100%",
     padding: 10,
   },
@@ -304,7 +366,7 @@ const styles = StyleSheet.create({
     padding: 30,
     height: 150,
     borderRadius: 40,
-    backgroundColor: "lavender",
+    backgroundColor: "#3A3A3A",
     justifyContent: "center",
     gap: 5,
     display: "flex",
@@ -317,7 +379,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 100,
-    backgroundColor: "lavender",
+    backgroundColor: "#3A3A3A",
   },
   logCard: {
     height: 400,

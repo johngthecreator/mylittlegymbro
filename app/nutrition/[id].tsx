@@ -1,5 +1,7 @@
 import { useLocalSearchParams } from "expo-router"
-import { View, Text } from "react-native"
+import { View, Text, useColorScheme } from "react-native"
+import { Colors } from "@/constants/Colors";
+
 /**
  * React Native screen that displays basic information for a food item.
  *
@@ -12,9 +14,10 @@ import { View, Text } from "react-native"
  */
 export default function foodInfo() {
   const data = useLocalSearchParams<{ id: string }>();
+  const colorScheme = useColorScheme();
   return (
-    <View style={{ backgroundColor: 'white' }}>
-      <Text>Food info page {data.id}</Text>
+    <View style={{ backgroundColor: Colors[colorScheme ?? 'light'].background, flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ color: Colors[colorScheme ?? 'light'].text }}>Food info page {data.id}</Text>
     </View>
   )
 }

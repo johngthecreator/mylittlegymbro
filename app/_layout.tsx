@@ -1,34 +1,15 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
 
 import { container } from "@/core/container";
 import { TYPES } from "@/core/types";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { SQLiteDatabase, SQLiteProvider } from "expo-sqlite";
 
-/**
- * Root-level layout for the app — initializes runtime dependencies and renders the app shell.
- *
- * Sets up the SQLite database (creates required tables if they do not exist), loads the SpaceMono font
- * before rendering, applies theming based on the current color scheme, and defines the primary navigation stack.
- *
- * Database initialization (performed via the provider's `onInit` callback) ensures these tables exist:
- * - food_items (columns include id, ean_id, name, brand, image_url, g_amount, calories, g_protein, g_carbs, g_fats, g_fiber, g_sodium, is_quick_add)
- * - log_entries (columns include id, food_item_id, serving_size_g, date; `food_item_id` references food_items.id)
- * - recipes (columns include id, name, g_amount, calories, g_protein, g_carbs, g_fats)
- *
- * Note: While fonts are loading this component returns null (renders nothing) until the SpaceMono font is ready.
- *
- * @returns The root React element for the application.
- */
+import { DarkTheme, ThemeProvider } from "@react-navigation/native";
+import { Stack } from "expo-router";
+import { SQLiteDatabase, SQLiteProvider } from "expo-sqlite";
+import { StatusBar } from "expo-status-bar";
+
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const colorScheme = "dark";
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
@@ -65,7 +46,7 @@ export default function RootLayout() {
 
   return (
     <SQLiteProvider databaseName="scale.db" onInit={createIfNeeded}>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+      <ThemeProvider value={DarkTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />

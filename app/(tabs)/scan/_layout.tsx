@@ -1,6 +1,6 @@
+import { Feather } from "@expo/vector-icons";
 import { Link, Stack } from "expo-router";
 import { Pressable } from "react-native";
-import { Feather } from "@expo/vector-icons";
 
 export default function ScanLayout() {
   return (
@@ -13,7 +13,7 @@ export default function ScanLayout() {
           headerRight: () => (
             <Link href="/scan/all-items" asChild>
               <Pressable>
-                <Feather name="list" size={24} color="black" />
+                <Feather name="list" size={24} color="white" />
               </Pressable>
             </Link>
           ),
@@ -24,4 +24,3 @@ export default function ScanLayout() {
     </Stack>
   );
 }
-

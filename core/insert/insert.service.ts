@@ -17,7 +17,10 @@ export class InsertService implements IInsertService {
     log_serving: number,
     date: string
   ): Promise<void> {
-    const foodItemId = await this.insertRepository.insertFoodItem(foodItem);
+    const foodItemId = await this.insertRepository.insertFoodItem({
+      ...foodItem,
+      brand: "Quick Add",
+    });
     console.log("Food item id: ", foodItemId);
     return this.insertRepository.insertLogEntry({
       food_item_id: foodItemId,
