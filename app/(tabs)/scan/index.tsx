@@ -1,9 +1,9 @@
-import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
-import { useState, useRef, useCallback } from 'react';
-import { Alert, Button, StyleSheet, Text, View } from 'react-native';
+import { useIsFocused } from "@react-navigation/native";
+import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
+import { useFocusEffect, useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
-import { useFocusEffect, useRouter } from 'expo-router';
-import { useIsFocused } from '@react-navigation/native';
+import { useCallback, useRef, useState } from "react";
+import { Alert, Button, StyleSheet, Text, View } from "react-native";
 
 interface Nutriments {
   "energy-kcal": number; // in kcal [cite: 78]
@@ -50,7 +50,7 @@ interface FoodDataResponse {
  * - A React element for the scanner screen.
  */
 export default function Scanner() {
-  const [facing, setFacing] = useState<CameraType>('back');
+  const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
   const lastScanTimeRef = useRef(0);
   const searching = useRef(false);
@@ -63,65 +63,75 @@ export default function Scanner() {
     useCallback(() => {
       lastScanned.current = "";
     }, [])
-  )
-
+  );
 
   const handleBarCodeScanned = async (data: any) => {
     console.log("barcode scanned");
     const now = Date.now();
-    if (now - lastScanTimeRef?.current < 500 || searching?.current || lastScanned?.current == data.data) return;
+    if (
+      now - lastScanTimeRef?.current < 500 ||
+      searching?.current ||
+      lastScanned?.current == data.data
+    )
+      return;
     lastScanTimeRef.current = now;
     searching.current = true;
     console.log(`Barcode scanned with data: ${JSON.stringify(data)}`);
-    let ean_id = data.data
+    let ean_id = data.data;
     if (Array.from(ean_id).length < 13) {
-      ean_id = "0" + ean_id
+      ean_id = "0" + ean_id;
     }
     lastScanned.current = ean_id;
-    const existingItems = await db.getAllAsync("SELECT * FROM food_items WHERE ean_id = ?", [ean_id])
+    const existingItems = await db.getAllAsync(
+      "SELECT * FROM food_items WHERE ean_id = ?",
+      [ean_id]
+    );
 
     if (existingItems.length > 0) {
       console.log(JSON.stringify(existingItems[0]));
       searching.current = false;
       router.navigate({
-        pathname: '/scan/[id]',
-        params: { id: ean_id }
+        pathname: "/scan/[id]",
+        params: { id: (existingItems[0] as any).id },
       });
       return;
     } else {
       try {
-        console.log(ean_id)
-        const url = `https://world.openfoodfacts.org/api/v2/product/${ean_id}.json`
-        console.log(url)
+        console.log(ean_id);
+        const url = `https://world.openfoodfacts.org/api/v2/product/${ean_id}.json`;
+        console.log(url);
         const response = await fetch(url, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+            Accept: "application/json",
+            "Content-Type": "application/json",
             UserAgent: "GramScaleApp/0.1 (johngorriceta1@gmail.com)",
-            Authorization: 'Basic ' + btoa('off:off')
-          }
+            Authorization: "Basic " + btoa("off:off"),
+          },
         });
         const respData: FoodDataResponse = await response.json();
-        const result = await db.runAsync("INSERT INTO food_items (ean_id,name,brand,image_url,calories,g_protein,g_carbs,g_fats,g_fiber,g_sodium,serving_quantity,serving_unit) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)", [
-          ean_id,
-          respData.product.product_name,
-          respData.product.brands,
-          respData.product.image_small_url,
-          Math.round(respData.product.nutriments['energy-kcal']),
-          Math.round(respData.product.nutriments.proteins),
-          Math.round(respData.product.nutriments.carbohydrates),
-          Math.round(respData.product.nutriments.fat),
-          Math.round(respData.product.nutriments.fiber),
-          Math.round(respData.product.nutriments.sodium),
-          Math.round(respData.product.serving_quantity),
-          respData.product.serving_quantity_unit
-        ])
+        const result = await db.runAsync(
+          "INSERT INTO food_items (ean_id,name,brand,image_url,calories,g_protein,g_carbs,g_fats,g_fiber,g_sodium,serving_quantity,serving_unit) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+          [
+            ean_id,
+            respData.product.product_name,
+            respData.product.brands,
+            respData.product.image_small_url,
+            Math.round(respData.product.nutriments["energy-kcal"]),
+            Math.round(respData.product.nutriments.proteins),
+            Math.round(respData.product.nutriments.carbohydrates),
+            Math.round(respData.product.nutriments.fat),
+            Math.round(respData.product.nutriments.fiber),
+            Math.round(respData.product.nutriments.sodium),
+            Math.round(respData.product.serving_quantity),
+            respData.product.serving_quantity_unit,
+          ]
+        );
         console.log("last inserted: " + result.lastInsertRowId);
         searching.current = false;
         router.navigate({
-          pathname: '/scan/[id]',
-          params: { id: ean_id }
+          pathname: "/scan/[id]",
+          params: { id: result.lastInsertRowId },
         });
       } catch (error) {
         console.log(error);
@@ -136,8 +146,8 @@ export default function Scanner() {
                 searching.current = false;
                 lastScanned.current = "";
                 // continue with any other logic here
-              }
-            }
+              },
+            },
           ],
           { cancelable: false }
         );
@@ -153,7 +163,9 @@ export default function Scanner() {
   if (!permission.granted) {
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>We need your permission to show the camera</Text>
+        <Text style={styles.message}>
+          We need your permission to show the camera
+        </Text>
         <Button onPress={requestPermission} title="grant permission" />
       </View>
     );
@@ -162,10 +174,12 @@ export default function Scanner() {
   return (
     <View style={styles.container}>
       {isFocused ? (
-        <CameraView style={styles.camera} facing={facing} onBarcodeScanned={handleBarCodeScanned}>
-        </CameraView>
-      ) : null
-      }
+        <CameraView
+          style={styles.camera}
+          facing={facing}
+          onBarcodeScanned={handleBarCodeScanned}
+        ></CameraView>
+      ) : null}
     </View>
   );
 }
@@ -173,10 +187,10 @@ export default function Scanner() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   message: {
-    textAlign: 'center',
+    textAlign: "center",
     paddingBottom: 10,
   },
   camera: {
@@ -184,19 +198,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
+    flexDirection: "row",
+    backgroundColor: "transparent",
     margin: 64,
   },
   button: {
     flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
+    alignSelf: "flex-end",
+    alignItems: "center",
   },
   text: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
+    fontWeight: "bold",
+    color: "white",
   },
 });
-

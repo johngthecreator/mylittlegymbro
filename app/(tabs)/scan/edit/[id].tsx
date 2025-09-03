@@ -62,7 +62,7 @@ export default function EditScanDetails() {
   const saveFoodItemDetails = async () => {
     try {
       await db.runAsync(
-        "UPDATE food_items SET name = ?, brand = ?, calories = ?, g_protein = ?, g_carbs = ?, g_fats = ?, g_fiber = ?, g_sodium = ?, serving_quantity = ?, serving_unit = ? WHERE ean_id = ?",
+        "UPDATE food_items SET name = ?, brand = ?, calories = ?, g_protein = ?, g_carbs = ?, g_fats = ?, g_fiber = ?, g_sodium = ?, serving_quantity = ?, serving_unit = ? WHERE id = ?",
         [
           name,
           brand,
