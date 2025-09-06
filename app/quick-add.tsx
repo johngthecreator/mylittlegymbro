@@ -1,4 +1,5 @@
 import withContainer from "@/components/withContainer";
+import { Colors } from "@/constants/Colors";
 import { IInsertController } from "@/core/insert/insert.interface";
 import { TYPES } from "@/core/types";
 import { useRouter } from "expo-router";
@@ -6,11 +7,13 @@ import { Container } from "inversify";
 import { useState } from "react";
 import {
   Keyboard,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  useColorScheme,
   View,
 } from "react-native";
 
@@ -23,8 +26,7 @@ const QuickAdd = ({ container }: { container: Container }) => {
   const [servingQuantity, setServingQuantity] = useState("");
   const [servingUnit, setServingUnit] = useState("g"); // Default to 'g'
   const [servingsConsumed, setServingsConsumed] = useState("1"); // Default to 1 serving
-  const [currentStep, setCurrentStep] = useState(1); // 1 for food details, 2 for servings
-  const [foodItemId, setFoodItemId] = useState<number | null>(null);
+  const colorScheme = useColorScheme();
 
   const insertController = container.get<IInsertController>(
     TYPES.IInsertController
@@ -60,56 +62,128 @@ const QuickAdd = ({ container }: { container: Container }) => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        {/* Removed header with close button and title */}
-
+    <ScrollView
+      contentContainerStyle={styles.container}
+      automaticallyAdjustKeyboardInsets={true}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.innerContainer}>
-          <Text style={styles.label}>Food Name</Text>
+          <Text
+            style={[
+              styles.label,
+              { color: Colors[colorScheme ?? "light"].text },
+            ]}
+          >
+            Food Name
+          </Text>
           <TextInput
-            style={styles.input}
+            style={[
+              styles.input,
+              {
+                borderColor: Colors[colorScheme ?? "light"].tint,
+                color: Colors[colorScheme ?? "light"].text,
+                backgroundColor: "#3A3A3A",
+              },
+            ]}
             placeholder="Scrambled Eggs"
-            placeholderTextColor="#888"
+            placeholderTextColor={Colors[colorScheme ?? "light"].text + "80"}
             value={name}
             onChangeText={setName}
           />
 
-          <Text style={styles.label}>Portion Size</Text>
+          <Text
+            style={[
+              styles.label,
+              { color: Colors[colorScheme ?? "light"].text },
+            ]}
+          >
+            Portion Size
+          </Text>
           <View style={styles.inputRow}>
             <TextInput
-              style={[styles.input, styles.inputHalf]}
+              style={[
+                styles.input,
+                styles.inputHalf,
+                {
+                  borderColor: Colors[colorScheme ?? "light"].tint,
+                  color: Colors[colorScheme ?? "light"].text,
+                  backgroundColor: "#3A3A3A",
+                },
+              ]}
               placeholder="100"
-              placeholderTextColor="#888"
+              placeholderTextColor={Colors[colorScheme ?? "light"].text + "80"}
               value={servingQuantity}
               onChangeText={setServingQuantity}
               keyboardType="numeric"
             />
             <TouchableOpacity
               onPress={toggleServingUnit}
-              style={styles.inputUnitButton}
+              style={[
+                styles.inputUnitButton,
+                { backgroundColor: Colors[colorScheme ?? "light"].tint },
+              ]}
             >
-              <Text style={styles.inputUnitText}>{servingUnit}</Text>
+              <Text
+                style={[
+                  styles.inputUnitText,
+                  { color: Colors[colorScheme ?? "light"].background },
+                ]}
+              >
+                {servingUnit}
+              </Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.row}>
             <View style={styles.column}>
-              <Text style={styles.label}>Carbs</Text>
+              <Text
+                style={[
+                  styles.label,
+                  { color: Colors[colorScheme ?? "light"].text },
+                ]}
+              >
+                Carbs
+              </Text>
               <TextInput
-                style={styles.input}
+                style={[
+                  styles.input,
+                  {
+                    borderColor: Colors[colorScheme ?? "light"].tint,
+                    color: Colors[colorScheme ?? "light"].text,
+                    backgroundColor: "#3A3A3A",
+                  },
+                ]}
                 placeholder="1.3"
-                placeholderTextColor="#888"
+                placeholderTextColor={
+                  Colors[colorScheme ?? "light"].text + "80"
+                }
                 value={carbs}
                 onChangeText={setCarbs}
                 keyboardType="numeric"
               />
             </View>
             <View style={styles.column}>
-              <Text style={styles.label}>Protein</Text>
+              <Text
+                style={[
+                  styles.label,
+                  { color: Colors[colorScheme ?? "light"].text },
+                ]}
+              >
+                Protein
+              </Text>
               <TextInput
-                style={styles.input}
+                style={[
+                  styles.input,
+                  {
+                    borderColor: Colors[colorScheme ?? "light"].tint,
+                    color: Colors[colorScheme ?? "light"].text,
+                    backgroundColor: "#3A3A3A",
+                  },
+                ]}
                 placeholder="13"
-                placeholderTextColor="#888"
+                placeholderTextColor={
+                  Colors[colorScheme ?? "light"].text + "80"
+                }
                 value={protein}
                 onChangeText={setProtein}
                 keyboardType="numeric"
@@ -119,22 +193,54 @@ const QuickAdd = ({ container }: { container: Container }) => {
 
           <View style={styles.row}>
             <View style={styles.column}>
-              <Text style={styles.label}>Fat</Text>
+              <Text
+                style={[
+                  styles.label,
+                  { color: Colors[colorScheme ?? "light"].text },
+                ]}
+              >
+                Fat
+              </Text>
               <TextInput
-                style={styles.input}
+                style={[
+                  styles.input,
+                  {
+                    borderColor: Colors[colorScheme ?? "light"].tint,
+                    color: Colors[colorScheme ?? "light"].text,
+                    backgroundColor: "#3A3A3A",
+                  },
+                ]}
                 placeholder="10"
-                placeholderTextColor="#888"
+                placeholderTextColor={
+                  Colors[colorScheme ?? "light"].text + "80"
+                }
                 value={fat}
                 onChangeText={setFat}
                 keyboardType="numeric"
               />
             </View>
             <View style={styles.column}>
-              <Text style={styles.label}>Calories</Text>
+              <Text
+                style={[
+                  styles.label,
+                  { color: Colors[colorScheme ?? "light"].text },
+                ]}
+              >
+                Calories
+              </Text>
               <TextInput
-                style={styles.input}
+                style={[
+                  styles.input,
+                  {
+                    borderColor: Colors[colorScheme ?? "light"].tint,
+                    color: Colors[colorScheme ?? "light"].text,
+                    backgroundColor: "#3A3A3A",
+                  },
+                ]}
                 placeholder="155"
-                placeholderTextColor="#888"
+                placeholderTextColor={
+                  Colors[colorScheme ?? "light"].text + "80"
+                }
                 value={calories}
                 onChangeText={setCalories}
                 keyboardType="numeric"
@@ -142,51 +248,78 @@ const QuickAdd = ({ container }: { container: Container }) => {
             </View>
           </View>
 
-          <Text style={styles.label}>How many servings did you have?</Text>
+          <Text
+            style={[
+              styles.label,
+              { color: Colors[colorScheme ?? "light"].text },
+            ]}
+          >
+            How many servings did you have?
+          </Text>
           <TextInput
-            style={styles.input}
+            style={[
+              styles.input,
+              {
+                borderColor: Colors[colorScheme ?? "light"].tint,
+                color: Colors[colorScheme ?? "light"].text,
+                backgroundColor: "#3A3A3A",
+              },
+            ]}
             placeholder="1"
-            placeholderTextColor="#888"
+            placeholderTextColor={Colors[colorScheme ?? "light"].text + "80"}
             value={servingsConsumed}
             onChangeText={setServingsConsumed}
             keyboardType="numeric"
           />
 
           <TouchableOpacity
-            style={styles.saveButton}
+            style={[
+              styles.saveButton,
+              { backgroundColor: Colors[colorScheme ?? "light"].tint },
+            ]}
             onPress={handleAddFoodItem}
           >
-            <Text style={styles.saveButtonText}>Add Food</Text>
+            <Text
+              style={[
+                styles.saveButtonText,
+                { color: Colors[colorScheme ?? "light"].background },
+              ]}
+            >
+              Add Food
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.deleteButton} onPress={handleClose}>
-            <Text style={styles.deleteButtonText}>Cancel</Text>
+            <Text
+              style={[
+                styles.deleteButtonText,
+                { color: Colors[colorScheme ?? "light"].text },
+              ]}
+            >
+              Cancel
+            </Text>
           </TouchableOpacity>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1A1A1A", // Dark background
-    padding: 20,
-    paddingTop: 50,
+    paddingHorizontal: 10,
   },
   innerContainer: {
-    // Renamed from contentContainer and removed card-like styles
+    padding: 10,
     flex: 1,
   },
   label: {
-    color: "white",
     fontSize: 16,
     marginBottom: 5,
     marginTop: 15,
   },
   input: {
-    backgroundColor: "#3A3A3A", // Even lighter dark for inputs
-    color: "white",
+    borderWidth: 1,
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -203,16 +336,15 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   inputUnitButton: {
-    backgroundColor: "#3A3A3A",
+    marginTop: -11,
     borderRadius: 8,
-    paddingVertical: 10,
+    paddingVertical: 11,
     paddingHorizontal: 15,
     width: 60,
     alignItems: "center",
     justifyContent: "center",
   },
   inputUnitText: {
-    color: "white",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -220,20 +352,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 10,
+    gap: 10,
   },
   column: {
     flex: 1,
-    marginHorizontal: 5,
   },
   saveButton: {
-    backgroundColor: "#4CAF50", // Vibrant green for save/next
     padding: 15,
-    borderRadius: 8,
+    borderRadius: 100,
     alignItems: "center",
     marginTop: 20,
   },
   saveButtonText: {
-    color: "white",
     fontSize: 18,
     fontWeight: "bold",
   },
@@ -242,7 +372,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   deleteButtonText: {
-    color: "#E57373", // Red for delete/cancel
     fontSize: 16,
   },
 });
