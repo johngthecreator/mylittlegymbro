@@ -50,7 +50,7 @@
               "title": "Scan Food",
               "icon": "symbol:magnifyingglass",
               "params": { "href": "/(tabs)/scan" }
-            }
+            },
             {
               "id": "1",
               "title": "Quick Add",
