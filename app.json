@@ -40,13 +40,27 @@
           "backgroundColor": "#1A1A1A"
         }
       ],
+      [
+        "expo-quick-actions",
+        {
+          "iosActions": [
+            {
+              "id": "0",
+              "title": "Scan Food",
+              "icon": "symbol:magnifyingglass",
+              "params": { "href": "/(tabs)/scan" }
+            }
+          ]
+        }
+      ],
       "expo-sqlite",
       [
         "expo-camera",
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
         }
-      ]
+      ],
+      "expo-quick-actions"
     ],
     "experiments": {
       "typedRoutes": true

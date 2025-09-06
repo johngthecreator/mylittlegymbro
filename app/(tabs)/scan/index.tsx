@@ -1,3 +1,6 @@
+import { container } from "@/core/container";
+import { IInsertService } from "@/core/insert/insert.interface";
+import { TYPES } from "@/core/types";
 import { useIsFocused } from "@react-navigation/native";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useFocusEffect, useRouter } from "expo-router";
@@ -67,6 +70,9 @@ export default function Scanner() {
 
   const handleBarCodeScanned = async (data: any) => {
     console.log("barcode scanned");
+    const insertServiceController = container.get<IInsertService>(
+      TYPES.IInsertService
+    );
     const now = Date.now();
     if (
       now - lastScanTimeRef?.current < 500 ||
@@ -97,41 +103,10 @@ export default function Scanner() {
       return;
     } else {
       try {
-        console.log(ean_id);
-        const url = `https://world.openfoodfacts.org/api/v2/product/${ean_id}.json`;
-        console.log(url);
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            UserAgent: "GramScaleApp/0.1 (johngorriceta1@gmail.com)",
-            Authorization: "Basic " + btoa("off:off"),
-          },
-        });
-        const respData: FoodDataResponse = await response.json();
-        const result = await db.runAsync(
-          "INSERT INTO food_items (ean_id,name,brand,image_url,calories,g_protein,g_carbs,g_fats,g_fiber,g_sodium,serving_quantity,serving_unit) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
-          [
-            ean_id,
-            respData.product.product_name,
-            respData.product.brands,
-            respData.product.image_small_url,
-            Math.round(respData.product.nutriments["energy-kcal"]),
-            Math.round(respData.product.nutriments.proteins),
-            Math.round(respData.product.nutriments.carbohydrates),
-            Math.round(respData.product.nutriments.fat),
-            Math.round(respData.product.nutriments.fiber),
-            Math.round(respData.product.nutriments.sodium),
-            Math.round(respData.product.serving_quantity),
-            respData.product.serving_quantity_unit,
-          ]
-        );
-        console.log("last inserted: " + result.lastInsertRowId);
-        searching.current = false;
+        const result = await insertServiceController.insertScanned(ean_id);
         router.navigate({
           pathname: "/scan/[id]",
-          params: { id: result.lastInsertRowId },
+          params: { id: result },
         });
       } catch (error) {
         console.log(error);

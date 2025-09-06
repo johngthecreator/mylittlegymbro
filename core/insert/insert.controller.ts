@@ -4,6 +4,7 @@ import {
   IFoodItem,
   IInsertController,
   IInsertService,
+  ILogEntryWithFoodItem,
 } from "./insert.interface";
 
 @injectable()
@@ -17,5 +18,12 @@ export class InsertController implements IInsertController {
     date: string
   ): Promise<void> {
     return this.insertService.insertQuickAdd(foodItem, log_serving, date);
+  }
+
+  getLogEntryById(
+    id: number,
+    timestamp: string
+  ): Promise<ILogEntryWithFoodItem | null> {
+    return this.insertService.getLogEntryById(id, timestamp);
   }
 }

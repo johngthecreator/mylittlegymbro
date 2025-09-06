@@ -1,7 +1,12 @@
 import { SQLiteDatabase } from "expo-sqlite";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../types";
-import { IFoodItem, IInsertRepository, ILogEntry } from "./insert.interface";
+import {
+  IFoodItem,
+  IInsertRepository,
+  ILogEntry,
+  ILogEntryWithFoodItem,
+} from "./insert.interface";
 
 @injectable()
 export class InsertRepository implements IInsertRepository {
@@ -35,5 +40,36 @@ export class InsertRepository implements IInsertRepository {
     );
     console.log("Log entry inserted: ", result.lastInsertRowId);
     return Promise.resolve();
+  }
+
+  async getLogEntryById(
+    id: number,
+    startDate: string,
+    endDate: string
+  ): Promise<ILogEntryWithFoodItem | null> {
+    return await this.db.getFirstAsync<ILogEntryWithFoodItem>(
+      `SELECT
+        le.id,
+        le.food_item_id,
+        le.log_serving,
+        le.date,
+        fi.ean_id,
+        fi.name,
+        fi.brand,
+        fi.image_url,
+        fi.calories,
+        fi.g_protein,
+        fi.g_carbs,
+        fi.g_fats,
+        fi.g_fiber,
+        fi.g_sodium,
+        fi.serving_quantity,
+        fi.serving_unit,
+        fi.is_quick_add
+      FROM log_entries le
+      JOIN food_items fi ON le.food_item_id = fi.id
+      WHERE le.id = ? AND le.date BETWEEN ? AND ?;`,
+      [id, startDate, endDate]
+    );
   }
 }

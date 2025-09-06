@@ -164,7 +164,7 @@ export default function ScanDetails() {
           style={{
             display: "flex",
             flexDirection: "column",
-            backgroundColor: Colors[colorScheme ?? "light"].card,
+            backgroundColor: "#3A3A3A",
             padding: 15,
             gap: 10,
             borderRadius: 20,
@@ -346,7 +346,7 @@ export default function ScanDetails() {
               justifyContent: "center",
               gap: 3,
               flex: 1,
-              backgroundColor: Colors[colorScheme ?? "light"].card,
+              backgroundColor: "#3A3A3A",
               padding: 10,
               borderRadius: 100,
             }}

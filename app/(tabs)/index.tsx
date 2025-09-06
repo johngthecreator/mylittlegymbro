@@ -283,8 +283,8 @@ function HomeScreen({ container }: { container: Container }) {
                   <Pressable
                     onPress={() =>
                       router.navigate({
-                        pathname: "/nutrition/[id]",
-                        params: { id: entry.id },
+                        pathname: "/nutrition/[timestamp]/[id]",
+                        params: { timestamp: log_entry.date, id: entry.id },
                       })
                     }
                   >
