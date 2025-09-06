@@ -284,7 +284,10 @@ function HomeScreen({ container }: { container: Container }) {
                     onPress={() =>
                       router.navigate({
                         pathname: "/nutrition/[timestamp]/[id]",
-                        params: { timestamp: log_entry.date, id: entry.id },
+                        params: {
+                          timestamp: new Date(entry.date).getTime().toString(),
+                          id: entry.entry_id,
+                        },
                       })
                     }
                   >
@@ -351,15 +354,9 @@ function HomeScreen({ container }: { container: Container }) {
 export default withContainer(HomeScreen);
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: "#808080",
-    bottom: -90,
-    left: -35,
-    position: "absolute",
-  },
   mainContainer: {
     backgroundColor: "#1A1A1A",
-    height: "100%",
+    height: "110%",
     padding: 10,
   },
   caloriesWrapper: {

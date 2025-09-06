@@ -178,6 +178,7 @@ export default function EditScanDetails() {
                       },
                     ]}
                     value={servingQuantity}
+                    onFocus={() => setServingQuantity("")}
                     onChangeText={setServingQuantity}
                   />
                   <TextInput
@@ -193,6 +194,7 @@ export default function EditScanDetails() {
                         color: Colors[colorScheme ?? "light"].text,
                       },
                     ]}
+                    onFocus={() => setServingUnit("")}
                     value={servingUnit}
                     onChangeText={setServingUnit}
                   />
@@ -234,6 +236,7 @@ export default function EditScanDetails() {
                 </Text>
                 <TextInput
                   keyboardType={"numeric"}
+                  onFocus={() => setCalories("")}
                   style={[
                     styles.input,
                     {
@@ -261,6 +264,7 @@ export default function EditScanDetails() {
                 </Text>
                 <TextInput
                   keyboardType={"numeric"}
+                  onFocus={() => setProtein("")}
                   style={[
                     styles.input,
                     {
@@ -288,6 +292,7 @@ export default function EditScanDetails() {
                 </Text>
                 <TextInput
                   keyboardType={"numeric"}
+                  onFocus={() => setCarbs("")}
                   style={[
                     styles.input,
                     {
@@ -315,6 +320,7 @@ export default function EditScanDetails() {
                 </Text>
                 <TextInput
                   keyboardType={"numeric"}
+                  onFocus={() => setFats("")}
                   style={[
                     styles.input,
                     {
@@ -342,6 +348,7 @@ export default function EditScanDetails() {
                 </Text>
                 <TextInput
                   keyboardType={"numeric"}
+                  onFocus={() => setFiber("")}
                   style={[
                     styles.input,
                     {
@@ -365,6 +372,7 @@ export default function EditScanDetails() {
                   Sodium (g)
                 </Text>
                 <TextInput
+                  onFocus={() => setSodium("")}
                   keyboardType={"numeric"}
                   style={[
                     styles.input,

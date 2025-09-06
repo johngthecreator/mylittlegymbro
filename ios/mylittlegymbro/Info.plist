@@ -53,6 +53,22 @@
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>
     </array>
+    <key>UIApplicationShortcutItems</key>
+    <array>
+      <dict>
+        <key>UIApplicationShortcutItemTitle</key>
+        <string>Scan Food</string>
+        <key>UIApplicationShortcutItemType</key>
+        <string>0</string>
+        <key>UIApplicationShortcutItemUserInfo</key>
+        <dict>
+          <key>href</key>
+          <string>/(tabs)/scan</string>
+        </dict>
+        <key>UIApplicationShortcutItemIconSymbolName</key>
+        <string>magnifyingglass</string>
+      </dict>
+    </array>
     <key>UILaunchStoryboardName</key>
     <string>SplashScreen</string>
     <key>UIRequiredDeviceCapabilities</key>

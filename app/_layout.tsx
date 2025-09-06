@@ -4,15 +4,17 @@ import { container } from "@/core/container";
 import { TYPES } from "@/core/types";
 
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
+import { useQuickActionRouting } from "expo-quick-actions/router";
 import { Stack } from "expo-router";
 import { SQLiteDatabase, SQLiteProvider } from "expo-sqlite";
 import { StatusBar } from "expo-status-bar";
-
 export default function RootLayout() {
   const colorScheme = "dark";
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
+
+  useQuickActionRouting();
 
   if (!loaded) {
     // Async font loading only occurs in development.
@@ -51,7 +53,7 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
           <Stack.Screen
-            name="nutrition/[id]"
+            name="nutrition/[timestamp]/[id]"
             options={{
               headerTitle: "Nutrition facts",
               headerBackTitle: "Back",
