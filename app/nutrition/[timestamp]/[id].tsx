@@ -1,11 +1,10 @@
+import withContainer from "@/components/withContainer";
 import { Colors } from "@/constants/Colors";
-import { container } from "@/core/container";
-import {
-  IInsertController,
-  ILogEntryWithFoodItem,
-} from "@/core/insert/insert.interface";
+import { ILogEntryWithFoodItem } from "@/core/interfaces";
+import { ISummaryController } from "@/core/summary/summary.interface";
 import { TYPES } from "@/core/types";
 import { Link, Stack, useLocalSearchParams } from "expo-router";
+import { Container } from "inversify";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -15,16 +14,7 @@ import {
   View,
 } from "react-native";
 
-/**
- * React Native screen that displays basic information for a food item.
- * Reads the `id` from the router's local search parameters and renders a simple view
- * showing "Food info page <id>".
- *
- * The component does not perform loading/error handling or fetch additional data.
- *
- * @returns A React element representing the food info screen.
- */
-export default function FoodInfo() {
+function FoodInfo({ container }: { container: Container }) {
   const { id, timestamp } = useLocalSearchParams<{
     id: string;
     timestamp: string;
@@ -40,10 +30,10 @@ export default function FoodInfo() {
         setLoading(true);
         setError(undefined);
         if (id && timestamp) {
-          const insertController = container.get<IInsertController>(
-            TYPES.IInsertController
+          const summaryController = container.get<ISummaryController>(
+            TYPES.ISummaryController
           );
-          const entry = await insertController.getLogEntryById(
+          const entry = await summaryController.getLogEntryById(
             parseInt(id),
             timestamp
           );
@@ -200,3 +190,5 @@ export default function FoodInfo() {
     </View>
   );
 }
+
+export default withContainer(FoodInfo);

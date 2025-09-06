@@ -1,8 +1,13 @@
+import withContainer from "@/components/withContainer";
 import { Colors } from "@/constants/Colors";
+import { IFoodItem } from "@/core/interfaces";
+import { IScannerController } from "@/core/scanner/scanner.interface";
+import { ISummaryController } from "@/core/summary/summary.interface";
+import { TYPES } from "@/core/types";
 import { EvilIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import { useSQLiteContext } from "expo-sqlite";
+import { Container } from "inversify";
 import { useCallback, useState } from "react";
 import {
   Alert,
@@ -16,22 +21,30 @@ import {
   View,
 } from "react-native";
 
-export default function ScanDetails() {
-  const db = useSQLiteContext();
+function ScanDetails({ container }: { container: Container }) {
   const params = useLocalSearchParams<{ id: string }>();
-  const [scanData, setScanData] = useState<any>();
+  const [scanData, setScanData] = useState<IFoodItem | null>(null);
   const [isUnit, setIsUnit] = useState<boolean>(false);
   const [servingAmount, setServingAmount] = useState<number>(1);
   const router = useRouter();
   const colorScheme = useColorScheme();
 
+  const scannerController = container.get<IScannerController>(
+    TYPES.IScannerController
+  );
+  const summaryController = container.get<ISummaryController>(
+    TYPES.ISummaryController
+  );
+
   const loadData = async () => {
     try {
-      const data = await db.getAllAsync(
-        "SELECT * FROM food_items WHERE id = ?",
-        [params.id]
+      if (!params.id) return;
+      const foodItem = await summaryController.getFoodItemById(
+        Number(params.id)
       );
-      setScanData(data[0]);
+      if (foodItem) {
+        setScanData(foodItem);
+      }
     } catch (error) {
       console.error("Error loading data: ", error);
     }
@@ -43,13 +56,12 @@ export default function ScanDetails() {
   };
 
   const logScannedFoodItem = async () => {
-    await db.runAsync(
-      "INSERT INTO log_entries (food_item_id, date, log_serving) VALUES (?,?,?)",
-      [
-        scanData.id,
-        new Date().toISOString(),
-        isUnit ? servingAmount / scanData.serving_quantity : servingAmount,
-      ]
+    if (!scanData || !params.id || scanData.id === undefined) return; // Add check for scanData.id
+    await scannerController.logFoodItem(
+      scanData.id,
+      servingAmount,
+      isUnit,
+      scanData.serving_quantity || 0
     );
     Alert.alert(
       "Food Logged!",
@@ -187,7 +199,7 @@ export default function ScanDetails() {
               {Math.round(
                 (scanData.calories || 0) *
                   (isUnit
-                    ? servingAmount / scanData.serving_quantity
+                    ? servingAmount / (scanData.serving_quantity || 1)
                     : servingAmount) *
                   100
               ) / 100}
@@ -210,7 +222,7 @@ export default function ScanDetails() {
               {Math.round(
                 (scanData.g_protein || 0) *
                   (isUnit
-                    ? servingAmount / scanData.serving_quantity
+                    ? servingAmount / (scanData.serving_quantity || 1)
                     : servingAmount) *
                   100
               ) / 100}
@@ -233,7 +245,7 @@ export default function ScanDetails() {
               {Math.round(
                 (scanData.g_carbs || 0) *
                   (isUnit
-                    ? servingAmount / scanData.serving_quantity
+                    ? servingAmount / (scanData.serving_quantity || 1)
                     : servingAmount) *
                   100
               ) / 100}
@@ -256,7 +268,7 @@ export default function ScanDetails() {
               {Math.round(
                 (scanData.g_fats || 0) *
                   (isUnit
-                    ? servingAmount / scanData.serving_quantity
+                    ? servingAmount / (scanData.serving_quantity || 1)
                     : servingAmount) *
                   100
               ) / 100}
@@ -279,7 +291,7 @@ export default function ScanDetails() {
               {Math.round(
                 (scanData.g_fiber || 0) *
                   (isUnit
-                    ? servingAmount / scanData.serving_quantity
+                    ? servingAmount / (scanData.serving_quantity || 1)
                     : servingAmount) *
                   100
               ) / 100}
@@ -299,7 +311,7 @@ export default function ScanDetails() {
               {Math.round(
                 (scanData.g_sodium || 0) *
                   (isUnit
-                    ? servingAmount / scanData.serving_quantity
+                    ? servingAmount / (scanData.serving_quantity || 1)
                     : servingAmount) *
                   100
               ) / 100}
@@ -366,6 +378,8 @@ export default function ScanDetails() {
     </TouchableWithoutFeedback>
   );
 }
+
+export default withContainer(ScanDetails);
 
 const styles = StyleSheet.create({
   container: {

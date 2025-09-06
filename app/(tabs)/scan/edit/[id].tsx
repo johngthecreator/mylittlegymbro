@@ -1,7 +1,12 @@
+import withContainer from "@/components/withContainer";
 import { Colors } from "@/constants/Colors";
+import { IFoodItem } from "@/core/interfaces";
+import { IScannerController } from "@/core/scanner/scanner.interface";
+import { ISummaryController } from "@/core/summary/summary.interface";
+import { TYPES } from "@/core/types";
 import { Image } from "expo-image";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
-import { useSQLiteContext } from "expo-sqlite";
+import { Container } from "inversify";
 import { useCallback, useState } from "react";
 import {
   Alert,
@@ -18,10 +23,9 @@ import {
   View,
 } from "react-native";
 
-export default function EditScanDetails() {
-  const db = useSQLiteContext();
+function EditScanDetails({ container }: { container: Container }) {
   const params = useLocalSearchParams<{ id: string }>();
-  const [scanData, setScanData] = useState<any>();
+  const [scanData, setScanData] = useState<IFoodItem | null>(null);
   const [name, setName] = useState<string>("");
   const [brand, setBrand] = useState<string>("");
   const [calories, setCalories] = useState<string>("");
@@ -36,24 +40,32 @@ export default function EditScanDetails() {
 
   const router = useRouter();
 
+  const scannerController = container.get<IScannerController>(
+    TYPES.IScannerController
+  );
+  const summaryController = container.get<ISummaryController>(
+    TYPES.ISummaryController
+  );
+
   const loadData = async () => {
     try {
-      const data = await db.getAllAsync(
-        "SELECT * FROM food_items WHERE id = ?",
-        [params.id]
+      if (!params.id) return;
+      const foodItem = await summaryController.getFoodItemById(
+        Number(params.id)
       );
-      const foodItem = data[0];
-      setScanData(foodItem);
-      setName(foodItem.name);
-      setBrand(foodItem.brand);
-      setCalories(String(foodItem.calories));
-      setProtein(String(foodItem.g_protein));
-      setCarbs(String(foodItem.g_carbs));
-      setFats(String(foodItem.g_fats));
-      setFiber(String(foodItem.g_fiber));
-      setSodium(String(foodItem.g_sodium));
-      setServingQuantity(String(foodItem.serving_quantity));
-      setServingUnit(foodItem.serving_unit);
+      if (foodItem) {
+        setScanData(foodItem);
+        setName(foodItem.name);
+        setBrand(foodItem.brand || "");
+        setCalories(String(foodItem.calories));
+        setProtein(String(foodItem.g_protein));
+        setCarbs(String(foodItem.g_carbs));
+        setFats(String(foodItem.g_fats));
+        setFiber(String(foodItem.g_fiber || ""));
+        setSodium(String(foodItem.g_sodium || ""));
+        setServingQuantity(String(foodItem.serving_quantity || ""));
+        setServingUnit(foodItem.serving_unit || "");
+      }
     } catch (error) {
       console.error("Error loading data: ", error);
     }
@@ -61,22 +73,27 @@ export default function EditScanDetails() {
 
   const saveFoodItemDetails = async () => {
     try {
-      await db.runAsync(
-        "UPDATE food_items SET name = ?, brand = ?, calories = ?, g_protein = ?, g_carbs = ?, g_fats = ?, g_fiber = ?, g_sodium = ?, serving_quantity = ?, serving_unit = ? WHERE id = ?",
-        [
-          name,
-          brand,
-          Number(calories),
-          Number(protein),
-          Number(carbs),
-          Number(fats),
-          Number(fiber),
-          Number(sodium),
-          Number(servingQuantity),
-          servingUnit,
-          params.id,
-        ]
+      if (!scanData || !params.id) return;
+
+      const updatedFoodItem: IFoodItem = {
+        ...scanData,
+        name,
+        brand,
+        calories: Number(calories),
+        g_protein: Number(protein),
+        g_carbs: Number(carbs),
+        g_fats: Number(fats),
+        g_fiber: Number(fiber),
+        g_sodium: Number(sodium),
+        serving_quantity: Number(servingQuantity),
+        serving_unit: servingUnit,
+      };
+
+      await scannerController.updateFoodItem(
+        updatedFoodItem,
+        Number(params.id)
       );
+
       Alert.alert(
         "Saved!",
         "",
@@ -409,6 +426,8 @@ export default function EditScanDetails() {
     </KeyboardAvoidingView>
   );
 }
+
+export default withContainer(EditScanDetails);
 
 const styles = StyleSheet.create({
   container: {

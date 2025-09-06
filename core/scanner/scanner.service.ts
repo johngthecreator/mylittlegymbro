@@ -1,11 +1,7 @@
 import { inject, injectable } from "inversify";
+import { IFoodItem } from "../interfaces";
 import { TYPES } from "../types";
-import {
-  IFoodItem,
-  IInsertRepository,
-  IInsertService,
-  ILogEntryWithFoodItem,
-} from "./insert.interface";
+import { IScannerRepository, IScannerService } from "./scanner.interface";
 
 interface Nutriments {
   "energy-kcal": number; // in kcal [cite: 78]
@@ -30,9 +26,10 @@ interface FoodDataResponse {
 }
 
 @injectable()
-export class InsertService implements IInsertService {
+export class ScannerService implements IScannerService {
   constructor(
-    @inject(TYPES.IInsertRepository) private insertRepository: IInsertRepository
+    @inject(TYPES.IScannerRepository)
+    private scannerRepository: IScannerRepository
   ) {}
 
   async insertQuickAdd(
@@ -40,12 +37,12 @@ export class InsertService implements IInsertService {
     log_serving: number,
     date: string
   ): Promise<void> {
-    const foodItemId = await this.insertRepository.insertFoodItem({
+    const foodItemId = await this.scannerRepository.insertFoodItem({
       ...foodItem,
       brand: "Quick Add",
     });
     console.log("Food item id: ", foodItemId);
-    return this.insertRepository.insertLogEntry({
+    return this.scannerRepository.insertLogEntry({
       food_item_id: foodItemId,
       log_serving: log_serving,
       date: date,
@@ -64,7 +61,7 @@ export class InsertService implements IInsertService {
       },
     });
     const respData: FoodDataResponse = await response.json();
-    const result = await this.insertRepository.insertFoodItem({
+    const result = await this.scannerRepository.insertFoodItem({
       ean_id: ean_id,
       name: respData.product.product_name,
       brand: respData.product.brands,
@@ -81,33 +78,11 @@ export class InsertService implements IInsertService {
     return result;
   }
 
-  async getLogEntryById(
-    id: number,
-    timestamp: string
-  ): Promise<ILogEntryWithFoodItem | null> {
-    const date = new Date(parseInt(timestamp)); // Parse timestamp to Date object
-    const startDate = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      0,
-      0,
-      0
-    )
-      .toISOString()
-      .slice(0, 19)
-      .replace("T", " ");
-    const endDate = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      23,
-      59,
-      59
-    )
-      .toISOString()
-      .slice(0, 19)
-      .replace("T", " ");
-    return this.insertRepository.getLogEntryById(id, startDate, endDate);
+  async updateFoodItem(foodItem: IFoodItem, id: number): Promise<void> {
+    return this.scannerRepository.updateFoodItem(foodItem, id);
+  }
+
+  async insertLogEntry(logEntry: ILogEntry): Promise<void> {
+    return this.scannerRepository.insertLogEntry(logEntry);
   }
 }

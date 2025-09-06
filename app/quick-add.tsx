@@ -1,6 +1,7 @@
 import withContainer from "@/components/withContainer";
 import { Colors } from "@/constants/Colors";
-import { IInsertController } from "@/core/insert/insert.interface";
+import { IFoodItem } from "@/core/interfaces";
+import { IScannerController } from "@/core/scanner/scanner.interface";
 import { TYPES } from "@/core/types";
 import { useRouter } from "expo-router";
 import { Container } from "inversify";
@@ -17,7 +18,7 @@ import {
   View,
 } from "react-native";
 
-const QuickAdd = ({ container }: { container: Container }) => {
+function QuickAdd({ container }: { container: Container }) {
   const [name, setName] = useState("");
   const [calories, setCalories] = useState("");
   const [protein, setProtein] = useState("");
@@ -28,13 +29,13 @@ const QuickAdd = ({ container }: { container: Container }) => {
   const [servingsConsumed, setServingsConsumed] = useState("1"); // Default to 1 serving
   const colorScheme = useColorScheme();
 
-  const insertController = container.get<IInsertController>(
-    TYPES.IInsertController
+  const scannerController = container.get<IScannerController>(
+    TYPES.IScannerController
   );
   const router = useRouter();
 
   const handleAddFoodItem = async () => {
-    const foodItem = {
+    const foodItem: IFoodItem = {
       name,
       calories: Number(calories),
       g_protein: Number(protein),
@@ -45,7 +46,7 @@ const QuickAdd = ({ container }: { container: Container }) => {
       is_quick_add: true,
     };
 
-    await insertController.quickAddFoodItem(
+    await scannerController.quickAddFoodItem(
       foodItem,
       Number(servingsConsumed),
       new Date().toISOString()
@@ -302,7 +303,7 @@ const QuickAdd = ({ container }: { container: Container }) => {
       </TouchableWithoutFeedback>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

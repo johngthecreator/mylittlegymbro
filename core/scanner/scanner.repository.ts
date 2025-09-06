@@ -1,15 +1,11 @@
 import { SQLiteDatabase } from "expo-sqlite";
 import { inject, injectable } from "inversify";
+import { IFoodItem, ILogEntry } from "../interfaces";
 import { TYPES } from "../types";
-import {
-  IFoodItem,
-  IInsertRepository,
-  ILogEntry,
-  ILogEntryWithFoodItem,
-} from "./insert.interface";
+import { IScannerRepository } from "./scanner.interface";
 
 @injectable()
-export class InsertRepository implements IInsertRepository {
+export class ScannerRepository implements IScannerRepository {
   constructor(@inject(TYPES.SQLiteDatabase) private db: SQLiteDatabase) {}
   async insertFoodItem(foodItem: IFoodItem): Promise<number> {
     const result = await this.db.runAsync(
@@ -42,34 +38,23 @@ export class InsertRepository implements IInsertRepository {
     return Promise.resolve();
   }
 
-  async getLogEntryById(
-    id: number,
-    startDate: string,
-    endDate: string
-  ): Promise<ILogEntryWithFoodItem | null> {
-    return await this.db.getFirstAsync<ILogEntryWithFoodItem>(
-      `SELECT
-        le.id,
-        le.food_item_id,
-        le.log_serving,
-        le.date,
-        fi.ean_id,
-        fi.name,
-        fi.brand,
-        fi.image_url,
-        fi.calories,
-        fi.g_protein,
-        fi.g_carbs,
-        fi.g_fats,
-        fi.g_fiber,
-        fi.g_sodium,
-        fi.serving_quantity,
-        fi.serving_unit,
-        fi.is_quick_add
-      FROM log_entries le
-      JOIN food_items fi ON le.food_item_id = fi.id
-      WHERE le.id = ? AND le.date BETWEEN ? AND ?;`,
-      [id, startDate, endDate]
+  async updateFoodItem(foodItem: IFoodItem, id: number): Promise<void> {
+    await this.db.runAsync(
+      "UPDATE food_items SET name = ?, brand = ?, calories = ?, g_protein = ?, g_carbs = ?, g_fats = ?, g_fiber = ?, g_sodium = ?, serving_quantity = ?, serving_unit = ? WHERE id = ?",
+      [
+        foodItem.name,
+        foodItem.brand || "",
+        foodItem.calories,
+        foodItem.g_protein,
+        foodItem.g_carbs,
+        foodItem.g_fats,
+        foodItem.g_fiber || 0,
+        foodItem.g_sodium || 0,
+        foodItem.serving_quantity || 0,
+        foodItem.serving_unit || "",
+        id,
+      ]
     );
+    return Promise.resolve();
   }
 }

@@ -1,10 +1,10 @@
 import { container } from "@/core/container";
-import { IInsertService } from "@/core/insert/insert.interface";
+import { IScannerController } from "@/core/scanner/scanner.interface";
+import { ISummaryController } from "@/core/summary/summary.interface";
 import { TYPES } from "@/core/types";
 import { useIsFocused } from "@react-navigation/native";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useFocusEffect, useRouter } from "expo-router";
-import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useRef, useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 
@@ -58,7 +58,6 @@ export default function Scanner() {
   const lastScanTimeRef = useRef(0);
   const searching = useRef(false);
   const lastScanned = useRef("");
-  const db = useSQLiteContext();
   const router = useRouter();
   const isFocused = useIsFocused();
 
@@ -70,8 +69,11 @@ export default function Scanner() {
 
   const handleBarCodeScanned = async (data: any) => {
     console.log("barcode scanned");
-    const insertServiceController = container.get<IInsertService>(
-      TYPES.IInsertService
+    const scannerController = container.get<IScannerController>(
+      TYPES.IScannerController
+    );
+    const summaryController = container.get<ISummaryController>(
+      TYPES.ISummaryController
     );
     const now = Date.now();
     if (
@@ -88,47 +90,28 @@ export default function Scanner() {
       ean_id = "0" + ean_id;
     }
     lastScanned.current = ean_id;
-    const existingItems = await db.getAllAsync(
-      "SELECT * FROM food_items WHERE ean_id = ?",
-      [ean_id]
-    );
 
-    if (existingItems.length > 0) {
-      console.log(JSON.stringify(existingItems[0]));
-      searching.current = false;
-      router.navigate({
-        pathname: "/scan/[id]",
-        params: { id: (existingItems[0] as any).id },
-      });
-      return;
-    } else {
-      try {
-        const result = await insertServiceController.insertScanned(ean_id);
-        router.navigate({
-          pathname: "/scan/[id]",
-          params: { id: result },
-        });
-      } catch (error) {
-        console.log(error);
-        Alert.alert(
-          "Can't find food item!",
-          "",
-          [
-            {
-              text: "OK",
-              onPress: () => {
-                // Code to run after user presses OK
-                searching.current = false;
-                lastScanned.current = "";
-                // continue with any other logic here
-              },
+    try {
+      const id = await summaryController.processScannedEan(ean_id);
+      router.navigate({ pathname: "/scan/[id]", params: { id: id } });
+    } catch (error) {
+      console.log(error);
+      Alert.alert(
+        "Can't find food item!",
+        "",
+        [
+          {
+            text: "OK",
+            onPress: () => {
+              searching.current = false;
+              lastScanned.current = "";
             },
-          ],
-          { cancelable: false }
-        );
-        return;
-      }
+          },
+        ],
+        { cancelable: false }
+      );
     }
+    searching.current = false;
   };
 
   if (!permission) {

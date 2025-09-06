@@ -12,11 +12,12 @@ import {
 import { EvilIcons } from "@expo/vector-icons";
 import { ImageBackground } from "expo-image";
 import { Link, useFocusEffect, useRouter } from "expo-router";
-import { useSQLiteContext } from "expo-sqlite";
 import { useCallback, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import withContainer from "@/components/withContainer";
+import { ISummaryController } from "@/core/summary/summary.interface";
+import { TYPES } from "@/core/types";
 import { Container } from "inversify";
 
 /**
@@ -33,9 +34,10 @@ import { Container } from "inversify";
  */
 function HomeScreen({ container }: { container: Container }) {
   const [logEntries, setLogEntries] = useState<any[]>([]);
-  const [quickAddFoodItems, setQuickAddFoodItems] = useState<any[]>([]);
 
-  const db = useSQLiteContext();
+  const summaryController = container.get<ISummaryController>(
+    TYPES.ISummaryController
+  );
   const { height } = Dimensions.get("window");
   const date = new Date();
   const midnight = new Date(
@@ -47,7 +49,6 @@ function HomeScreen({ container }: { container: Container }) {
     0,
     0
   ).toISOString();
-  console.log(midnight);
   const router = useRouter();
   const months = [
     "Jan",
@@ -66,37 +67,17 @@ function HomeScreen({ container }: { container: Container }) {
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  const handleDelete = async (entry_id: string) => {
+  const handleDelete = async (entry_id: number) => {
     setLogEntries(logEntries.filter((entry) => entry.entry_id !== entry_id));
-    await db.runAsync("DELETE FROM log_entries WHERE id = ?", [entry_id]);
+    await summaryController.deleteLogEntry(entry_id);
   };
 
   const loadData = async () => {
     try {
-      const quickAdd = await db.getAllAsync(
-        "SELECT * FROM food_items WHERE is_quick_add = 1"
+      const loggedFoodItems = await summaryController.getLoggedFoodItems(
+        midnight
       );
-      const result = await db.getAllAsync(
-        "SELECT * FROM log_entries WHERE date > ? ORDER BY date DESC",
-        [midnight]
-      );
-      console.log("Query result:", result);
-      const entries: any = [];
-      result.forEach((result: any) => {
-        const foodData = db.getAllSync(
-          "SELECT * FROM food_items WHERE id = ?",
-          [result.food_item_id]
-        );
-        entries.push({
-          ...(foodData[0] as Object),
-          date: result.date,
-          entry_id: result.id,
-          log_serving: result.log_serving,
-        });
-      });
-      console.log(quickAdd);
-      setLogEntries(entries);
-      console.log(entries);
+      setLogEntries(loggedFoodItems);
     } catch (error) {
       console.error("Error loading data:", error);
     }
@@ -286,7 +267,7 @@ function HomeScreen({ container }: { container: Container }) {
                         pathname: "/nutrition/[timestamp]/[id]",
                         params: {
                           timestamp: new Date(entry.date).getTime().toString(),
-                          id: entry.entry_id,
+                          id: entry.id,
                         },
                       })
                     }
@@ -327,7 +308,7 @@ function HomeScreen({ container }: { container: Container }) {
                             paddingHorizontal: 5,
                             borderRadius: 100,
                           }}
-                          onPress={() => handleDelete(entry.entry_id)}
+                          onPress={() => handleDelete(entry.id)}
                         >
                           <EvilIcons size={30} name="trash" />
                         </TouchableOpacity>
@@ -336,8 +317,8 @@ function HomeScreen({ container }: { container: Container }) {
                   </Pressable>
                 );
               }}
-              keyExtractor={(item) =>
-                `${item?.id?.toString()}-${item?.entry_id.toString()}`
+              keyExtractor={
+                (item) => item?.id?.toString() || Math.random().toString() // Fallback for safety
               }
               horizontal={true}
               showsHorizontalScrollIndicator={false}
