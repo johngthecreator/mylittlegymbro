@@ -51,6 +51,12 @@
               "icon": "symbol:magnifyingglass",
               "params": { "href": "/(tabs)/scan" }
             }
+            {
+              "id": "1",
+              "title": "Quick Add",
+              "icon": "symbol:plus.square",
+              "params": { "href": "/quick-add" }
+            }
           ]
         }
       ],
