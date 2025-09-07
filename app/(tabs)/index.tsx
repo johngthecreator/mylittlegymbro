@@ -68,8 +68,9 @@ function HomeScreen({ container }: { container: Container }) {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const handleDelete = async (entry_id: number) => {
-    setLogEntries(logEntries.filter((entry) => entry.entry_id !== entry_id));
+    setLogEntries(logEntries.filter((entry) => entry.id !== entry_id));
     await summaryController.deleteLogEntry(entry_id);
+    loadData();
   };
 
   const loadData = async () => {
@@ -86,8 +87,63 @@ function HomeScreen({ container }: { container: Container }) {
   useFocusEffect(
     useCallback(() => {
       loadData();
-    }, [logEntries])
+    }, [])
   );
+
+  const renderLogItem = useCallback(({ item: entry }: { item: any }) => {
+    return (
+      <Pressable
+        onPress={() =>
+          router.navigate({
+            pathname: "/nutrition/[timestamp]/[id]",
+            params: {
+              timestamp: new Date(entry.date).getTime().toString(),
+              id: entry.id,
+            },
+          })
+        }
+      >
+        <ImageBackground
+          blurRadius={20}
+          source={{ uri: entry.image_url }}
+          style={{
+            overflow: "hidden",
+            marginRight: 10,
+            borderRadius: 40,
+          }}
+        >
+          <View key={entry.id} style={styles.logCard}>
+            <View>
+              <Text style={{ color: "white" }}>{entry.name}</Text>
+              <Text style={{ color: "white" }}>
+                {Math.round(entry.calories * entry.log_serving * 10) / 10}{" "}
+                calories
+              </Text>
+              <Text style={{ color: "white" }}>
+                {Math.round(entry.g_protein * entry.log_serving * 10) / 10}g
+                protein
+              </Text>
+              <Text style={{ color: "white" }}>
+                {Math.round(entry.log_serving * 10) / 10} servings
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{
+                alignSelf: "flex-end",
+                backgroundColor: "white",
+                paddingVertical: 8,
+                paddingHorizontal: 5,
+                borderRadius: 100,
+              }}
+              onPress={() => handleDelete(entry.id)}
+            >
+              <EvilIcons size={30} name="trash" />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </Pressable>
+    );
+  }, []);
 
   return (
     <SafeAreaView style={styles.mainContainer}>
@@ -258,68 +314,8 @@ function HomeScreen({ container }: { container: Container }) {
           {logEntries.length > 0 ? (
             <FlatList
               data={logEntries}
-              renderItem={(log_entry: any) => {
-                const entry = log_entry.item;
-                return (
-                  <Pressable
-                    onPress={() =>
-                      router.navigate({
-                        pathname: "/nutrition/[timestamp]/[id]",
-                        params: {
-                          timestamp: new Date(entry.date).getTime().toString(),
-                          id: entry.id,
-                        },
-                      })
-                    }
-                  >
-                    <ImageBackground
-                      blurRadius={20}
-                      source={{ uri: entry.image_url }}
-                      style={{
-                        overflow: "hidden",
-                        marginRight: 10,
-                        borderRadius: 40,
-                      }}
-                    >
-                      <View key={entry.id} style={styles.logCard}>
-                        <View>
-                          <Text style={{ color: "white" }}>{entry.name}</Text>
-                          <Text style={{ color: "white" }}>
-                            {Math.round(
-                              entry.calories * entry.log_serving * 10
-                            ) / 10}{" "}
-                            calories
-                          </Text>
-                          <Text style={{ color: "white" }}>
-                            {Math.round(
-                              entry.g_protein * entry.log_serving * 10
-                            ) / 10}
-                            g protein
-                          </Text>
-                          <Text style={{ color: "white" }}>
-                            {Math.round(entry.log_serving * 10) / 10} servings
-                          </Text>
-                        </View>
-                        <TouchableOpacity
-                          style={{
-                            alignSelf: "flex-end",
-                            backgroundColor: "white",
-                            paddingVertical: 8,
-                            paddingHorizontal: 5,
-                            borderRadius: 100,
-                          }}
-                          onPress={() => handleDelete(entry.id)}
-                        >
-                          <EvilIcons size={30} name="trash" />
-                        </TouchableOpacity>
-                      </View>
-                    </ImageBackground>
-                  </Pressable>
-                );
-              }}
-              keyExtractor={
-                (item) => item?.id?.toString() || Math.random().toString() // Fallback for safety
-              }
+              renderItem={renderLogItem}
+              keyExtractor={(item) => item.id.toString()}
               horizontal={true}
               showsHorizontalScrollIndicator={false}
             />
