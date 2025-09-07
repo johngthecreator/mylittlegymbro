@@ -57,4 +57,16 @@ export class ScannerRepository implements IScannerRepository {
     );
     return Promise.resolve();
   }
+
+  async searchFoodItems(
+    searchTerm: string,
+    limit: number,
+    offset: number
+  ): Promise<IFoodItem[]> {
+    const results = await this.db.getAllAsync<IFoodItem>(
+      "SELECT * FROM food_items WHERE name LIKE ? OR brand LIKE ? LIMIT ? OFFSET ?",
+      [`%${searchTerm}%`, `%${searchTerm}%`, limit, offset]
+    );
+    return results;
+  }
 }

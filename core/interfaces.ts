@@ -1,5 +1,5 @@
 export interface IFoodItem {
-  id?: number;
+  id: number;
   ean_id?: string;
   name: string;
   brand?: string;

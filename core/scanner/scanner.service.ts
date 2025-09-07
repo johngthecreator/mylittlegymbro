@@ -85,4 +85,12 @@ export class ScannerService implements IScannerService {
   async insertLogEntry(logEntry: ILogEntry): Promise<void> {
     return this.scannerRepository.insertLogEntry(logEntry);
   }
+
+  async searchFoodItems(
+    searchTerm: string,
+    limit: number,
+    offset: number
+  ): Promise<IFoodItem[]> {
+    return this.scannerRepository.searchFoodItems(searchTerm, limit, offset);
+  }
 }

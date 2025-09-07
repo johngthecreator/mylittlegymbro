@@ -1,39 +1,96 @@
+import withContainer from "@/components/withContainer";
 import { Colors } from "@/constants/Colors";
-import { EvilIcons } from "@expo/vector-icons";
+import { IFoodItem } from "@/core/interfaces";
+import { IScannerController } from "@/core/scanner/scanner.interface";
+import { TYPES } from "@/core/types";
+import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 import { useFocusEffect, useRouter } from "expo-router";
-import { useSQLiteContext } from "expo-sqlite";
-import { useCallback, useState } from "react";
+import { Container } from "inversify";
+import { useCallback, useEffect, useState } from "react";
 import {
+  ActivityIndicator, // Added ActivityIndicator import
   FlatList,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   useColorScheme,
   View,
 } from "react-native";
 
-export default function AllItems() {
-  const db = useSQLiteContext();
-  const [allItems, setAllItems] = useState<any[]>([]);
+const ITEM_LIMIT = 10; // Define item limit
+
+function AllItems({ container }: { container: Container }) {
+  const [allItems, setAllItems] = useState<IFoodItem[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] =
+    useState<string>(searchTerm); // New state for debounced search term
+  const [offset, setOffset] = useState<number>(0); // Added offset state
+  const [loading, setLoading] = useState<boolean>(false); // Added loading state
+  const [hasMore, setHasMore] = useState<boolean>(true); // Added hasMore state
   const router = useRouter();
   const colorScheme = useColorScheme();
 
-  const loadData = async () => {
+  const scannerController = container.get<IScannerController>(
+    TYPES.IScannerController
+  );
+
+  // Debounce effect for search term
+  useEffect(() => {
+    if (searchTerm === "") {
+      setDebouncedSearchTerm("");
+      return; // No debounce for empty search term
+    }
+    const handler = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500); // 500ms debounce delay
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
+  const loadData = async (newSearch: boolean = false) => {
+    if (loading || (!hasMore && !newSearch)) return; // Prevent loading if already loading or no more items
+
+    setLoading(true);
     try {
-      const data = await db.getAllAsync("SELECT * FROM food_items");
-      setAllItems(data);
+      const currentOffset = newSearch ? 0 : offset; // Reset offset for new search
+      const data = await scannerController.searchFoodItems(
+        debouncedSearchTerm, // Use debounced search term
+        ITEM_LIMIT,
+        currentOffset
+      );
+      if (newSearch) {
+        setAllItems(data);
+      } else {
+        setAllItems((prevItems) => [...prevItems, ...data]);
+      }
+      setOffset(currentOffset + data.length); // Update offset
+      setHasMore(data.length === ITEM_LIMIT); // Check if more items can be loaded
     } catch (error) {
       console.error("Error loading data: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useFocusEffect(
     useCallback(() => {
-      loadData();
-    }, [])
+      setAllItems([]); // Clear items on focus
+      setOffset(0); // Reset offset
+      setHasMore(true); // Reset hasMore
+      loadData(true); // Load data for new search on focus
+    }, [debouncedSearchTerm]) // Depend on debouncedSearchTerm
   );
 
-  const renderItem = ({ item }: { item: any }) => (
+  const handleLoadMore = () => {
+    if (!loading && hasMore) {
+      loadData();
+    }
+  };
+
+  const renderItem = ({ item }: { item: IFoodItem }) => (
     <TouchableOpacity
       style={[
         styles.itemContainer,
@@ -86,15 +143,78 @@ export default function AllItems() {
         { backgroundColor: Colors[colorScheme ?? "light"].background },
       ]}
     >
+      <View style={styles.searchContainer}>
+        {" "}
+        {/* Wrap search input and button */}
+        <TextInput
+          style={[
+            styles.searchInput,
+            {
+              borderColor: Colors[colorScheme ?? "light"].tint,
+              color: Colors[colorScheme ?? "light"].text,
+            },
+          ]}
+          placeholder="Search food items..."
+          placeholderTextColor={Colors[colorScheme ?? "light"].text + "80"}
+          value={searchTerm}
+          onChangeText={setSearchTerm}
+        />
+        {searchTerm.length > 0 && (
+          <TouchableOpacity
+            style={styles.clearButton}
+            onPress={() => {
+              setSearchTerm("");
+              setAllItems([]);
+              setOffset(0);
+              setHasMore(true);
+              // Removed explicit loadData(true) call as useEffect will handle it
+            }}
+          >
+            <MaterialIcons
+              name="clear"
+              size={24}
+              color={Colors[colorScheme ?? "light"].text}
+            />
+          </TouchableOpacity>
+        )}
+      </View>
       <FlatList
         data={allItems}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{ paddingBottom: 100 }}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={
+          loading ? (
+            <View style={styles.loadingFooter}>
+              <ActivityIndicator
+                size="small"
+                color={Colors[colorScheme ?? "light"].text}
+              />
+              <Text
+                style={{
+                  color: Colors[colorScheme ?? "light"].text,
+                  marginLeft: 10,
+                }}
+              >
+                Loading items...
+              </Text>
+            </View>
+          ) : !hasMore && allItems.length === 0 && searchTerm.length > 0 ? (
+            <View style={styles.loadingFooter}>
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                No items found.
+              </Text>
+            </View>
+          ) : null
+        } // Show loader at the bottom
       />
     </View>
   );
 }
+
+export default withContainer(AllItems);
 
 const styles = StyleSheet.create({
   container: {
@@ -119,5 +239,30 @@ const styles = StyleSheet.create({
   },
   button: {
     marginLeft: 15,
+  },
+  searchInput: {
+    flex: 1,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    borderWidth: 0, // Remove individual border
+    fontSize: 16,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    margin: 10,
+    borderRadius: 8,
+    borderWidth: 1, // Add border to container
+    borderColor: Colors.light.tint, // Apply border color
+  },
+  clearButton: {
+    padding: 8,
+  },
+  loadingFooter: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 20,
   },
 });

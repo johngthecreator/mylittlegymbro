@@ -37,4 +37,13 @@ export class ScannerController implements IScannerController {
     };
     return this.scannerService.insertLogEntry(logEntry);
   }
+
+  async searchFoodItems(
+    searchTerm: string,
+    limit: number,
+    offset: number
+  ): Promise<IFoodItem[]> {
+    await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate 1-second delay
+    return this.scannerService.searchFoodItems(searchTerm, limit, offset);
+  }
 }

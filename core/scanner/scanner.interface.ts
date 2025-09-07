@@ -14,6 +14,11 @@ export interface IScannerController {
     is_unit: boolean,
     serving_quantity: number
   ): Promise<void>;
+  searchFoodItems(
+    searchTerm: string,
+    limit: number,
+    offset: number
+  ): Promise<IFoodItem[]>;
 }
 
 export interface IScannerService {
@@ -25,10 +30,20 @@ export interface IScannerService {
   insertScanned(ean_id: string): Promise<number>;
   updateFoodItem(foodItem: IFoodItem, id: number): Promise<void>;
   insertLogEntry(logEntry: ILogEntry): Promise<void>;
+  searchFoodItems(
+    searchTerm: string,
+    limit: number,
+    offset: number
+  ): Promise<IFoodItem[]>;
 }
 
 export interface IScannerRepository {
   insertFoodItem(foodItem: IFoodItem): Promise<number>;
   insertLogEntry(foodItem: ILogEntry): Promise<void>;
   updateFoodItem(foodItem: IFoodItem, id: number): Promise<void>;
+  searchFoodItems(
+    searchTerm: string,
+    limit: number,
+    offset: number
+  ): Promise<IFoodItem[]>;
 }
