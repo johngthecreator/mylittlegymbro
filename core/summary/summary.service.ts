@@ -1,11 +1,10 @@
 import { inject, injectable } from "inversify";
+import { IFoodItem, ILogEntryWithFoodItem } from "../interfaces";
+import { IScannerService } from "../scanner/scanner.interface";
 import {
-  IFoodItem,
-  ILogEntryWithFoodItem,
-  IScannerService,
   ISummaryRepository,
   ISummaryService,
-} from "../interfaces";
+} from "../summary/summary.interface";
 import { TYPES } from "../types";
 
 @injectable()
