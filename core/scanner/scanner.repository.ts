@@ -64,7 +64,7 @@ export class ScannerRepository implements IScannerRepository {
     offset: number
   ): Promise<IFoodItem[]> {
     const results = await this.db.getAllAsync<IFoodItem>(
-      "SELECT * FROM food_items WHERE name LIKE ? OR brand LIKE ? LIMIT ? OFFSET ?",
+      "SELECT * FROM food_items WHERE name LIKE ? OR brand LIKE ? ORDER BY id LIMIT ? OFFSET ?",
       [`%${searchTerm}%`, `%${searchTerm}%`, limit, offset]
     );
     return results;

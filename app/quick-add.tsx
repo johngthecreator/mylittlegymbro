@@ -1,6 +1,6 @@
 import withContainer from "@/components/withContainer";
 import { Colors } from "@/constants/Colors";
-import { IFoodItem } from "@/core/interfaces";
+import { ICreateFoodItem } from "@/core/interfaces";
 import { IScannerController } from "@/core/scanner/scanner.interface";
 import { TYPES } from "@/core/types";
 import { useRouter } from "expo-router";
@@ -35,7 +35,7 @@ function QuickAdd({ container }: { container: Container }) {
   const router = useRouter();
 
   const handleAddFoodItem = async () => {
-    const foodItem: IFoodItem = {
+    const foodItem: ICreateFoodItem = {
       name,
       calories: Number(calories),
       g_protein: Number(protein),

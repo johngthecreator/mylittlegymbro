@@ -37,13 +37,9 @@ function AllItems({ container }: { container: Container }) {
 
   // Debounce effect for search term
   useEffect(() => {
-    if (searchTerm === "") {
-      setDebouncedSearchTerm("");
-      return; // No debounce for empty search term
-    }
     const handler = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-    }, 500); // 500ms debounce delay
+    }, 200); // 500ms debounce delay (reverted)
 
     return () => {
       clearTimeout(handler);
@@ -80,9 +76,13 @@ function AllItems({ container }: { container: Container }) {
       setAllItems([]); // Clear items on focus
       setOffset(0); // Reset offset
       setHasMore(true); // Reset hasMore
-      loadData(true); // Load data for new search on focus
     }, [debouncedSearchTerm]) // Depend on debouncedSearchTerm
   );
+
+  // Load data initially and when debouncedSearchTerm changes
+  useEffect(() => {
+    loadData(true);
+  }, [debouncedSearchTerm]);
 
   const handleLoadMore = () => {
     if (!loading && hasMore) {
@@ -144,7 +144,6 @@ function AllItems({ container }: { container: Container }) {
       ]}
     >
       <View style={styles.searchContainer}>
-        {" "}
         {/* Wrap search input and button */}
         <TextInput
           style={[
@@ -167,7 +166,6 @@ function AllItems({ container }: { container: Container }) {
               setAllItems([]);
               setOffset(0);
               setHasMore(true);
-              // Removed explicit loadData(true) call as useEffect will handle it
             }}
           >
             <MaterialIcons
@@ -199,12 +197,6 @@ function AllItems({ container }: { container: Container }) {
                 }}
               >
                 Loading items...
-              </Text>
-            </View>
-          ) : !hasMore && allItems.length === 0 && searchTerm.length > 0 ? (
-            <View style={styles.loadingFooter}>
-              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-                No items found.
               </Text>
             </View>
           ) : null

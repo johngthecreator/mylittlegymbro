@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { IFoodItem } from "../interfaces";
+import { ICreateFoodItem, IFoodItem, ILogEntry } from "../interfaces";
 import { TYPES } from "../types";
 import { IScannerRepository, IScannerService } from "./scanner.interface";
 
@@ -33,7 +33,7 @@ export class ScannerService implements IScannerService {
   ) {}
 
   async insertQuickAdd(
-    foodItem: IFoodItem,
+    foodItem: ICreateFoodItem,
     log_serving: number,
     date: string
   ): Promise<void> {

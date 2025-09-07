@@ -1,8 +1,8 @@
-import { IFoodItem, ILogEntry } from "../interfaces";
+import { ICreateFoodItem, IFoodItem, ILogEntry } from "../interfaces";
 
 export interface IScannerController {
   quickAddFoodItem(
-    foodItem: IFoodItem,
+    foodItem: ICreateFoodItem,
     log_serving: number,
     date: string
   ): Promise<void>;
@@ -23,7 +23,7 @@ export interface IScannerController {
 
 export interface IScannerService {
   insertQuickAdd(
-    foodItem: IFoodItem,
+    foodItem: ICreateFoodItem,
     log_serving: number,
     date: string
   ): Promise<void>;
@@ -38,7 +38,7 @@ export interface IScannerService {
 }
 
 export interface IScannerRepository {
-  insertFoodItem(foodItem: IFoodItem): Promise<number>;
+  insertFoodItem(foodItem: ICreateFoodItem): Promise<number>;
   insertLogEntry(foodItem: ILogEntry): Promise<void>;
   updateFoodItem(foodItem: IFoodItem, id: number): Promise<void>;
   searchFoodItems(

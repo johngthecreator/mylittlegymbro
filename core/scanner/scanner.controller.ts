@@ -1,5 +1,5 @@
 import { inject, injectable } from "inversify";
-import { IFoodItem, ILogEntry } from "../interfaces";
+import { ICreateFoodItem, IFoodItem, ILogEntry } from "../interfaces";
 import { TYPES } from "../types";
 import { IScannerController, IScannerService } from "./scanner.interface";
 
@@ -9,7 +9,7 @@ export class ScannerController implements IScannerController {
     @inject(TYPES.IScannerService) private scannerService: IScannerService
   ) {}
   quickAddFoodItem(
-    foodItem: IFoodItem,
+    foodItem: ICreateFoodItem,
     log_serving: number,
     date: string
   ): Promise<void> {
@@ -43,7 +43,7 @@ export class ScannerController implements IScannerController {
     limit: number,
     offset: number
   ): Promise<IFoodItem[]> {
-    await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate 1-second delay
+    await new Promise((resolve) => setTimeout(resolve, 300));
     return this.scannerService.searchFoodItems(searchTerm, limit, offset);
   }
 }

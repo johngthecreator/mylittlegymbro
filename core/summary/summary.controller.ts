@@ -1,11 +1,7 @@
 import { inject, injectable } from "inversify";
-import {
-  IFoodItem,
-  ILogEntryWithFoodItem,
-  ISummaryController,
-  ISummaryService,
-} from "../interfaces";
+import { IFoodItem, ILogEntryWithFoodItem } from "../interfaces";
 import { TYPES } from "../types";
+import { ISummaryController, ISummaryService } from "./summary.interface";
 
 @injectable()
 export class SummaryController implements ISummaryController {

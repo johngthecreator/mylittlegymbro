@@ -86,7 +86,7 @@ function HomeScreen({ container }: { container: Container }) {
   useFocusEffect(
     useCallback(() => {
       loadData();
-    }, [])
+    }, [logEntries])
   );
 
   return (

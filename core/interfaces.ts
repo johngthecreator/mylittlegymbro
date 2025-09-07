@@ -15,6 +15,22 @@ export interface IFoodItem {
   is_quick_add?: boolean;
 }
 
+export interface ICreateFoodItem {
+  ean_id?: string;
+  name: string;
+  brand?: string;
+  image_url?: string;
+  calories: number;
+  g_protein: number;
+  g_carbs: number;
+  g_fats: number;
+  g_fiber?: number;
+  g_sodium?: number;
+  serving_quantity?: number;
+  serving_unit?: string;
+  is_quick_add?: boolean;
+}
+
 export interface ILogEntry {
   food_item_id: number;
   log_serving: number;
