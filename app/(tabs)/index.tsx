@@ -67,10 +67,11 @@ function HomeScreen({ container }: { container: Container }) {
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+  console.log(logEntries);
+
   const handleDelete = async (entry_id: number) => {
-    setLogEntries(logEntries.filter((entry) => entry.id !== entry_id));
     await summaryController.deleteLogEntry(entry_id);
-    loadData();
+    setLogEntries((prev) => prev.filter((entry) => entry.id != entry_id));
   };
 
   const loadData = async () => {

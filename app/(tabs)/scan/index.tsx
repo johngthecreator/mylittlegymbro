@@ -135,6 +135,9 @@ export default function Scanner() {
         <CameraView
           style={styles.camera}
           facing={facing}
+          barcodeScannerSettings={{
+            barcodeTypes: ["ean13", "ean8"],
+          }}
           onBarcodeScanned={handleBarCodeScanned}
         ></CameraView>
       ) : null}
