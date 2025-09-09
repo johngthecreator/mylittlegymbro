@@ -49,13 +49,17 @@
               "id": "0",
               "title": "Scan Food",
               "icon": "symbol:magnifyingglass",
-              "params": { "href": "/(tabs)/scan" }
+              "params": {
+                "href": "/(tabs)/scan"
+              }
             },
             {
               "id": "1",
               "title": "Quick Add",
               "icon": "symbol:plus.square",
-              "params": { "href": "/quick-add" }
+              "params": {
+                "href": "/quick-add"
+              }
             }
           ]
         }
@@ -67,7 +71,9 @@
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
         }
       ],
-      "expo-quick-actions"
+      "expo-quick-actions",
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true
