@@ -100,8 +100,9 @@ function EditScanDetails({ container }: { container: Container }) {
         [
           {
             text: "OK",
-            onPress: () => {
-              router.back();
+            onPress: async () => {
+              await router.back();
+              router.navigate({ pathname: "/(tabs)" });
             },
           },
         ],
@@ -420,6 +421,22 @@ function EditScanDetails({ container }: { container: Container }) {
             >
               <Text>Save</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={async () => {
+                await router.back();
+                router.navigate({ pathname: "/(tabs)" });
+              }}
+            >
+              <Text
+                style={[
+                  styles.deleteButtonText,
+                  { color: Colors[colorScheme ?? "light"].text },
+                ]}
+              >
+                Cancel
+              </Text>
+            </TouchableOpacity>
           </View>
         </TouchableWithoutFeedback>
       </ScrollView>
@@ -450,5 +467,12 @@ const styles = StyleSheet.create({
     padding: 5,
     width: 100,
     textAlign: "right",
+  },
+  deleteButton: {
+    marginTop: 15,
+    alignItems: "center",
+  },
+  deleteButtonText: {
+    fontSize: 16,
   },
 });

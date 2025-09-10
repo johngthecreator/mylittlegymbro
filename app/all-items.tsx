@@ -137,12 +137,18 @@ function AllItems({ container }: { container: Container }) {
   );
 
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: Colors[colorScheme ?? "light"].background },
-      ]}
-    >
+    <View style={[styles.container, { backgroundColor: "black" }]}>
+      <Text
+        style={{
+          paddingHorizontal: 15,
+          marginTop: 25,
+          fontSize: 30,
+          fontWeight: "bold",
+          color: "white",
+        }}
+      >
+        Search
+      </Text>
       <View style={styles.searchContainer}>
         {/* Wrap search input and button */}
         <TextInput
@@ -243,7 +249,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    margin: 10,
+    margin: 15,
     borderRadius: 8,
     borderWidth: 1, // Add border to container
     borderColor: Colors.light.tint, // Apply border color

@@ -362,7 +362,13 @@ function ScanDetails({ container }: { container: Container }) {
               padding: 10,
               borderRadius: 100,
             }}
-            onPress={() => router.push(`/scan/edit/${params.id}`)}
+            onPress={async () => {
+              await router.back();
+              router.navigate({
+                pathname: "/edit/[id]",
+                params: { id: params.id },
+              });
+            }}
           >
             <EvilIcons
               name="pencil"

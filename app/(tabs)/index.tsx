@@ -13,7 +13,6 @@ import { EvilIcons } from "@expo/vector-icons";
 import { ImageBackground } from "expo-image";
 import { Link, useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import withContainer from "@/components/withContainer";
 import { ISummaryController } from "@/core/summary/summary.interface";
@@ -96,10 +95,9 @@ function HomeScreen({ container }: { container: Container }) {
       <Pressable
         onPress={() =>
           router.navigate({
-            pathname: "/nutrition/[timestamp]/[id]",
+            pathname: "/scan/[id]",
             params: {
-              timestamp: new Date(entry.date).getTime().toString(),
-              id: entry.id,
+              id: entry.food_item_id,
             },
           })
         }
@@ -147,157 +145,172 @@ function HomeScreen({ container }: { container: Container }) {
   }, []);
 
   return (
-    <SafeAreaView style={styles.mainContainer}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "light",
-            marginBottom: 20,
-            color: "white",
-          }}
-        >{`${days[date.getDay()]}, ${
-          months[date.getMonth()]
-        } ${date.getDate()}`}</Text>
-        <Text
-          style={{
-            fontSize: 20,
-            fontWeight: "semibold",
-            marginBottom: 20,
-            color: "white",
-          }}
-        >
-          Daily summary
-        </Text>
-        <View
-          style={{
-            height: height,
-            display: "flex",
-            flexDirection: "column",
-            gap: 20,
-          }}
-        >
-          <View style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            <View style={styles.caloriesWrapper}>
-              <Text
-                style={{ fontSize: 40, fontWeight: "semibold", color: "white" }}
-              >
-                {Math.round(
-                  logEntries.reduce(
-                    (acc, entry) => acc + entry.calories * entry.log_serving,
-                    0
-                  ) * 10
-                ) / 10}
-              </Text>
-              <Text style={{ fontSize: 18, color: "white" }}>
-                Calories consumed
-              </Text>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
+    <ScrollView
+      style={styles.mainContainer}
+      showsVerticalScrollIndicator={false}
+    >
+      <Text
+        style={{
+          fontSize: 30,
+          fontWeight: "bold",
+          marginBottom: 5,
+          color: "white",
+        }}
+      >
+        Summary
+      </Text>
+      <Text
+        style={{
+          fontSize: 20,
+          fontWeight: "light",
+          marginBottom: 25,
+          color: "white",
+        }}
+      >{`${days[date.getDay()]}, ${
+        months[date.getMonth()]
+      } ${date.getDate()}`}</Text>
+      <View
+        style={{
+          height: height,
+          display: "flex",
+          flexDirection: "column",
+          gap: 20,
+        }}
+      >
+        <View style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <View style={styles.caloriesWrapper}>
+            <Text
+              style={{ fontSize: 40, fontWeight: "semibold", color: "white" }}
             >
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 5,
-                }}
-              >
-                <View style={styles.macrosWrapper}>
-                  <Text
-                    style={{
-                      fontSize: 30,
-                      fontWeight: "semibold",
-                      color: "white",
-                    }}
-                  >
-                    {Math.round(
-                      logEntries.reduce(
-                        (acc, entry) =>
-                          acc + entry.g_protein * entry.log_serving,
-                        0
-                      ) * 10
-                    ) / 10}
-                  </Text>
-                </View>
-                <Text style={{ color: "white" }}>Protein (g)</Text>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 5,
-                }}
-              >
-                <View style={styles.macrosWrapper}>
-                  <Text
-                    style={{
-                      fontSize: 30,
-                      fontWeight: "semibold",
-                      color: "white",
-                    }}
-                  >
-                    {Math.round(
-                      logEntries.reduce(
-                        (acc, entry) => acc + entry.g_carbs * entry.log_serving,
-                        0
-                      ) * 10
-                    ) / 10}
-                  </Text>
-                </View>
-                <Text style={{ color: "white" }}>Carbs (g)</Text>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 5,
-                }}
-              >
-                <View style={styles.macrosWrapper}>
-                  <Text
-                    style={{
-                      fontSize: 30,
-                      fontWeight: "semibold",
-                      color: "white",
-                    }}
-                  >
-                    {Math.round(
-                      logEntries.reduce(
-                        (acc, entry) => acc + entry.g_fats * entry.log_serving,
-                        0
-                      ) * 10
-                    ) / 10}
-                  </Text>
-                </View>
-                <Text style={{ color: "white" }}>Fats (g)</Text>
-              </View>
-            </View>
+              {Math.round(
+                logEntries.reduce(
+                  (acc, entry) => acc + entry.calories * entry.log_serving,
+                  0
+                ) * 10
+              ) / 10}
+            </Text>
+            <Text style={{ fontSize: 18, color: "white" }}>
+              Calories consumed
+            </Text>
           </View>
           <View
             style={{
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
-              alignItems: "center",
             }}
           >
-            <Text
+            <View
               style={{
-                fontSize: 20,
-                fontWeight: "semibold",
-                color: "white",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 5,
               }}
             >
-              Food log
-            </Text>
+              <View style={styles.macrosWrapper}>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: "semibold",
+                    color: "white",
+                  }}
+                >
+                  {Math.round(
+                    logEntries.reduce(
+                      (acc, entry) => acc + entry.g_protein * entry.log_serving,
+                      0
+                    ) * 10
+                  ) / 10}
+                </Text>
+              </View>
+              <Text style={{ color: "white" }}>Protein (g)</Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 5,
+              }}
+            >
+              <View style={styles.macrosWrapper}>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: "semibold",
+                    color: "white",
+                  }}
+                >
+                  {Math.round(
+                    logEntries.reduce(
+                      (acc, entry) => acc + entry.g_carbs * entry.log_serving,
+                      0
+                    ) * 10
+                  ) / 10}
+                </Text>
+              </View>
+              <Text style={{ color: "white" }}>Carbs (g)</Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 5,
+              }}
+            >
+              <View style={styles.macrosWrapper}>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: "semibold",
+                    color: "white",
+                  }}
+                >
+                  {Math.round(
+                    logEntries.reduce(
+                      (acc, entry) => acc + entry.g_fats * entry.log_serving,
+                      0
+                    ) * 10
+                  ) / 10}
+                </Text>
+              </View>
+              <Text style={{ color: "white" }}>Fats (g)</Text>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "semibold",
+              color: "white",
+            }}
+          >
+            Food Log
+          </Text>
+          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+            <Link
+              href="/all-items"
+              style={{
+                color: "white",
+                fontSize: 16,
+                paddingHorizontal: 5,
+                paddingVertical: 8,
+                borderRadius: 100,
+                backgroundColor: "gray",
+              }}
+            >
+              <EvilIcons name="archive" size={25} />
+            </Link>
             <Link
               href="/quick-add"
               style={{
@@ -312,20 +325,20 @@ function HomeScreen({ container }: { container: Container }) {
               <EvilIcons name="plus" size={25} />
             </Link>
           </View>
-          {logEntries.length > 0 ? (
-            <FlatList
-              data={logEntries}
-              renderItem={renderLogItem}
-              keyExtractor={(item) => item.id.toString()}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            />
-          ) : (
-            <Text style={{ color: "white" }}>No Food Logged!</Text>
-          )}
         </View>
-      </ScrollView>
-    </SafeAreaView>
+        {logEntries.length > 0 ? (
+          <FlatList
+            data={logEntries}
+            renderItem={renderLogItem}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />
+        ) : (
+          <Text style={{ color: "white" }}>No Food Logged!</Text>
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
@@ -335,7 +348,9 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "#1A1A1A",
     height: "110%",
-    padding: 10,
+    padding: 15,
+    paddingTop: 20,
+    paddingBottom: 30,
   },
   caloriesWrapper: {
     padding: 30,

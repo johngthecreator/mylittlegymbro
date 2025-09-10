@@ -70,6 +70,17 @@ function QuickAdd({ container }: { container: Container }) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.innerContainer}>
           <Text
+            style={{
+              marginTop: 15,
+              fontSize: 30,
+              fontWeight: "bold",
+              color: "white",
+              paddingVertical: 10,
+            }}
+          >
+            Quick Add
+          </Text>
+          <Text
             style={[
               styles.label,
               { color: Colors[colorScheme ?? "light"].text },

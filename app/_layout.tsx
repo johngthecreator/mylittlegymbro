@@ -54,16 +54,14 @@ export default function RootLayout() {
           <Stack.Screen
             name="quick-add"
             options={{
+              headerShown: false,
               presentation: "modal",
             }}
           />
-          <Stack.Screen name="+not-found" />
+          <Stack.Screen name="edit/[id]" options={{ headerShown: true }} />
           <Stack.Screen
-            name="nutrition/[timestamp]/[id]"
-            options={{
-              headerTitle: "Nutrition facts",
-              headerBackTitle: "Back",
-            }}
+            name="all-items"
+            options={{ headerShown: false, presentation: "modal" }}
           />
         </Stack>
         <StatusBar style="auto" />
