@@ -96,7 +96,7 @@ function AllItems({ container }: { container: Container }) {
         styles.itemContainer,
         { borderBottomColor: Colors[colorScheme ?? "light"].tint },
       ]}
-      onPress={() => router.push(`/scan/${item.id}`)}
+      onPress={() => router.push(`/food/${item.id}`)}
     >
       <View style={{ flex: 1, paddingRight: 10 }}>
         <Text
@@ -123,7 +123,7 @@ function AllItems({ container }: { container: Container }) {
           style={styles.button}
           onPress={(e) => {
             e.stopPropagation();
-            router.push(`/scan/edit/${item.id}`);
+            router.push(`/edit/${item.id}`);
           }}
         >
           <EvilIcons
@@ -141,7 +141,7 @@ function AllItems({ container }: { container: Container }) {
       <Text
         style={{
           paddingHorizontal: 15,
-          marginTop: 25,
+          marginTop: 30,
           fontSize: 30,
           fontWeight: "bold",
           color: "white",
@@ -187,6 +187,7 @@ function AllItems({ container }: { container: Container }) {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         contentContainerStyle={{ paddingBottom: 100 }}
+        showsVerticalScrollIndicator={false}
         onEndReached={handleLoadMore}
         onEndReachedThreshold={0.5}
         ListFooterComponent={
@@ -217,6 +218,7 @@ export default withContainer(AllItems);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 20,
   },
   itemContainer: {
     flexDirection: "row",

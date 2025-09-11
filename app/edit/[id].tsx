@@ -101,8 +101,7 @@ function EditScanDetails({ container }: { container: Container }) {
           {
             text: "OK",
             onPress: async () => {
-              await router.back();
-              router.navigate({ pathname: "/(tabs)" });
+              router.back();
             },
           },
         ],
@@ -423,9 +422,8 @@ function EditScanDetails({ container }: { container: Container }) {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.deleteButton}
-              onPress={async () => {
-                await router.back();
-                router.navigate({ pathname: "/(tabs)" });
+              onPress={() => {
+                router.back();
               }}
             >
               <Text

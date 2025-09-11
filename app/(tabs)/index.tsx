@@ -95,7 +95,7 @@ function HomeScreen({ container }: { container: Container }) {
       <Pressable
         onPress={() =>
           router.navigate({
-            pathname: "/scan/[id]",
+            pathname: "/food/[id]",
             params: {
               id: entry.food_item_id,
             },
@@ -299,19 +299,6 @@ function HomeScreen({ container }: { container: Container }) {
           </Text>
           <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
             <Link
-              href="/all-items"
-              style={{
-                color: "white",
-                fontSize: 16,
-                paddingHorizontal: 5,
-                paddingVertical: 8,
-                borderRadius: 100,
-                backgroundColor: "gray",
-              }}
-            >
-              <EvilIcons name="archive" size={25} />
-            </Link>
-            <Link
               href="/quick-add"
               style={{
                 color: "white",
@@ -349,7 +336,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#1A1A1A",
     height: "110%",
     padding: 15,
-    paddingTop: 20,
+    paddingTop: 10,
     paddingBottom: 30,
   },
   caloriesWrapper: {

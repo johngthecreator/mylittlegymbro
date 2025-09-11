@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/Colors";
 import { container } from "@/core/container";
 import { IScannerController } from "@/core/scanner/scanner.interface";
 import { ISummaryController } from "@/core/summary/summary.interface";
@@ -93,7 +94,7 @@ export default function Scanner() {
 
     try {
       const id = await summaryController.processScannedEan(ean_id);
-      router.navigate({ pathname: "/scan/[id]", params: { id: id } });
+      router.navigate({ pathname: "/food/[id]", params: { id: id } });
     } catch (error) {
       console.log(error);
       Alert.alert(
@@ -149,6 +150,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    backgroundColor: Colors.dark.background,
   },
   message: {
     textAlign: "center",

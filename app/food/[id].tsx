@@ -363,7 +363,6 @@ function ScanDetails({ container }: { container: Container }) {
               borderRadius: 100,
             }}
             onPress={async () => {
-              await router.back();
               router.navigate({
                 pathname: "/edit/[id]",
                 params: { id: params.id },

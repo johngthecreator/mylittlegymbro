@@ -43,7 +43,6 @@ export class ScannerController implements IScannerController {
     limit: number,
     offset: number
   ): Promise<IFoodItem[]> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
     return this.scannerService.searchFoodItems(searchTerm, limit, offset);
   }
 }

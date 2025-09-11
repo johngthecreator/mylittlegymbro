@@ -57,11 +57,22 @@ export default function RootLayout() {
               headerShown: false,
               presentation: "modal",
             }}
-          />
-          <Stack.Screen name="edit/[id]" options={{ headerShown: true }} />
+          />{" "}
           <Stack.Screen
-            name="all-items"
-            options={{ headerShown: false, presentation: "modal" }}
+            name="edit/[id]"
+            options={{
+              headerShown: true,
+              headerTitle: "Edit Food",
+              headerBackButtonDisplayMode: "minimal",
+            }}
+          />
+          <Stack.Screen
+            name="food/[id]"
+            options={{
+              headerShown: true,
+              headerTitle: "Food Details",
+              headerBackButtonDisplayMode: "minimal",
+            }}
           />
         </Stack>
         <StatusBar style="auto" />

@@ -50,12 +50,16 @@ export default function TabLayout() {
     // </Tabs>
     <NativeTabs>
       <NativeTabs.Trigger name="scan">
-        <Icon sf="magnifyingglass" drawable="custom_settings_drawable" />
+        <Icon sf="magnifyingglass" drawable="custom_android_drawable" />
         <Label>Scanner</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="index">
         <Label>Food Log</Label>
         <Icon sf="book.pages.fill" drawable="custom_android_drawable" />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="all-items">
+        <Label>All Food</Label>
+        <Icon sf="archivebox.circle" drawable="custom_android_drawable" />
       </NativeTabs.Trigger>
     </NativeTabs>
   );
