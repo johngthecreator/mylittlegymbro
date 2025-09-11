@@ -1,22 +1,23 @@
 import {
-  StyleSheet,
-  View,
-  Button,
-  FlatList,
-  Text,
   Dimensions,
-  ScrollView,
+  FlatList,
   Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
+  View,
 } from "react-native";
 
-import { useRouter } from "expo-router";
-import { useSQLiteContext } from "expo-sqlite";
-import { useCallback, useState } from "react";
-import { useFocusEffect } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { EvilIcons } from "@expo/vector-icons";
 import { ImageBackground } from "expo-image";
-import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
+import { Link, useFocusEffect, useRouter } from "expo-router";
+import { useCallback, useState } from "react";
+
+import withContainer from "@/components/withContainer";
+import { ISummaryController } from "@/core/summary/summary.interface";
+import { TYPES } from "@/core/types";
+import { Container } from "inversify";
 
 /**
  * Screen component that displays a daily nutrition summary and a horizontal food log.
@@ -30,42 +31,54 @@ import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
  *
  * @returns A React element for the nutrition summary screen.
  */
-export default function HomeScreen() {
+function HomeScreen({ container }: { container: Container }) {
   const [logEntries, setLogEntries] = useState<any[]>([]);
 
-  const db = useSQLiteContext();
+  const summaryController = container.get<ISummaryController>(
+    TYPES.ISummaryController
+  );
   const { height } = Dimensions.get("window");
   const date = new Date();
-  const midnight = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0, 0).toISOString();
-  console.log(midnight)
+  const midnight = new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    0,
+    0,
+    0,
+    0
+  ).toISOString();
   const router = useRouter();
   const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
-  const days = [
-    "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
-  ];
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  const handleDelete = async (entry_id: string) => {
-    setLogEntries(logEntries.filter(entry => entry.entry_id !== entry_id))
-    await db.runAsync("DELETE FROM log_entries WHERE id = ?", [
-      entry_id
-    ])
-  }
+  console.log(logEntries);
+
+  const handleDelete = async (entry_id: number) => {
+    await summaryController.deleteLogEntry(entry_id);
+    setLogEntries((prev) => prev.filter((entry) => entry.id != entry_id));
+  };
 
   const loadData = async () => {
     try {
-      const result = await db.getAllAsync("SELECT * FROM log_entries WHERE date > ? ORDER BY date DESC", [midnight]);
-      console.log("Query result:", result);
-      const entries: any = [];
-      result.forEach((result: any) => {
-        const foodData = db.getAllSync("SELECT * FROM food_items WHERE id = ?", [result.food_item_id])
-        entries.push({ ...foodData[0] as Object, date: result.date, entry_id: result.id, log_serving: result.log_serving });
-      })
-      setLogEntries(entries);
-      console.log(entries);
+      const loggedFoodItems = await summaryController.getLoggedFoodItems(
+        midnight
+      );
+      setLogEntries(loggedFoodItems);
     } catch (error) {
       console.error("Error loading data:", error);
     }
@@ -77,137 +90,281 @@ export default function HomeScreen() {
     }, [])
   );
 
-  return (
-    <SafeAreaView style={styles.mainContainer}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={{ fontSize: 20, fontWeight: 'light', marginBottom: 20 }}>{`${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}`}</Text>
-        <Text style={{ fontSize: 20, fontWeight: 'semibold', marginBottom: 20 }}>Daily summary</Text>
-        <View style={{ height: height, display: 'flex', flexDirection: 'column', gap: 20 }}>
-          <View style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <View style={styles.caloriesWrapper}>
-              <Text style={{ fontSize: 40, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.calories * entry.log_serving, 0) * 10) / 10}</Text>
-              <Text style={{ fontSize: 18 }}>Calories consumed</Text>
-            </View>
-            <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.g_protein * entry.log_serving, 0) * 10) / 10}</Text>
-                </View>
-                <Text>Protein (g)</Text>
-              </View>
-              <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.g_carbs * entry.log_serving, 0) * 10) / 10}</Text>
-                </View>
-                <Text>Carbs (g)</Text>
-              </View>
-              <View style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5 }}>
-                <View style={styles.macrosWrapper}>
-                  <Text style={{ fontSize: 30, fontWeight: 'semibold' }}>{Math.round(logEntries.reduce((acc, entry) => acc + entry.g_fats * entry.log_serving, 0) * 10) / 10}</Text>
-                </View>
-                <Text>Fats (g)</Text>
-              </View>
-            </View>
-          </View>
-          <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Text style={{ fontSize: 20, fontWeight: 'semibold', marginTop: 20 }}>Food log</Text>
-            {/* <Link href="/nutrition/1">Quick Add</Link> */}
-          </View>
-          {logEntries.length > 0 ?
-            <FlatList data={logEntries} renderItem={(log_entry: any) => {
-              const entry = log_entry.item;
-              return (
-                <Pressable onPress={() =>
-                  router.navigate({
-                    pathname: '/nutrition/[id]',
-                    params: { id: entry.id }
-                  })} >
-                  <ImageBackground
-                    blurRadius={20}
-                    source={{ uri: entry.image_url }}
-                    style={{
-                      overflow: 'hidden',
-                      marginRight: 10,
-                      borderRadius: 40,
-                    }}
-                  >
-                    <View key={entry.id} style={styles.logCard}>
-                      <View>
-                        <Text style={{ color: 'white' }}>
-                          {entry.name}
-                        </Text>
-                        <Text style={{ color: 'white' }}>
-                          {Math.round(entry.calories * entry.log_serving * 10) / 10} calories
-                        </Text>
-                        <Text style={{ color: 'white' }}>
-                          {Math.round(entry.g_protein * entry.log_serving * 10) / 10}g protein
-                        </Text>
-                        <Text style={{ color: 'white' }}>
-                          {Math.round(entry.log_serving * 10) / 10} servings
-                        </Text>
-                      </View>
-                      <TouchableOpacity style={{ alignSelf: 'flex-end', backgroundColor: 'white', paddingVertical: 8, paddingHorizontal: 5, borderRadius: 100 }} onPress={() => handleDelete(entry.entry_id)}>
-                        <EvilIcons size={30} name="trash" />
-                      </TouchableOpacity>
-                    </View>
-                  </ImageBackground>
-                </Pressable>
-              )
-            }
-            }
-              keyExtractor={item => `${item?.id?.toString()}-${item?.entry_id.toString()}`}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            />
-            : (
-              <Text>
-                No Food Logged!
+  const renderLogItem = useCallback(({ item: entry }: { item: any }) => {
+    return (
+      <Pressable
+        onPress={() =>
+          router.navigate({
+            pathname: "/food/[id]",
+            params: {
+              id: entry.food_item_id,
+            },
+          })
+        }
+      >
+        <ImageBackground
+          blurRadius={20}
+          source={{ uri: entry.image_url }}
+          style={{
+            overflow: "hidden",
+            marginRight: 10,
+            borderRadius: 40,
+          }}
+        >
+          <View key={entry.id} style={styles.logCard}>
+            <View>
+              <Text style={{ color: "white" }}>{entry.name}</Text>
+              <Text style={{ color: "white" }}>
+                {Math.round(entry.calories * entry.log_serving * 10) / 10}{" "}
+                calories
               </Text>
-            )}
+              <Text style={{ color: "white" }}>
+                {Math.round(entry.g_protein * entry.log_serving * 10) / 10}g
+                protein
+              </Text>
+              <Text style={{ color: "white" }}>
+                {Math.round(entry.log_serving * 10) / 10} servings
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{
+                alignSelf: "flex-end",
+                backgroundColor: "white",
+                paddingVertical: 8,
+                paddingHorizontal: 5,
+                borderRadius: 100,
+              }}
+              onPress={() => handleDelete(entry.id)}
+            >
+              <EvilIcons size={30} name="trash" />
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
+      </Pressable>
+    );
+  }, []);
+
+  return (
+    <ScrollView
+      style={styles.mainContainer}
+      showsVerticalScrollIndicator={false}
+    >
+      <Text
+        style={{
+          fontSize: 30,
+          fontWeight: "bold",
+          marginBottom: 5,
+          color: "white",
+        }}
+      >
+        Summary
+      </Text>
+      <Text
+        style={{
+          fontSize: 20,
+          fontWeight: "light",
+          marginBottom: 25,
+          color: "white",
+        }}
+      >{`${days[date.getDay()]}, ${
+        months[date.getMonth()]
+      } ${date.getDate()}`}</Text>
+      <View
+        style={{
+          height: height,
+          display: "flex",
+          flexDirection: "column",
+          gap: 20,
+        }}
+      >
+        <View style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <View style={styles.caloriesWrapper}>
+            <Text
+              style={{ fontSize: 40, fontWeight: "semibold", color: "white" }}
+            >
+              {Math.round(
+                logEntries.reduce(
+                  (acc, entry) => acc + entry.calories * entry.log_serving,
+                  0
+                ) * 10
+              ) / 10}
+            </Text>
+            <Text style={{ fontSize: 18, color: "white" }}>
+              Calories consumed
+            </Text>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 5,
+              }}
+            >
+              <View style={styles.macrosWrapper}>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: "semibold",
+                    color: "white",
+                  }}
+                >
+                  {Math.round(
+                    logEntries.reduce(
+                      (acc, entry) => acc + entry.g_protein * entry.log_serving,
+                      0
+                    ) * 10
+                  ) / 10}
+                </Text>
+              </View>
+              <Text style={{ color: "white" }}>Protein (g)</Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 5,
+              }}
+            >
+              <View style={styles.macrosWrapper}>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: "semibold",
+                    color: "white",
+                  }}
+                >
+                  {Math.round(
+                    logEntries.reduce(
+                      (acc, entry) => acc + entry.g_carbs * entry.log_serving,
+                      0
+                    ) * 10
+                  ) / 10}
+                </Text>
+              </View>
+              <Text style={{ color: "white" }}>Carbs (g)</Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 5,
+              }}
+            >
+              <View style={styles.macrosWrapper}>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: "semibold",
+                    color: "white",
+                  }}
+                >
+                  {Math.round(
+                    logEntries.reduce(
+                      (acc, entry) => acc + entry.g_fats * entry.log_serving,
+                      0
+                    ) * 10
+                  ) / 10}
+                </Text>
+              </View>
+              <Text style={{ color: "white" }}>Fats (g)</Text>
+            </View>
+          </View>
         </View>
-      </ScrollView>
-    </SafeAreaView >
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "semibold",
+              color: "white",
+            }}
+          >
+            Food Log
+          </Text>
+          <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
+            <Link
+              href="/quick-add"
+              style={{
+                color: "white",
+                fontSize: 16,
+                paddingHorizontal: 5,
+                paddingVertical: 8,
+                borderRadius: 100,
+                backgroundColor: "gray",
+              }}
+            >
+              <EvilIcons name="plus" size={25} />
+            </Link>
+          </View>
+        </View>
+        {logEntries.length > 0 ? (
+          <FlatList
+            data={logEntries}
+            renderItem={renderLogItem}
+            keyExtractor={(item) => item.id.toString()}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />
+        ) : (
+          <Text style={{ color: "white" }}>No Food Logged!</Text>
+        )}
+      </View>
+    </ScrollView>
   );
 }
 
+export default withContainer(HomeScreen);
+
 const styles = StyleSheet.create({
-  headerImage: {
-    color: "#808080",
-    bottom: -90,
-    left: -35,
-    position: "absolute",
-  },
   mainContainer: {
-    backgroundColor: 'white',
-    height: '100%',
-    padding: 10
+    backgroundColor: "#1A1A1A",
+    height: "110%",
+    padding: 15,
+    paddingTop: 10,
+    paddingBottom: 30,
   },
   caloriesWrapper: {
     padding: 30,
     height: 150,
     borderRadius: 40,
-    backgroundColor: 'lavender',
-    justifyContent: 'center',
+    backgroundColor: "#3A3A3A",
+    justifyContent: "center",
     gap: 5,
-    display: 'flex',
-    flexDirection: 'column'
+    display: "flex",
+    flexDirection: "column",
   },
   macrosWrapper: {
     height: 100,
     width: 100,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 100,
-    backgroundColor: 'lavender'
+    backgroundColor: "#3A3A3A",
   },
   logCard: {
     height: 400,
     width: 300,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    padding: 25
-  }
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    padding: 25,
+  },
 });
