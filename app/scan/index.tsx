@@ -94,7 +94,7 @@ export default function Scanner() {
 
     try {
       const id = await summaryController.processScannedEan(ean_id);
-      router.navigate({ pathname: "/food/[id]", params: { id: id } });
+      router.navigate({ pathname: "/scan/food/[id]", params: { id: id } });
     } catch (error) {
       console.log(error);
       Alert.alert(

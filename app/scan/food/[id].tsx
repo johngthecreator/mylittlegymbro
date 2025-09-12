@@ -364,7 +364,7 @@ function ScanDetails({ container }: { container: Container }) {
             }}
             onPress={async () => {
               router.navigate({
-                pathname: "/edit/[id]",
+                pathname: "/scan/edit/[id]",
                 params: { id: params.id },
               });
             }}

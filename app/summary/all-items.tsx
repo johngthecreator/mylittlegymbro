@@ -96,7 +96,7 @@ function AllItems({ container }: { container: Container }) {
         styles.itemContainer,
         { borderBottomColor: Colors[colorScheme ?? "light"].tint },
       ]}
-      onPress={() => router.push(`/food/${item.id}`)}
+      onPress={() => router.push(`/scan/food/${item.id}`)}
     >
       <View style={{ flex: 1, paddingRight: 10 }}>
         <Text
@@ -123,7 +123,7 @@ function AllItems({ container }: { container: Container }) {
           style={styles.button}
           onPress={(e) => {
             e.stopPropagation();
-            router.push(`/edit/${item.id}`);
+            router.push(`/scan/edit/${item.id}`);
           }}
         >
           <EvilIcons

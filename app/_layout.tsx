@@ -2,10 +2,10 @@ import { useFonts } from "expo-font";
 
 import { container } from "@/core/container";
 import { TYPES } from "@/core/types";
+import { Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
 
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { useQuickActionRouting } from "expo-quick-actions/router";
-import { Stack } from "expo-router";
 import { SQLiteDatabase, SQLiteProvider } from "expo-sqlite";
 import { StatusBar } from "expo-status-bar";
 export default function RootLayout() {
@@ -49,32 +49,16 @@ export default function RootLayout() {
   return (
     <SQLiteProvider databaseName="scale.db" onInit={createIfNeeded}>
       <ThemeProvider value={DarkTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="quick-add"
-            options={{
-              headerShown: false,
-              presentation: "modal",
-            }}
-          />{" "}
-          <Stack.Screen
-            name="edit/[id]"
-            options={{
-              headerShown: true,
-              headerTitle: "Edit Food",
-              headerBackButtonDisplayMode: "minimal",
-            }}
-          />
-          <Stack.Screen
-            name="food/[id]"
-            options={{
-              headerShown: true,
-              headerTitle: "Food Details",
-              headerBackButtonDisplayMode: "minimal",
-            }}
-          />
-        </Stack>
+        <NativeTabs>
+          <NativeTabs.Trigger name="scan">
+            <Icon sf="magnifyingglass" drawable="custom_android_drawable" />
+            <Label>Scanner</Label>
+          </NativeTabs.Trigger>
+          <NativeTabs.Trigger name="summary">
+            <Label>Summary</Label>
+            <Icon sf="book.pages.fill" drawable="custom_android_drawable" />
+          </NativeTabs.Trigger>
+        </NativeTabs>
         <StatusBar style="auto" />
       </ThemeProvider>
     </SQLiteProvider>

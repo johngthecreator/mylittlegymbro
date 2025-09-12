@@ -95,7 +95,7 @@ function HomeScreen({ container }: { container: Container }) {
       <Pressable
         onPress={() =>
           router.navigate({
-            pathname: "/food/[id]",
+            pathname: "/scan/food/[id]",
             params: {
               id: entry.food_item_id,
             },
@@ -149,16 +149,6 @@ function HomeScreen({ container }: { container: Container }) {
       style={styles.mainContainer}
       showsVerticalScrollIndicator={false}
     >
-      <Text
-        style={{
-          fontSize: 30,
-          fontWeight: "bold",
-          marginBottom: 5,
-          color: "white",
-        }}
-      >
-        Summary
-      </Text>
       <Text
         style={{
           fontSize: 20,
@@ -299,7 +289,7 @@ function HomeScreen({ container }: { container: Container }) {
           </Text>
           <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
             <Link
-              href="/quick-add"
+              href="/summary/quick-add"
               style={{
                 color: "white",
                 fontSize: 16,

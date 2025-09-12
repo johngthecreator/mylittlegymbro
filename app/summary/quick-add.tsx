@@ -70,17 +70,6 @@ function QuickAdd({ container }: { container: Container }) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.innerContainer}>
           <Text
-            style={{
-              marginTop: 15,
-              fontSize: 30,
-              fontWeight: "bold",
-              color: "white",
-              paddingVertical: 10,
-            }}
-          >
-            Quick Add
-          </Text>
-          <Text
             style={[
               styles.label,
               { color: Colors[colorScheme ?? "light"].text },
@@ -298,16 +287,6 @@ function QuickAdd({ container }: { container: Container }) {
               ]}
             >
               Add Food
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.deleteButton} onPress={handleClose}>
-            <Text
-              style={[
-                styles.deleteButtonText,
-                { color: Colors[colorScheme ?? "light"].text },
-              ]}
-            >
-              Cancel
             </Text>
           </TouchableOpacity>
         </View>
