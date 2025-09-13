@@ -3,7 +3,6 @@ import { Colors } from "@/constants/Colors";
 import { IFoodItem } from "@/core/interfaces";
 import { IScannerController } from "@/core/scanner/scanner.interface";
 import { TYPES } from "@/core/types";
-import { EvilIcons, MaterialIcons } from "@expo/vector-icons";
 import { useFocusEffect, useRouter } from "expo-router";
 import { Container } from "inversify";
 import { useCallback, useEffect, useState } from "react";
@@ -12,7 +11,6 @@ import {
   FlatList,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   useColorScheme,
   View,
@@ -118,108 +116,47 @@ function AllItems({ container }: { container: Container }) {
           {item.brand}
         </Text>
       </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={(e) => {
-            e.stopPropagation();
-            router.push(`/scan/edit/${item.id}`);
-          }}
-        >
-          <EvilIcons
-            name="pencil"
-            size={24}
-            color={Colors[colorScheme ?? "light"].tint}
-          />
-        </TouchableOpacity>
-      </View>
     </TouchableOpacity>
   );
 
   return (
-    <View style={[styles.container, { backgroundColor: "black" }]}>
-      <Text
-        style={{
-          paddingHorizontal: 15,
-          marginTop: 30,
-          fontSize: 30,
-          fontWeight: "bold",
-          color: "white",
-        }}
-      >
-        Search
-      </Text>
-      <View style={styles.searchContainer}>
-        {/* Wrap search input and button */}
-        <TextInput
-          style={[
-            styles.searchInput,
-            {
-              borderColor: Colors[colorScheme ?? "light"].tint,
-              color: Colors[colorScheme ?? "light"].text,
-            },
-          ]}
-          placeholder="Search food items..."
-          placeholderTextColor={Colors[colorScheme ?? "light"].text + "80"}
-          value={searchTerm}
-          onChangeText={setSearchTerm}
-        />
-        {searchTerm.length > 0 && (
-          <TouchableOpacity
-            style={styles.clearButton}
-            onPress={() => {
-              setSearchTerm("");
-              setAllItems([]);
-              setOffset(0);
-              setHasMore(true);
-            }}
-          >
-            <MaterialIcons
-              name="clear"
-              size={24}
+    <FlatList
+      data={allItems}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+      style={{
+        flex: 1,
+        backgroundColor: Colors[colorScheme ?? "light"].background,
+      }}
+      contentContainerStyle={{ paddingBottom: 100 }}
+      showsVerticalScrollIndicator={false}
+      onEndReached={handleLoadMore}
+      onEndReachedThreshold={0.5}
+      ListFooterComponent={
+        loading ? (
+          <View style={styles.loadingFooter}>
+            <ActivityIndicator
+              size="small"
               color={Colors[colorScheme ?? "light"].text}
             />
-          </TouchableOpacity>
-        )}
-      </View>
-      <FlatList
-        data={allItems}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={{ paddingBottom: 100 }}
-        showsVerticalScrollIndicator={false}
-        onEndReached={handleLoadMore}
-        onEndReachedThreshold={0.5}
-        ListFooterComponent={
-          loading ? (
-            <View style={styles.loadingFooter}>
-              <ActivityIndicator
-                size="small"
-                color={Colors[colorScheme ?? "light"].text}
-              />
-              <Text
-                style={{
-                  color: Colors[colorScheme ?? "light"].text,
-                  marginLeft: 10,
-                }}
-              >
-                Loading items...
-              </Text>
-            </View>
-          ) : null
-        } // Show loader at the bottom
-      />
-    </View>
+            <Text
+              style={{
+                color: Colors[colorScheme ?? "light"].text,
+                marginLeft: 10,
+              }}
+            >
+              Loading items...
+            </Text>
+          </View>
+        ) : null
+      }
+    />
   );
 }
 
 export default withContainer(AllItems);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 20,
-  },
   itemContainer: {
     flexDirection: "row",
     justifyContent: "space-between",

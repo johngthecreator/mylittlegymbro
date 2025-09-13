@@ -12,6 +12,7 @@ import { useCallback, useState } from "react";
 import {
   Alert,
   Keyboard,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -39,6 +40,7 @@ function ScanDetails({ container }: { container: Container }) {
   const loadData = async () => {
     try {
       if (!params.id) return;
+      console.log("Loading food item with ID:", params.id);
       const foodItem = await summaryController.getFoodItemById(
         Number(params.id)
       );
@@ -93,294 +95,296 @@ function ScanDetails({ container }: { container: Container }) {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={dismissInput}>
-      <View
-        style={[
-          styles.container,
-          { backgroundColor: Colors[colorScheme ?? "light"].background },
-        ]}
-      >
-        <View style={styles.scanHeader}>
-          <Image
-            source={scanData.image_url}
-            style={{
-              height: 100,
-              width: 100,
-              borderRadius: 20,
-              overflow: "hidden",
-            }}
-          />
-          <View style={{ display: "flex", gap: 10, width: "70%" }}>
-            <Text
+    <ScrollView
+      contentContainerStyle={styles.container}
+      automaticallyAdjustKeyboardInsets={true}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.innerContainer}>
+          <View style={styles.scanHeader}>
+            <Image
+              source={scanData.image_url}
               style={{
-                flexWrap: "wrap",
-                color: Colors[colorScheme ?? "light"].text,
+                height: 100,
+                width: 100,
+                borderRadius: 20,
+                overflow: "hidden",
               }}
-            >
-              {scanData.name}
-            </Text>
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              {scanData.brand}
-            </Text>
-            <View
-              style={{
-                width: "80%",
-                display: "flex",
-                flexDirection: "row",
-                gap: 10,
-              }}
-            >
-              <TextInput
-                keyboardType={"numeric"}
+            />
+            <View style={{ display: "flex", gap: 10, width: "70%" }}>
+              <Text
                 style={{
-                  borderWidth: 1,
-                  width: 100,
-                  borderColor: Colors[colorScheme ?? "light"].tint,
-                  borderRadius: 5,
-                  padding: 5,
+                  flexWrap: "wrap",
                   color: Colors[colorScheme ?? "light"].text,
                 }}
-                value={String(servingAmount)}
-                onChangeText={(input) => handleServingInput(input)}
-              />
-              <TouchableOpacity
-                style={{
-                  paddingVertical: 5,
-                  paddingHorizontal: 10,
-                  borderRadius: 5,
-                  backgroundColor: Colors[colorScheme ?? "light"].tint,
-                }}
-                onPress={() => setIsUnit(!isUnit)}
               >
-                <Text
-                  style={{ color: Colors[colorScheme ?? "light"].background }}
+                {scanData.name}
+              </Text>
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                {scanData.brand}
+              </Text>
+              <View
+                style={{
+                  width: "80%",
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 10,
+                }}
+              >
+                <TextInput
+                  keyboardType={"numeric"}
+                  style={{
+                    borderWidth: 1,
+                    width: 100,
+                    borderColor: Colors[colorScheme ?? "light"].tint,
+                    borderRadius: 5,
+                    padding: 5,
+                    color: Colors[colorScheme ?? "light"].text,
+                  }}
+                  value={String(servingAmount)}
+                  onChangeText={(input) => handleServingInput(input)}
+                />
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 5,
+                    paddingHorizontal: 10,
+                    borderRadius: 5,
+                    backgroundColor: Colors[colorScheme ?? "light"].tint,
+                  }}
+                  onPress={() => setIsUnit(!isUnit)}
                 >
-                  {isUnit
-                    ? `(${scanData.serving_unit}) amount`
-                    : "# of servings"}
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={{ color: Colors[colorScheme ?? "light"].background }}
+                  >
+                    {isUnit
+                      ? `(${scanData.serving_unit}) amount`
+                      : "# of servings"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-        <Text
-          style={{
-            fontSize: 20,
-            marginBottom: 10,
-            color: Colors[colorScheme ?? "light"].text,
-          }}
-        >
-          Nutritional info
-        </Text>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            backgroundColor: "#3A3A3A",
-            padding: 15,
-            gap: 10,
-            borderRadius: 20,
-          }}
-        >
+          <Text
+            style={{
+              fontSize: 20,
+              marginBottom: 10,
+              color: Colors[colorScheme ?? "light"].text,
+            }}
+          >
+            Nutritional info
+          </Text>
           <View
             style={{
               display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              borderBottomWidth: 1,
-              paddingBottom: 10,
-              borderColor: Colors[colorScheme ?? "light"].tint,
-            }}
-          >
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              Total calories
-            </Text>
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              {Math.round(
-                (scanData.calories || 0) *
-                  (isUnit
-                    ? servingAmount / (scanData.serving_quantity || 1)
-                    : servingAmount) *
-                  100
-              ) / 100}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              borderBottomWidth: 1,
-              paddingBottom: 10,
-              borderColor: Colors[colorScheme ?? "light"].tint,
-            }}
-          >
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              Protein (g)
-            </Text>
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              {Math.round(
-                (scanData.g_protein || 0) *
-                  (isUnit
-                    ? servingAmount / (scanData.serving_quantity || 1)
-                    : servingAmount) *
-                  100
-              ) / 100}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              borderBottomWidth: 1,
-              paddingBottom: 10,
-              borderColor: Colors[colorScheme ?? "light"].tint,
-            }}
-          >
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              Carbs (g)
-            </Text>
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              {Math.round(
-                (scanData.g_carbs || 0) *
-                  (isUnit
-                    ? servingAmount / (scanData.serving_quantity || 1)
-                    : servingAmount) *
-                  100
-              ) / 100}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              borderBottomWidth: 1,
-              paddingBottom: 10,
-              borderColor: Colors[colorScheme ?? "light"].tint,
-            }}
-          >
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              Fats (g)
-            </Text>
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              {Math.round(
-                (scanData.g_fats || 0) *
-                  (isUnit
-                    ? servingAmount / (scanData.serving_quantity || 1)
-                    : servingAmount) *
-                  100
-              ) / 100}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              borderBottomWidth: 1,
-              paddingBottom: 10,
-              borderColor: Colors[colorScheme ?? "light"].tint,
-            }}
-          >
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              Fiber (g)
-            </Text>
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              {Math.round(
-                (scanData.g_fiber || 0) *
-                  (isUnit
-                    ? servingAmount / (scanData.serving_quantity || 1)
-                    : servingAmount) *
-                  100
-              ) / 100}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              Sodium (g)
-            </Text>
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              {Math.round(
-                (scanData.g_sodium || 0) *
-                  (isUnit
-                    ? servingAmount / (scanData.serving_quantity || 1)
-                    : servingAmount) *
-                  100
-              ) / 100}
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            gap: 10,
-            marginTop: 20,
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 3,
-              flex: 1,
-              backgroundColor: Colors[colorScheme ?? "light"].tint,
-              padding: 10,
-              borderRadius: 100,
-            }}
-            onPress={logScannedFoodItem}
-          >
-            <EvilIcons
-              name="plus"
-              size={20}
-              color={Colors[colorScheme ?? "light"].background}
-            />
-            <Text style={{ color: Colors[colorScheme ?? "light"].background }}>
-              Log food
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 3,
-              flex: 1,
+              flexDirection: "column",
               backgroundColor: "#3A3A3A",
-              padding: 10,
-              borderRadius: 100,
-            }}
-            onPress={async () => {
-              router.navigate({
-                pathname: "/scan/edit/[id]",
-                params: { id: params.id },
-              });
+              padding: 15,
+              gap: 10,
+              borderRadius: 20,
             }}
           >
-            <EvilIcons
-              name="pencil"
-              size={20}
-              color={Colors[colorScheme ?? "light"].text}
-            />
-            <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-              Edit
-            </Text>
-          </TouchableOpacity>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                borderBottomWidth: 1,
+                paddingBottom: 10,
+                borderColor: Colors[colorScheme ?? "light"].tint,
+              }}
+            >
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                Total calories
+              </Text>
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                {Math.round(
+                  (scanData.calories || 0) *
+                    (isUnit
+                      ? servingAmount / (scanData.serving_quantity || 1)
+                      : servingAmount) *
+                    100
+                ) / 100}
+              </Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                borderBottomWidth: 1,
+                paddingBottom: 10,
+                borderColor: Colors[colorScheme ?? "light"].tint,
+              }}
+            >
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                Protein (g)
+              </Text>
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                {Math.round(
+                  (scanData.g_protein || 0) *
+                    (isUnit
+                      ? servingAmount / (scanData.serving_quantity || 1)
+                      : servingAmount) *
+                    100
+                ) / 100}
+              </Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                borderBottomWidth: 1,
+                paddingBottom: 10,
+                borderColor: Colors[colorScheme ?? "light"].tint,
+              }}
+            >
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                Carbs (g)
+              </Text>
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                {Math.round(
+                  (scanData.g_carbs || 0) *
+                    (isUnit
+                      ? servingAmount / (scanData.serving_quantity || 1)
+                      : servingAmount) *
+                    100
+                ) / 100}
+              </Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                borderBottomWidth: 1,
+                paddingBottom: 10,
+                borderColor: Colors[colorScheme ?? "light"].tint,
+              }}
+            >
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                Fats (g)
+              </Text>
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                {Math.round(
+                  (scanData.g_fats || 0) *
+                    (isUnit
+                      ? servingAmount / (scanData.serving_quantity || 1)
+                      : servingAmount) *
+                    100
+                ) / 100}
+              </Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                borderBottomWidth: 1,
+                paddingBottom: 10,
+                borderColor: Colors[colorScheme ?? "light"].tint,
+              }}
+            >
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                Fiber (g)
+              </Text>
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                {Math.round(
+                  (scanData.g_fiber || 0) *
+                    (isUnit
+                      ? servingAmount / (scanData.serving_quantity || 1)
+                      : servingAmount) *
+                    100
+                ) / 100}
+              </Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                Sodium (g)
+              </Text>
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                {Math.round(
+                  (scanData.g_sodium || 0) *
+                    (isUnit
+                      ? servingAmount / (scanData.serving_quantity || 1)
+                      : servingAmount) *
+                    100
+                ) / 100}
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              gap: 10,
+              marginTop: 20,
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 3,
+                flex: 1,
+                backgroundColor: Colors[colorScheme ?? "light"].tint,
+                padding: 10,
+                borderRadius: 100,
+              }}
+              onPress={logScannedFoodItem}
+            >
+              <EvilIcons
+                name="plus"
+                size={20}
+                color={Colors[colorScheme ?? "light"].background}
+              />
+              <Text
+                style={{ color: Colors[colorScheme ?? "light"].background }}
+              >
+                Log food
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 3,
+                flex: 1,
+                backgroundColor: "#3A3A3A",
+                padding: 10,
+                borderRadius: 100,
+              }}
+              onPress={async () => {
+                router.navigate({
+                  pathname: "/scan/food/edit/[id]",
+                  params: { id: params.id },
+                });
+              }}
+            >
+              <EvilIcons
+                name="pencil"
+                size={20}
+                color={Colors[colorScheme ?? "light"].text}
+              />
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                Edit
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
+    </ScrollView>
   );
 }
 
@@ -388,14 +392,19 @@ export default withContainer(ScanDetails);
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
+    flex: 1,
     paddingHorizontal: 10,
+  },
+  innerContainer: {
+    flex: 1,
+    padding: 10,
   },
   scanHeader: {
     display: "flex",
     flexDirection: "row",
     gap: 20,
     paddingVertical: 20,
+    marginTop: 100,
   },
   caloriesWrapper: {
     padding: 30,

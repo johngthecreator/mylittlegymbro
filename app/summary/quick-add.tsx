@@ -302,7 +302,6 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     padding: 10,
-    flex: 1,
   },
   label: {
     fontSize: 16,

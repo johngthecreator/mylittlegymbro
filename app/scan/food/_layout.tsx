@@ -5,41 +5,34 @@ export default function ScanLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="index"
+        name="edit/[id]"
         options={{
           headerShown: true,
           headerTransparent: true,
           headerLargeStyle: {
             backgroundColor: "transparent",
           },
-          headerLargeTitle: false, // Set to false to prevent overlap with Food Details
-          headerTitle: "",
+          headerTitle: "Edit Food",
           headerBackButtonDisplayMode: "minimal",
-          headerRight: () => (
+        }}
+      />
+      <Stack.Screen
+        name="[id]"
+        options={{
+          headerShown: true,
+          headerTransparent: true,
+          headerLargeStyle: {
+            backgroundColor: "transparent",
+          },
+          headerTitle: "Food Details",
+          headerBackButtonDisplayMode: "minimal",
+          headerLeft: () => (
             <Button
-              onPress={() => router.navigate({ pathname: "/scan/all-items" })}
-              title="All Food"
+              onPress={() => router.back()}
+              title="Back"
               color={"white"}
             />
           ),
-        }}
-      />
-      <Stack.Screen
-        name="food"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="all-items"
-        options={{
-          headerShown: true,
-          headerTransparent: true,
-          headerLargeStyle: {
-            backgroundColor: "transparent",
-          },
-          headerLargeTitle: true, // Set to true for the desired scrolling effect
-          headerTitle: "All Food",
         }}
       />
     </Stack>
