@@ -1,5 +1,5 @@
+import { HeaderBackButton } from "@react-navigation/elements";
 import { Stack, useRouter } from "expo-router";
-import { Button } from "react-native";
 export default function ScanLayout() {
   const router = useRouter();
   return (
@@ -12,6 +12,7 @@ export default function ScanLayout() {
           headerLargeStyle: {
             backgroundColor: "transparent",
           },
+          headerLargeTitle: false,
           headerTitle: "Edit Food",
           headerBackButtonDisplayMode: "minimal",
         }}
@@ -24,13 +25,14 @@ export default function ScanLayout() {
           headerLargeStyle: {
             backgroundColor: "transparent",
           },
+          headerLargeTitle: false,
           headerTitle: "Food Details",
           headerBackButtonDisplayMode: "minimal",
-          headerLeft: () => (
-            <Button
+          headerLeft: (props) => (
+            <HeaderBackButton
+              {...props}
               onPress={() => router.back()}
-              title="Back"
-              color={"white"}
+              tintColor="white"
             />
           ),
         }}

@@ -1,5 +1,6 @@
+import { HeaderButton } from "@react-navigation/elements";
 import { Stack, useRouter } from "expo-router";
-import { Button } from "react-native";
+import { Text } from "react-native";
 export default function ScanLayout() {
   const router = useRouter();
   return (
@@ -16,11 +17,11 @@ export default function ScanLayout() {
           headerTitle: "",
           headerBackButtonDisplayMode: "minimal",
           headerRight: () => (
-            <Button
+            <HeaderButton
               onPress={() => router.navigate({ pathname: "/scan/all-items" })}
-              title="All Food"
-              color={"white"}
-            />
+            >
+              <Text style={{ color: "white" }}>All Food</Text>
+            </HeaderButton>
           ),
         }}
       />
