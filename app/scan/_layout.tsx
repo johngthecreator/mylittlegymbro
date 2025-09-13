@@ -39,6 +39,12 @@ export default function ScanLayout() {
           headerLargeStyle: {
             backgroundColor: "transparent",
           },
+          headerSearchBarOptions: {
+            onChangeText: (event) => {
+              router.setParams({ q: event.nativeEvent.text });
+            },
+            placement: "inline",
+          },
           headerLargeTitle: true, // Set to true for the desired scrolling effect
           headerTitle: "All Food",
         }}

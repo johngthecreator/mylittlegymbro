@@ -3,7 +3,7 @@ import { Colors } from "@/constants/Colors";
 import { IFoodItem } from "@/core/interfaces";
 import { IScannerController } from "@/core/scanner/scanner.interface";
 import { TYPES } from "@/core/types";
-import { useFocusEffect, useRouter } from "expo-router";
+import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { Container } from "inversify";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -28,6 +28,15 @@ function AllItems({ container }: { container: Container }) {
   const [hasMore, setHasMore] = useState<boolean>(true); // Added hasMore state
   const router = useRouter();
   const colorScheme = useColorScheme();
+  const params = useLocalSearchParams(); // Get URL parameters
+
+  useEffect(() => {
+    if (params.q) {
+      setSearchTerm(params.q as string);
+    } else {
+      setSearchTerm("");
+    }
+  }, [params.q]);
 
   const scannerController = container.get<IScannerController>(
     TYPES.IScannerController
@@ -159,14 +168,18 @@ export default withContainer(AllItems);
 const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: "row",
+    marginHorizontal: 10,
     justifyContent: "space-between",
     alignItems: "center",
     padding: 15,
-    borderBottomWidth: 1,
+    marginBottom: 10,
+    backgroundColor: "#3A3A3A",
+    borderRadius: 16,
   },
   itemName: {
     fontSize: 16,
     fontWeight: "bold",
+    marginBottom: 3,
   },
   itemBrand: {
     fontSize: 14,
@@ -184,14 +197,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderWidth: 0, // Remove individual border
     fontSize: 16,
-  },
-  searchContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    margin: 15,
-    borderRadius: 8,
-    borderWidth: 1, // Add border to container
-    borderColor: Colors.light.tint, // Apply border color
   },
   clearButton: {
     padding: 8,
