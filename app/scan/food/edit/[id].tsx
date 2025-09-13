@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderRadius: 5,
-    padding: 5,
+    padding: 10,
     width: 100,
     textAlign: "right",
   },

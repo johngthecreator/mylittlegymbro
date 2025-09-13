@@ -50,13 +50,13 @@ export default function RootLayout() {
     <SQLiteProvider databaseName="scale.db" onInit={createIfNeeded}>
       <ThemeProvider value={DarkTheme}>
         <NativeTabs>
-          <NativeTabs.Trigger name="scan">
-            <Icon sf="magnifyingglass" drawable="custom_android_drawable" />
-            <Label>Scanner</Label>
-          </NativeTabs.Trigger>
           <NativeTabs.Trigger name="summary">
             <Label>Summary</Label>
             <Icon sf="book.pages.fill" drawable="custom_android_drawable" />
+          </NativeTabs.Trigger>
+          <NativeTabs.Trigger name="scan">
+            <Icon sf="magnifyingglass" drawable="custom_android_drawable" />
+            <Label>Scanner</Label>
           </NativeTabs.Trigger>
         </NativeTabs>
         <StatusBar style="auto" />

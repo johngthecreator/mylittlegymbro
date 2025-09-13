@@ -59,7 +59,7 @@
 	<array>
 		<dict>
 			<key>UIApplicationShortcutItemIconSymbolName</key>
-			<string>magnifyingglass</string>
+			<string>barcode.viewfinder</string>
 			<key>UIApplicationShortcutItemTitle</key>
 			<string>Scan Food</string>
 			<key>UIApplicationShortcutItemType</key>
@@ -67,7 +67,7 @@
 			<key>UIApplicationShortcutItemUserInfo</key>
 			<dict>
 				<key>href</key>
-				<string>/(tabs)/scan</string>
+				<string>/scan</string>
 			</dict>
 		</dict>
 		<dict>
@@ -80,7 +80,20 @@
 			<key>UIApplicationShortcutItemUserInfo</key>
 			<dict>
 				<key>href</key>
-				<string>/quick-add</string>
+				<string>/summary/quick-add</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconSymbolName</key>
+			<string>magnifyingglass</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Search Food</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>2</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict>
+				<key>href</key>
+				<string>/scan/all-items</string>
 			</dict>
 		</dict>
 	</array>

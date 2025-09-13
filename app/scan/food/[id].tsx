@@ -12,7 +12,6 @@ import { useCallback, useState } from "react";
 import {
   Alert,
   Keyboard,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -95,10 +94,7 @@ function ScanDetails({ container }: { container: Container }) {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      automaticallyAdjustKeyboardInsets={true}
-    >
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.innerContainer}>
           <View style={styles.scanHeader}>
@@ -384,7 +380,7 @@ function ScanDetails({ container }: { container: Container }) {
           </View>
         </View>
       </TouchableWithoutFeedback>
-    </ScrollView>
+    </View>
   );
 }
 

@@ -48,9 +48,9 @@
             {
               "id": "0",
               "title": "Scan Food",
-              "icon": "symbol:magnifyingglass",
+              "icon": "symbol:barcode.viewfinder",
               "params": {
-                "href": "/(tabs)/scan"
+                "href": "/scan"
               }
             },
             {
@@ -58,7 +58,15 @@
               "title": "Quick Add",
               "icon": "symbol:plus.square",
               "params": {
-                "href": "/quick-add"
+                "href": "/summary/quick-add"
+              }
+            },
+            {
+              "id": "2",
+              "title": "Search Food",
+              "icon": "symbol:magnifyingglass",
+              "params": {
+                "href": "/scan/all-items"
               }
             }
           ]
