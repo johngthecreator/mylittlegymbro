@@ -3,9 +3,9 @@ import { Colors } from "@/constants/Colors";
 import { IProfile } from "@/core/interfaces";
 import { IProfileController } from "@/core/profiles/profile.interface";
 import { TYPES } from "@/core/types";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { Container } from "inversify";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -28,7 +28,7 @@ function ProfilesScreen({ container }: { container: Container }) {
     TYPES.IProfileController
   );
 
-  useEffect(() => {
+  useFocusEffect(() => {
     const loadProfiles = async () => {
       try {
         const data = await profileController.getProfiles();
@@ -40,7 +40,7 @@ function ProfilesScreen({ container }: { container: Container }) {
       }
     };
     loadProfiles();
-  }, []);
+  });
 
   const handleProfilePress = async (profile: IProfile) => {
     await profileController.setActiveProfile(profile.id);
