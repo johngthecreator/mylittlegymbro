@@ -35,14 +35,23 @@ export default function SummaryLayout() {
           headerTitle: "Summary",
           headerRight: () => (
             <HeaderButton
+              style={{
+                flex: 0,
+                width: 40, // Set a fixed width for the button
+                height: 20, // Set a fixed height for the button
+                justifyContent: "center", // Center content horizontally
+                alignItems: "center", // Center content vertically
+              }}
               onPress={() => router.navigate({ pathname: "/profiles" })}
             >
               <Text
                 style={{
                   color: "white",
-                  fontSize: 25,
-                  fontWeight: "bold",
+                  fontSize: 20,
+                  textAlign: "center",
                 }}
+                adjustsFontSizeToFit={true} // Allow font size to adjust
+                numberOfLines={1} // Restrict to a single line
               >
                 {currProfile}
               </Text>
