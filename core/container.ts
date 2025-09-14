@@ -1,5 +1,21 @@
 import { Container } from "inversify";
 import "reflect-metadata";
+import { MigrationController } from "./migrations/migration.controller";
+import {
+  IMigrationController,
+  IMigrationRepository,
+  IMigrationService,
+} from "./migrations/migration.interface";
+import { MigrationRepository } from "./migrations/migration.repository";
+import { MigrationService } from "./migrations/migration.service";
+import { ProfileController } from "./profiles/profile.controller";
+import {
+  IProfileController,
+  IProfileRepository,
+  IProfileService,
+} from "./profiles/profile.interface";
+import { ProfileRepository } from "./profiles/profile.repository";
+import { ProfileService } from "./profiles/profile.service";
 import { ScannerController } from "./scanner/scanner.controller";
 import {
   IScannerController,
@@ -17,14 +33,6 @@ import {
 import { SummaryRepository } from "./summary/summary.repository";
 import { SummaryService } from "./summary/summary.service";
 import { TYPES } from "./types";
-import { WeightController } from "./weight/weight.controller";
-import {
-  IWeightController,
-  IWeightRepository,
-  IWeightService,
-} from "./weight/weight.interface";
-import { WeightRepository } from "./weight/weight.repository";
-import { WeightService } from "./weight/weight.service";
 
 const container = new Container();
 
@@ -35,6 +43,7 @@ container
   .bind<IScannerRepository>(TYPES.IScannerRepository)
   .to(ScannerRepository);
 container.bind<IScannerService>(TYPES.IScannerService).to(ScannerService);
+
 container
   .bind<ISummaryController>(TYPES.ISummaryController)
   .to(SummaryController);
@@ -42,8 +51,21 @@ container
   .bind<ISummaryRepository>(TYPES.ISummaryRepository)
   .to(SummaryRepository);
 container.bind<ISummaryService>(TYPES.ISummaryService).to(SummaryService);
-container.bind<IWeightController>(TYPES.IWeightController).to(WeightController);
-container.bind<IWeightRepository>(TYPES.IWeightRepository).to(WeightRepository);
-container.bind<IWeightService>(TYPES.IWeightService).to(WeightService);
+
+container
+  .bind<IMigrationController>(TYPES.IMigrationController)
+  .to(MigrationController);
+container
+  .bind<IMigrationRepository>(TYPES.IMigrationRepository)
+  .to(MigrationRepository);
+container.bind<IMigrationService>(TYPES.IMigrationService).to(MigrationService);
+
+container
+  .bind<IProfileController>(TYPES.IProfileController)
+  .to(ProfileController);
+container
+  .bind<IProfileRepository>(TYPES.IProfileRepository)
+  .to(ProfileRepository);
+container.bind<IProfileService>(TYPES.IProfileService).to(ProfileService);
 
 export { container };

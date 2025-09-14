@@ -4,10 +4,12 @@ import { container } from "@/core/container";
 import { TYPES } from "@/core/types";
 import { Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
 
+import { IMigrationController } from "@/core/migrations/migration.interface";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { useQuickActionRouting } from "expo-quick-actions/router";
 import { SQLiteDatabase, SQLiteProvider } from "expo-sqlite";
 import { StatusBar } from "expo-status-bar";
+
 export default function RootLayout() {
   const colorScheme = "dark";
   const [loaded] = useFonts({
@@ -44,6 +46,12 @@ export default function RootLayout() {
     } else {
       console.log("Database already bound to Inversify container");
     }
+
+    // Run migrations after initial table creation and DB binding
+    const migrationController = container.get<IMigrationController>(
+      TYPES.IMigrationController
+    );
+    await migrationController.runMigrations();
   };
 
   return (
@@ -57,6 +65,10 @@ export default function RootLayout() {
           <NativeTabs.Trigger name="scan">
             <Icon sf="magnifyingglass" drawable="custom_android_drawable" />
             <Label>Scanner</Label>
+          </NativeTabs.Trigger>
+          <NativeTabs.Trigger name="profiles">
+            <Icon sf="person" drawable="custom_android_drawable" />
+            <Label>Profiles</Label>
           </NativeTabs.Trigger>
         </NativeTabs>
         <StatusBar style="auto" />

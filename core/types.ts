@@ -7,9 +7,12 @@ const TYPES = {
   ISummaryController: Symbol.for("ISummaryController"),
   ISummaryRepository: Symbol.for("ISummaryRepository"),
   ISummaryService: Symbol.for("ISummaryService"),
-  IWeightController: Symbol.for("IWeightController"),
-  IWeightRepository: Symbol.for("IWeightRepository"),
-  IWeightService: Symbol.for("IWeightService"),
+  IMigrationController: Symbol.for("IMigrationController"),
+  IMigrationRepository: Symbol.for("IMigrationRepository"),
+  IMigrationService: Symbol.for("IMigrationService"),
+  IProfileRepository: Symbol.for("IProfileRepository"),
+  IProfileService: Symbol.for("IProfileService"),
+  IProfileController: Symbol.for("IProfileController"),
   SQLiteDatabase: Symbol.for("SQLiteDatabase"),
 };
 

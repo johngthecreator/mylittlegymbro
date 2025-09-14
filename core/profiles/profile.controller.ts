@@ -1,0 +1,28 @@
+import { inject, injectable } from "inversify";
+import { IProfile } from "../interfaces";
+import { TYPES } from "../types";
+import { IProfileController, IProfileService } from "./profile.interface";
+
+@injectable()
+export class ProfileController implements IProfileController {
+  constructor(
+    @inject(TYPES.IProfileService)
+    private profileService: IProfileService
+  ) {}
+
+  async getProfiles(): Promise<IProfile[]> {
+    return this.profileService.getProfiles();
+  }
+
+  async getProfileById(id: number): Promise<IProfile | undefined> {
+    return this.profileService.getProfileById(id);
+  }
+
+  async setActiveProfile(id: number): Promise<void> {
+    await this.profileService.setActiveProfile(id);
+  }
+
+  async getActiveProfile(): Promise<IProfile | undefined> {
+    return this.profileService.getActiveProfile();
+  }
+}
