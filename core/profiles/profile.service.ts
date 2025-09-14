@@ -1,7 +1,11 @@
 import { inject, injectable } from "inversify";
 import { IProfile } from "../interfaces";
 import { TYPES } from "../types";
-import { IProfileRepository, IProfileService } from "./profile.interface";
+import {
+  ICreateProfileDto,
+  IProfileRepository,
+  IProfileService,
+} from "./profile.interface";
 
 @injectable()
 export class ProfileService implements IProfileService {
@@ -24,5 +28,9 @@ export class ProfileService implements IProfileService {
 
   async getActiveProfile(): Promise<IProfile | undefined> {
     return this.profileRepository.getActiveProfile();
+  }
+
+  async createProfile(profile: ICreateProfileDto): Promise<IProfile> {
+    return this.profileRepository.createProfile(profile);
   }
 }

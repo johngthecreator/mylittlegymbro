@@ -110,4 +110,17 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 3,
   },
+  createProfileButton: {
+    backgroundColor: "#007AFF",
+    paddingVertical: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    marginHorizontal: 10,
+    marginTop: 20,
+  },
+  createProfileButtonText: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
 });
