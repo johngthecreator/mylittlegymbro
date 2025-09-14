@@ -3,6 +3,7 @@ import { ICreateFoodItem, IFoodItem, ILogEntry } from "../interfaces";
 export interface IScannerController {
   quickAddFoodItem(
     foodItem: ICreateFoodItem,
+    profile_id: number,
     log_serving: number,
     date: string
   ): Promise<void>;
@@ -10,6 +11,7 @@ export interface IScannerController {
   updateFoodItem(foodItem: IFoodItem, id: number): Promise<void>;
   logFoodItem(
     food_item_id: number,
+    profile_id: number,
     serving_amount: number,
     is_unit: boolean,
     serving_quantity: number
@@ -24,6 +26,7 @@ export interface IScannerController {
 export interface IScannerService {
   insertQuickAdd(
     foodItem: ICreateFoodItem,
+    profile_id: number,
     log_serving: number,
     date: string
   ): Promise<void>;

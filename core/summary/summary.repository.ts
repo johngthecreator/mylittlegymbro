@@ -39,7 +39,8 @@ export class SummaryRepository implements ISummaryRepository {
   }
 
   async getLoggedFoodItems(
-    startDate: string
+    startDate: string,
+    profileId: number
   ): Promise<ILogEntryWithFoodItem[]> {
     return await this.db.getAllAsync<ILogEntryWithFoodItem>(
       `SELECT
@@ -62,8 +63,8 @@ export class SummaryRepository implements ISummaryRepository {
         fi.is_quick_add
       FROM log_entries le
       JOIN food_items fi ON le.food_item_id = fi.id
-      WHERE le.date > ? ORDER BY le.date DESC;`,
-      [startDate]
+      WHERE le.date > ? AND le.profile_id = ? ORDER BY le.date DESC;`,
+      [startDate, profileId]
     );
   }
 

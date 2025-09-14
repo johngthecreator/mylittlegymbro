@@ -17,9 +17,10 @@ export class SummaryController implements ISummaryController {
   }
 
   async getLoggedFoodItems(
-    startDate: string
+    startDate: string,
+    profileId: number
   ): Promise<ILogEntryWithFoodItem[]> {
-    return this.summaryService.getLoggedFoodItems(startDate);
+    return this.summaryService.getLoggedFoodItems(startDate, profileId);
   }
 
   async deleteLogEntry(id: number): Promise<void> {

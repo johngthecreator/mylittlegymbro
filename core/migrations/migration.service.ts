@@ -18,10 +18,9 @@ export class MigrationService implements IMigrationService {
       BEGIN TRANSACTION;
       CREATE TABLE IF NOT EXISTS profiles (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        is_active INTEGER DEFAULT 0
+        name TEXT
       );
-      INSERT INTO profiles (name, is_active) VALUES ("Meee", 1);
+      INSERT INTO profiles (name) VALUES ("Meee");
       COMMIT;
       `,
       // Migration 002: adding fk constraint to log_entries table and connecting to profiles table

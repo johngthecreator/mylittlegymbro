@@ -34,6 +34,7 @@ export class ScannerService implements IScannerService {
 
   async insertQuickAdd(
     foodItem: ICreateFoodItem,
+    profileId: number,
     log_serving: number,
     date: string
   ): Promise<void> {
@@ -46,6 +47,7 @@ export class ScannerService implements IScannerService {
       food_item_id: foodItemId,
       log_serving: log_serving,
       date: date,
+      profile_id: profileId,
     });
   }
   async insertScanned(ean_id: string): Promise<number> {

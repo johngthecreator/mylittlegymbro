@@ -1,4 +1,5 @@
 import { SQLiteDatabase } from "expo-sqlite";
+import Storage from "expo-sqlite/kv-store";
 import { inject, injectable } from "inversify";
 import { IProfile } from "../interfaces";
 import { TYPES } from "../types";
@@ -24,22 +25,20 @@ export class ProfileRepository implements IProfileRepository {
   }
 
   async setActiveProfile(id: number): Promise<void> {
-    await this.db.runAsync("UPDATE profiles SET is_active = 0");
-    await this.db.runAsync("UPDATE profiles SET is_active = 1 WHERE id = ?", [
-      id,
-    ]);
+    await Storage.setItem("activeProfileId", JSON.stringify(id));
   }
 
   async getActiveProfile(): Promise<IProfile | undefined> {
-    const profile = await this.db.getFirstAsync<IProfile>(
-      "SELECT * FROM profiles WHERE is_active = 1"
-    );
-    return profile || undefined;
+    const activeProfileId = await Storage.getItem("activeProfileId");
+    if (activeProfileId) {
+      return this.getProfileById(JSON.parse(activeProfileId));
+    }
+    return undefined;
   }
 
   async createProfile(profile: ICreateProfileDto): Promise<IProfile> {
     const result = await this.db.runAsync(
-      "INSERT INTO profiles (name, is_active) VALUES (?, 0)",
+      "INSERT INTO profiles (name) VALUES (?)",
       [profile.name]
     );
     const newProfileId = result.lastInsertRowId;

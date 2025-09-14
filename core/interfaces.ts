@@ -35,6 +35,7 @@ export interface ILogEntry {
   food_item_id: number;
   log_serving: number;
   date: string;
+  profile_id: number;
 }
 
 export interface ILogEntryWithFoodItem {

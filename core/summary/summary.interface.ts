@@ -5,7 +5,10 @@ export interface ISummaryController {
     id: number,
     timestamp: string
   ): Promise<ILogEntryWithFoodItem | null>;
-  getLoggedFoodItems(startDate: string): Promise<ILogEntryWithFoodItem[]>;
+  getLoggedFoodItems(
+    startDate: string,
+    profileId: number
+  ): Promise<ILogEntryWithFoodItem[]>;
   deleteLogEntry(id: number): Promise<void>;
   getQuickAddFoodItems(is_quick_add: number): Promise<IFoodItem[]>;
   getFoodItemById(id: number): Promise<IFoodItem | null>;
@@ -17,7 +20,10 @@ export interface ISummaryService {
     id: number,
     timestamp: string
   ): Promise<ILogEntryWithFoodItem | null>;
-  getLoggedFoodItems(startDate: string): Promise<ILogEntryWithFoodItem[]>;
+  getLoggedFoodItems(
+    startDate: string,
+    profileId: number
+  ): Promise<ILogEntryWithFoodItem[]>;
   deleteLogEntry(id: number): Promise<void>;
   getQuickAddFoodItems(is_quick_add: number): Promise<IFoodItem[]>;
   getFoodItemById(id: number): Promise<IFoodItem | null>;
@@ -30,7 +36,10 @@ export interface ISummaryRepository {
     startDate: string,
     endDate: string
   ): Promise<ILogEntryWithFoodItem | null>;
-  getLoggedFoodItems(startDate: string): Promise<ILogEntryWithFoodItem[]>;
+  getLoggedFoodItems(
+    startDate: string,
+    profileId: number
+  ): Promise<ILogEntryWithFoodItem[]>;
   deleteLogEntry(id: number): Promise<void>;
   getQuickAddFoodItems(is_quick_add: number): Promise<IFoodItem[]>;
   getFoodItemById(id: number): Promise<IFoodItem | null>;

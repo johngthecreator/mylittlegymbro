@@ -15,6 +15,7 @@ import { Link, useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useState } from "react";
 
 import withContainer from "@/components/withContainer";
+import { IProfileController } from "@/core/profiles/profile.interface";
 import { ISummaryController } from "@/core/summary/summary.interface";
 import { TYPES } from "@/core/types";
 import { Container } from "inversify";
@@ -36,6 +37,9 @@ function HomeScreen({ container }: { container: Container }) {
 
   const summaryController = container.get<ISummaryController>(
     TYPES.ISummaryController
+  );
+  const profileController = container.get<IProfileController>(
+    TYPES.IProfileController
   );
   const { height } = Dimensions.get("window");
   const date = new Date();
@@ -75,8 +79,12 @@ function HomeScreen({ container }: { container: Container }) {
 
   const loadData = async () => {
     try {
+      const activeProfile = await profileController.getActiveProfile();
+      const parsedProfileId = activeProfile?.id || 1; // Default to 1 if no active profile set
+
       const loggedFoodItems = await summaryController.getLoggedFoodItems(
-        midnight
+        midnight,
+        parsedProfileId
       );
       setLogEntries(loggedFoodItems);
     } catch (error) {

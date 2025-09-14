@@ -1,12 +1,14 @@
 import withContainer from "@/components/withContainer";
 import { Colors } from "@/constants/Colors";
 import { ICreateFoodItem } from "@/core/interfaces";
+import { IProfileController } from "@/core/profiles/profile.interface";
 import { IScannerController } from "@/core/scanner/scanner.interface";
 import { TYPES } from "@/core/types";
 import { useRouter } from "expo-router";
 import { Container } from "inversify";
 import { useState } from "react";
 import {
+  Alert,
   Keyboard,
   ScrollView,
   StyleSheet,
@@ -32,9 +34,21 @@ function QuickAdd({ container }: { container: Container }) {
   const scannerController = container.get<IScannerController>(
     TYPES.IScannerController
   );
+
+  const profileController = container.get<IProfileController>(
+    TYPES.IProfileController
+  );
   const router = useRouter();
 
   const handleAddFoodItem = async () => {
+    const activeProfile = await profileController.getActiveProfile();
+    if (!activeProfile?.id) {
+      Alert.alert(
+        "Error",
+        "No active profile found. Please select or create one."
+      );
+      return;
+    }
     const foodItem: ICreateFoodItem = {
       name,
       calories: Number(calories),
@@ -48,6 +62,7 @@ function QuickAdd({ container }: { container: Container }) {
 
     await scannerController.quickAddFoodItem(
       foodItem,
+      activeProfile.id,
       Number(servingsConsumed),
       new Date().toISOString()
     );

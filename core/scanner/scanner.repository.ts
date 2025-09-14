@@ -31,8 +31,13 @@ export class ScannerRepository implements IScannerRepository {
   }
   async insertLogEntry(logItem: ILogEntry): Promise<void> {
     const result = await this.db.runAsync(
-      "INSERT INTO log_entries (food_item_id,log_serving, date) VALUES (?,?,?)",
-      [logItem.food_item_id, logItem.log_serving, logItem.date]
+      "INSERT INTO log_entries (food_item_id,log_serving, date, profile_id) VALUES (?,?,?,?)",
+      [
+        logItem.food_item_id,
+        logItem.log_serving,
+        logItem.date,
+        logItem.profile_id,
+      ]
     );
     console.log("Log entry inserted: ", result.lastInsertRowId);
     return Promise.resolve();

@@ -1,6 +1,7 @@
 import withContainer from "@/components/withContainer";
 import { Colors } from "@/constants/Colors";
 import { IFoodItem } from "@/core/interfaces";
+import { IProfileController } from "@/core/profiles/profile.interface";
 import { IScannerController } from "@/core/scanner/scanner.interface";
 import { ISummaryController } from "@/core/summary/summary.interface";
 import { TYPES } from "@/core/types";
@@ -32,6 +33,11 @@ function ScanDetails({ container }: { container: Container }) {
   const scannerController = container.get<IScannerController>(
     TYPES.IScannerController
   );
+
+  const profileController = container.get<IProfileController>(
+    TYPES.IProfileController
+  );
+
   const summaryController = container.get<ISummaryController>(
     TYPES.ISummaryController
   );
@@ -58,8 +64,10 @@ function ScanDetails({ container }: { container: Container }) {
 
   const logScannedFoodItem = async () => {
     if (!scanData || !params.id || scanData.id === undefined) return; // Add check for scanData.id
+    const activeProfile = await profileController.getActiveProfile();
     await scannerController.logFoodItem(
       scanData.id,
+      Number(activeProfile?.id),
       servingAmount,
       isUnit,
       scanData.serving_quantity || 0

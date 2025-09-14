@@ -10,10 +10,16 @@ export class ScannerController implements IScannerController {
   ) {}
   quickAddFoodItem(
     foodItem: ICreateFoodItem,
+    profileId: number,
     log_serving: number,
     date: string
   ): Promise<void> {
-    return this.scannerService.insertQuickAdd(foodItem, log_serving, date);
+    return this.scannerService.insertQuickAdd(
+      foodItem,
+      profileId,
+      log_serving,
+      date
+    );
   }
 
   insertScanned(ean_id: string): Promise<number> {
@@ -26,6 +32,7 @@ export class ScannerController implements IScannerController {
 
   async logFoodItem(
     food_item_id: number,
+    profileId: number,
     serving_amount: number,
     is_unit: boolean,
     serving_quantity: number
@@ -34,6 +41,7 @@ export class ScannerController implements IScannerController {
       food_item_id: food_item_id,
       date: new Date().toISOString(),
       log_serving: is_unit ? serving_amount / serving_quantity : serving_amount,
+      profile_id: profileId,
     };
     return this.scannerService.insertLogEntry(logEntry);
   }
