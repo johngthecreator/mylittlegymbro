@@ -14,7 +14,6 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { IconSymbol } from "../../components/ui/IconSymbol";
 
 const ITEM_LIMIT = 10; // Define item limit
@@ -24,17 +23,18 @@ function ProfilesScreen({ container }: { container: Container }) {
   const [activeProfile, setActiveProfile] = useState<IProfile | undefined>();
   const router = useRouter();
   const colorScheme = useColorScheme();
-  const insets = useSafeAreaInsets();
 
-  const scannerController = container.get<IProfileController>(
+  const profileController = container.get<IProfileController>(
     TYPES.IProfileController
   );
 
   useEffect(() => {
     const loadProfiles = async () => {
       try {
-        const data = await scannerController.getProfiles();
+        const data = await profileController.getProfiles();
+        const activeProfile = await profileController.getActiveProfile();
         setProfiles(data);
+        setActiveProfile(activeProfile);
       } catch (error) {
         console.error("Error loading profiles: ", error);
       }
@@ -43,7 +43,7 @@ function ProfilesScreen({ container }: { container: Container }) {
   }, []);
 
   const handleProfilePress = async (profile: IProfile) => {
-    await scannerController.setActiveProfile(profile.id);
+    await profileController.setActiveProfile(profile.id);
     setActiveProfile(profile);
     router.back();
   };
