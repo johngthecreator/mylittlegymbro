@@ -38,7 +38,7 @@ export default function SummaryLayout() {
               style={{
                 flex: 0,
                 width: 40, // Set a fixed width for the button
-                height: 20, // Set a fixed height for the button
+                height: 25, // Set a fixed height for the button
                 justifyContent: "center", // Center content horizontally
                 alignItems: "center", // Center content vertically
               }}
@@ -47,8 +47,9 @@ export default function SummaryLayout() {
               <Text
                 style={{
                   color: "white",
-                  fontSize: 20,
+                  fontSize: 25,
                   textAlign: "center",
+                  fontWeight: "bold",
                 }}
                 adjustsFontSizeToFit={true} // Allow font size to adjust
                 numberOfLines={1} // Restrict to a single line
