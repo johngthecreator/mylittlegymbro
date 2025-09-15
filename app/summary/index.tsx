@@ -123,12 +123,10 @@ function HomeScreen({ container }: { container: Container }) {
             <View>
               <Text style={{ color: "white" }}>{entry.name}</Text>
               <Text style={{ color: "white" }}>
-                {Math.round(entry.calories * entry.log_serving * 10) / 10}{" "}
-                calories
+                {Math.round(entry.calories * entry.log_serving)} calories
               </Text>
               <Text style={{ color: "white" }}>
-                {Math.round(entry.g_protein * entry.log_serving * 10) / 10}g
-                protein
+                {Math.round(entry.g_protein * entry.log_serving)}g protein
               </Text>
               <Text style={{ color: "white" }}>
                 {Math.round(entry.log_serving * 10) / 10} servings
@@ -184,8 +182,8 @@ function HomeScreen({ container }: { container: Container }) {
                 logEntries.reduce(
                   (acc, entry) => acc + entry.calories * entry.log_serving,
                   0
-                ) * 10
-              ) / 10}
+                )
+              )}
             </Text>
             <Text style={{ fontSize: 18, color: "white" }}>
               Calories consumed
@@ -218,8 +216,8 @@ function HomeScreen({ container }: { container: Container }) {
                     logEntries.reduce(
                       (acc, entry) => acc + entry.g_protein * entry.log_serving,
                       0
-                    ) * 10
-                  ) / 10}
+                    )
+                  )}
                 </Text>
               </View>
               <Text style={{ color: "white" }}>Protein (g)</Text>
@@ -244,8 +242,8 @@ function HomeScreen({ container }: { container: Container }) {
                     logEntries.reduce(
                       (acc, entry) => acc + entry.g_carbs * entry.log_serving,
                       0
-                    ) * 10
-                  ) / 10}
+                    )
+                  )}
                 </Text>
               </View>
               <Text style={{ color: "white" }}>Carbs (g)</Text>
@@ -270,8 +268,8 @@ function HomeScreen({ container }: { container: Container }) {
                     logEntries.reduce(
                       (acc, entry) => acc + entry.g_fats * entry.log_serving,
                       0
-                    ) * 10
-                  ) / 10}
+                    )
+                  )}
                 </Text>
               </View>
               <Text style={{ color: "white" }}>Fats (g)</Text>
