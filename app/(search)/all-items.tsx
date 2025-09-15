@@ -87,9 +87,11 @@ function AllItems({ container }: { container: Container }) {
   );
 
   // Load data initially and when debouncedSearchTerm changes
-  useEffect(() => {
-    loadData(true);
-  }, [debouncedSearchTerm]);
+  useFocusEffect(
+    useCallback(() => {
+      loadData(true);
+    }, [debouncedSearchTerm])
+  );
 
   const handleLoadMore = () => {
     if (!loading && hasMore) {

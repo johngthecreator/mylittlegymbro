@@ -78,9 +78,9 @@ function ScanDetails({ container }: { container: Container }) {
       [
         {
           text: "OK",
-          onPress: () => {
-            router.back();
-          },
+          // onPress: () => {
+          //   router.back();
+          // },
         },
       ],
       { cancelable: false }
