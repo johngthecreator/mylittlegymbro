@@ -27,12 +27,9 @@ export default function SummaryLayout() {
         name="index"
         options={{
           headerShown: true,
-          headerLargeTitle: true,
+          headerLargeTitle: false,
           headerTransparent: true,
-          headerLargeStyle: {
-            backgroundColor: "transparent",
-          },
-          headerTitle: "Summary",
+          headerTitle: "",
           headerRight: () => (
             <HeaderButton
               style={{
