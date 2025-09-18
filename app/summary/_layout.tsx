@@ -73,11 +73,8 @@ export default function SummaryLayout() {
         name="quick-add"
         options={{
           headerShown: true,
-          headerLargeTitle: true,
+          headerLargeTitle: false,
           headerTransparent: true,
-          headerLargeStyle: {
-            backgroundColor: "transparent",
-          },
           headerTitle: "Quick Add",
         }}
       />

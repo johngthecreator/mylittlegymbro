@@ -10,7 +10,6 @@ import { useState } from "react";
 import {
   Alert,
   Keyboard,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -55,15 +54,15 @@ function QuickAdd({ container }: { container: Container }) {
       g_protein: Number(protein),
       g_carbs: Number(carbs),
       g_fats: Number(fat),
-      serving_quantity: Number(servingQuantity),
-      serving_unit: servingUnit,
+      serving_quantity: 1,
+      serving_unit: "meal",
       is_quick_add: true,
     };
 
     await scannerController.quickAddFoodItem(
       foodItem,
       activeProfile.id,
-      Number(servingsConsumed),
+      1,
       new Date().toISOString()
     );
     router.back();
@@ -78,10 +77,7 @@ function QuickAdd({ container }: { container: Container }) {
   };
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      automaticallyAdjustKeyboardInsets={true}
-    >
+    <View style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.innerContainer}>
           <Text
@@ -106,49 +102,6 @@ function QuickAdd({ container }: { container: Container }) {
             value={name}
             onChangeText={setName}
           />
-
-          <Text
-            style={[
-              styles.label,
-              { color: Colors[colorScheme ?? "light"].text },
-            ]}
-          >
-            Portion Size
-          </Text>
-          <View style={styles.inputRow}>
-            <TextInput
-              style={[
-                styles.input,
-                styles.inputHalf,
-                {
-                  borderColor: Colors[colorScheme ?? "light"].tint,
-                  color: Colors[colorScheme ?? "light"].text,
-                  backgroundColor: "#3A3A3A",
-                },
-              ]}
-              placeholder="100"
-              placeholderTextColor={Colors[colorScheme ?? "light"].text + "80"}
-              value={servingQuantity}
-              onChangeText={setServingQuantity}
-              keyboardType="numeric"
-            />
-            <TouchableOpacity
-              onPress={toggleServingUnit}
-              style={[
-                styles.inputUnitButton,
-                { backgroundColor: Colors[colorScheme ?? "light"].tint },
-              ]}
-            >
-              <Text
-                style={[
-                  styles.inputUnitText,
-                  { color: Colors[colorScheme ?? "light"].background },
-                ]}
-              >
-                {servingUnit}
-              </Text>
-            </TouchableOpacity>
-          </View>
 
           <View style={styles.row}>
             <View style={styles.column}>
@@ -264,30 +217,6 @@ function QuickAdd({ container }: { container: Container }) {
             </View>
           </View>
 
-          <Text
-            style={[
-              styles.label,
-              { color: Colors[colorScheme ?? "light"].text },
-            ]}
-          >
-            How many servings did you have?
-          </Text>
-          <TextInput
-            style={[
-              styles.input,
-              {
-                borderColor: Colors[colorScheme ?? "light"].tint,
-                color: Colors[colorScheme ?? "light"].text,
-                backgroundColor: "#3A3A3A",
-              },
-            ]}
-            placeholder="1"
-            placeholderTextColor={Colors[colorScheme ?? "light"].text + "80"}
-            value={servingsConsumed}
-            onChangeText={setServingsConsumed}
-            keyboardType="numeric"
-          />
-
           <TouchableOpacity
             style={[
               styles.saveButton,
@@ -306,7 +235,7 @@ function QuickAdd({ container }: { container: Container }) {
           </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -317,6 +246,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     padding: 10,
+    marginTop: 100,
   },
   label: {
     fontSize: 16,

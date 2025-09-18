@@ -78,9 +78,10 @@ function ScanDetails({ container }: { container: Container }) {
       [
         {
           text: "OK",
-          // onPress: () => {
-          //   router.back();
-          // },
+          onPress: () => {
+            router.dismissAll();
+            router.navigate("/summary");
+          },
         },
       ],
       { cancelable: false }

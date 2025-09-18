@@ -321,8 +321,8 @@ function HomeScreen({ container }: { container: Container }) {
                 style={{
                   color: "white",
                   fontSize: 16,
-                  paddingHorizontal: 5,
-                  paddingVertical: 8,
+                  paddingHorizontal: 7,
+                  paddingVertical: 10,
                   borderRadius: 100,
                   backgroundColor: "gray",
                 }}

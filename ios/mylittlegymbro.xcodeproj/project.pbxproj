@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		334DCE9D2E7A5CE2005FECCB /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 334DCE9C2E7A5CE2005FECCB /* main.jsbundle */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		4F8E6597BE8F2D7813C97F23 /* libPods-mylittlegymbro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7364CD201FC76E6E64DCB041 /* libPods-mylittlegymbro.a */; };
 		B2AA5B417069A75070DB9FC3 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBA621D49B81B5AAD301C17 /* ExpoModulesProvider.swift */; };
@@ -22,11 +23,12 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mylittlegymbro/Info.plist; sourceTree = "<group>"; };
 		1F28473F0FD6E154A096A510 /* Pods-mylittlegymbro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.release.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.release.xcconfig"; sourceTree = "<group>"; };
 		2FBA621D49B81B5AAD301C17 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-mylittlegymbro/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		334DCE9C2E7A5CE2005FECCB /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		7364CD201FC76E6E64DCB041 /* libPods-mylittlegymbro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mylittlegymbro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = mylittlegymbro/SplashScreen.storyboard; sourceTree = "<group>"; };
 		B702DA03CC2EBCB4380846A9 /* Pods-mylittlegymbro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.debug.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.debug.xcconfig"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		C2B85C0FE989CA5C250DEA99 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = mylittlegymbro/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		C2B85C0FE989CA5C250DEA99 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = mylittlegymbro/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = mylittlegymbro/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* mylittlegymbro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mylittlegymbro-Bridging-Header.h"; path = "mylittlegymbro/mylittlegymbro-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -47,6 +49,7 @@
 		13B07FAE1A68108700A75B9A /* mylittlegymbro */ = {
 			isa = PBXGroup;
 			children = (
+				334DCE9C2E7A5CE2005FECCB /* main.jsbundle */,
 				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
 				F11748442D0722820044C1D9 /* mylittlegymbro-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
@@ -111,7 +114,6 @@
 				B702DA03CC2EBCB4380846A9 /* Pods-mylittlegymbro.debug.xcconfig */,
 				1F28473F0FD6E154A096A510 /* Pods-mylittlegymbro.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -195,6 +197,7 @@
 			files = (
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				334DCE9D2E7A5CE2005FECCB /* main.jsbundle in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				D68DBFBE678A24A8786FB40D /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -341,6 +344,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = mylittlegymbro/mylittlegymbro.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W926TURM5Y;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -377,6 +381,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = mylittlegymbro/mylittlegymbro.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W926TURM5Y;
 				INFOPLIST_FILE = mylittlegymbro/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
