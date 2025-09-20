@@ -29,6 +29,21 @@ export class MigrationService implements IMigrationService {
       ALTER TABLE log_entries ADD COLUMN profile_id INT DEFAULT 1;
       COMMIT;
       `,
+      `
+      BEGIN TRANSACTION;
+      ALTER TABLE profiles ADD COLUMN calorie_goal INT DEFAULT 0;
+      ALTER TABLE profiles ADD COLUMN protein_goal INT DEFAULT 0;
+      ALTER TABLE profiles ADD COLUMN fat_goal INT DEFAULT 0;
+      ALTER TABLE profiles ADD COLUMN carb_goal INT DEFAULT 0;
+      ALTER TABLE profiles ADD COLUMN background TEXT DEFAULT "blank";
+      COMMIT;
+      `,
+      // Migration 004: Drop g_sodium from food_items table
+      `
+      BEGIN TRANSACTION;
+      ALTER TABLE food_items DROP COLUMN g_sodium;
+      COMMIT;
+      `,
       // Migration 004: adding default "Meee" profile
       // `CREATE TABLE IF NOT EXISTS quick_adds (
       //   id INTEGER PRIMARY KEY AUTOINCREMENT,

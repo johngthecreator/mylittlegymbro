@@ -9,7 +9,6 @@ export interface IFoodItem {
   g_carbs: number;
   g_fats: number;
   g_fiber?: number;
-  g_sodium?: number;
   serving_quantity?: number;
   serving_unit?: string;
   is_quick_add?: boolean;
@@ -25,7 +24,6 @@ export interface ICreateFoodItem {
   g_carbs: number;
   g_fats: number;
   g_fiber?: number;
-  g_sodium?: number;
   serving_quantity?: number;
   serving_unit?: string;
   is_quick_add?: boolean;
@@ -52,7 +50,6 @@ export interface ILogEntryWithFoodItem {
   g_carbs: number;
   g_fats: number;
   g_fiber?: number;
-  g_sodium?: number;
   serving_quantity?: number;
   serving_unit?: string;
   is_quick_add?: boolean;
@@ -72,4 +69,9 @@ export interface IQuickAdd {
 export interface IProfile {
   id: number;
   name: string;
+  background: string;
+  calorie_goal: number;
+  protein_goal: number;
+  fat_goal: number;
+  carb_goal: number;
 }

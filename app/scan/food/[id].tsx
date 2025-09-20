@@ -78,8 +78,8 @@ function ScanDetails({ container }: { container: Container }) {
       [
         {
           text: "OK",
-          onPress: () => {
-            router.dismissAll();
+          onPress: async () => {
+            await router.dismissAll();
             router.navigate("/summary");
           },
         },
@@ -296,26 +296,6 @@ function ScanDetails({ container }: { container: Container }) {
               <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
                 {Math.round(
                   (scanData.g_fiber || 0) *
-                    (isUnit
-                      ? servingAmount / (scanData.serving_quantity || 1)
-                      : servingAmount) *
-                    100
-                ) / 100}
-              </Text>
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-                Sodium (g)
-              </Text>
-              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-                {Math.round(
-                  (scanData.g_sodium || 0) *
                     (isUnit
                       ? servingAmount / (scanData.serving_quantity || 1)
                       : servingAmount) *

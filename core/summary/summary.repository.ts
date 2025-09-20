@@ -27,7 +27,6 @@ export class SummaryRepository implements ISummaryRepository {
         fi.g_carbs,
         fi.g_fats,
         fi.g_fiber,
-        fi.g_sodium,
         fi.serving_quantity,
         fi.serving_unit,
         fi.is_quick_add
@@ -57,7 +56,6 @@ export class SummaryRepository implements ISummaryRepository {
         fi.g_carbs,
         fi.g_fats,
         fi.g_fiber,
-        fi.g_sodium,
         fi.serving_quantity,
         fi.serving_unit,
         fi.is_quick_add

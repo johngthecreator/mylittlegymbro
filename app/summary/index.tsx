@@ -37,6 +37,7 @@ import { Container } from "inversify";
  */
 function HomeScreen({ container }: { container: Container }) {
   const [logEntries, setLogEntries] = useState<any[]>([]);
+  const [background, setBackground] = useState<string>("");
   const headerHeight = useHeaderHeight();
 
   const summaryController = container.get<ISummaryController>(
@@ -85,6 +86,12 @@ function HomeScreen({ container }: { container: Container }) {
     try {
       const activeProfile = await profileController.getActiveProfile();
       const parsedProfileId = activeProfile?.id || 1; // Default to 1 if no active profile set
+
+      console.log(activeProfile?.background);
+
+      if (activeProfile?.background) {
+        setBackground(activeProfile.background);
+      }
 
       const loggedFoodItems = await summaryController.getLoggedFoodItems(
         midnight,
@@ -156,7 +163,11 @@ function HomeScreen({ container }: { container: Container }) {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/zenitsu.jpeg")}
+      source={
+        background != "blank"
+          ? { uri: background }
+          : require("../../assets/images/zenitsu.jpeg")
+      }
       style={{ flex: 1 }}
     >
       <ScrollView

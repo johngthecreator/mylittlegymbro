@@ -32,7 +32,6 @@ function EditScanDetails({ container }: { container: Container }) {
   const [carbs, setCarbs] = useState<string>("");
   const [fats, setFats] = useState<string>("");
   const [fiber, setFiber] = useState<string>("");
-  const [sodium, setSodium] = useState<string>("");
   const [servingQuantity, setServingQuantity] = useState<string>("");
   const [servingUnit, setServingUnit] = useState<string>("");
   const colorScheme = useColorScheme();
@@ -61,7 +60,6 @@ function EditScanDetails({ container }: { container: Container }) {
         setCarbs(String(foodItem.g_carbs));
         setFats(String(foodItem.g_fats));
         setFiber(String(foodItem.g_fiber || ""));
-        setSodium(String(foodItem.g_sodium || ""));
         setServingQuantity(String(foodItem.serving_quantity || ""));
         setServingUnit(foodItem.serving_unit || "");
       }
@@ -83,7 +81,6 @@ function EditScanDetails({ container }: { container: Container }) {
         g_carbs: Number(carbs),
         g_fats: Number(fats),
         g_fiber: Number(fiber),
-        g_sodium: Number(sodium),
         serving_quantity: Number(servingQuantity),
         serving_unit: servingUnit,
       };
@@ -369,31 +366,6 @@ function EditScanDetails({ container }: { container: Container }) {
                 ]}
                 value={fiber}
                 onChangeText={setFiber}
-              />
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-                Sodium (g)
-              </Text>
-              <TextInput
-                onFocus={() => setSodium("")}
-                keyboardType={"numeric"}
-                style={[
-                  styles.input,
-                  {
-                    borderColor: Colors[colorScheme ?? "light"].tint,
-                    color: Colors[colorScheme ?? "light"].text,
-                  },
-                ]}
-                value={sodium}
-                onChangeText={setSodium}
               />
             </View>
           </View>

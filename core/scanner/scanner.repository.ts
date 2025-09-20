@@ -9,7 +9,7 @@ export class ScannerRepository implements IScannerRepository {
   constructor(@inject(TYPES.SQLiteDatabase) private db: SQLiteDatabase) {}
   async insertFoodItem(foodItem: IFoodItem): Promise<number> {
     const result = await this.db.runAsync(
-      "INSERT INTO food_items (ean_id,name,brand,image_url,calories,g_protein,g_carbs,g_fats,g_fiber,g_sodium,serving_quantity,serving_unit,is_quick_add) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+      "INSERT INTO food_items (ean_id,name,brand,image_url,calories,g_protein,g_carbs,g_fats,g_fiber,serving_quantity,serving_unit,is_quick_add) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
       [
         foodItem.ean_id || "",
         foodItem.name,
@@ -20,7 +20,6 @@ export class ScannerRepository implements IScannerRepository {
         foodItem.g_carbs,
         foodItem.g_fats,
         foodItem.g_fiber || 0,
-        foodItem.g_sodium || 0,
         foodItem.serving_quantity || 0,
         foodItem.serving_unit || "",
         foodItem.is_quick_add || false,
@@ -45,7 +44,7 @@ export class ScannerRepository implements IScannerRepository {
 
   async updateFoodItem(foodItem: IFoodItem, id: number): Promise<void> {
     await this.db.runAsync(
-      "UPDATE food_items SET name = ?, brand = ?, calories = ?, g_protein = ?, g_carbs = ?, g_fats = ?, g_fiber = ?, g_sodium = ?, serving_quantity = ?, serving_unit = ? WHERE id = ?",
+      "UPDATE food_items SET name = ?, brand = ?, calories = ?, g_protein = ?, g_carbs = ?, g_fats = ?, g_fiber = ?, serving_quantity = ?, serving_unit = ? WHERE id = ?",
       [
         foodItem.name,
         foodItem.brand || "",
@@ -54,7 +53,6 @@ export class ScannerRepository implements IScannerRepository {
         foodItem.g_carbs,
         foodItem.g_fats,
         foodItem.g_fiber || 0,
-        foodItem.g_sodium || 0,
         foodItem.serving_quantity || 0,
         foodItem.serving_unit || "",
         id,

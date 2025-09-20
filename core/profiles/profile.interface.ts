@@ -2,6 +2,11 @@ import { IProfile } from "../interfaces";
 
 export interface ICreateProfileDto {
   name: string;
+  background: string;
+  calorie_goal: number;
+  protein_goal: number;
+  fat_goal: number;
+  carb_goal: number;
 }
 
 export interface IProfileRepository {

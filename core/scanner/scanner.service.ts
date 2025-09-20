@@ -73,7 +73,6 @@ export class ScannerService implements IScannerService {
       g_carbs: Math.round(respData.product.nutriments.carbohydrates),
       g_fats: Math.round(respData.product.nutriments.fat),
       g_fiber: Math.round(respData.product.nutriments.fiber),
-      g_sodium: Math.round(respData.product.nutriments.sodium),
       serving_quantity: Math.round(respData.product.serving_quantity),
       serving_unit: respData.product.serving_quantity_unit,
     });
