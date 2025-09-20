@@ -65,13 +65,31 @@ function ProfilesScreen({ container }: { container: Container }) {
           {item.name}
         </Text>
       </View>
-      {activeProfile?.id === item.id && (
-        <IconSymbol
-          name="checkmark.circle.fill"
-          size={20}
-          color={Colors[colorScheme ?? "light"].tint}
-        />
-      )}
+      <View style={styles.profileActions}>
+        {activeProfile?.id === item.id && (
+          <IconSymbol
+            name="checkmark.circle.fill"
+            size={20}
+            color={Colors[colorScheme ?? "light"].tint}
+            style={{ marginRight: 10 }}
+          />
+        )}
+        <TouchableOpacity
+          onPress={() =>
+            router.navigate({
+              pathname: "/profiles/edit/[id]",
+              params: { id: item.id },
+            })
+          }
+          style={styles.editButton}
+        >
+          <IconSymbol
+            name="pencil"
+            size={20}
+            color={Colors[colorScheme ?? "light"].text}
+          />
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
 
@@ -109,6 +127,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 3,
+  },
+  profileActions: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  editButton: {
+    padding: 8,
+    borderRadius: 8,
   },
   createProfileButton: {
     backgroundColor: "#007AFF",

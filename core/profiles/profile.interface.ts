@@ -15,6 +15,8 @@ export interface IProfileRepository {
   setActiveProfile(id: number): Promise<void>;
   getActiveProfile(): Promise<IProfile | undefined>;
   createProfile(profile: ICreateProfileDto): Promise<IProfile>;
+  updateProfile(id: number, profile: ICreateProfileDto): Promise<IProfile>;
+  deleteProfile(id: number): Promise<void>;
 }
 
 export interface IProfileService {
@@ -23,6 +25,8 @@ export interface IProfileService {
   setActiveProfile(id: number): Promise<void>;
   getActiveProfile(): Promise<IProfile | undefined>;
   createProfile(profile: ICreateProfileDto): Promise<IProfile>;
+  updateProfile(id: number, profile: ICreateProfileDto): Promise<IProfile>;
+  deleteProfile(id: number): Promise<void>;
 }
 
 export interface IProfileController {
@@ -31,4 +35,6 @@ export interface IProfileController {
   setActiveProfile(id: number): Promise<void>;
   getActiveProfile(): Promise<IProfile | undefined>;
   createProfile(profile: ICreateProfileDto): Promise<IProfile>;
+  updateProfile(id: number, profile: ICreateProfileDto): Promise<IProfile>;
+  deleteProfile(id: number): Promise<void>;
 }

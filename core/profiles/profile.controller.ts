@@ -33,4 +33,15 @@ export class ProfileController implements IProfileController {
   async createProfile(profile: ICreateProfileDto): Promise<IProfile> {
     return this.profileService.createProfile(profile);
   }
+
+  async updateProfile(
+    id: number,
+    profile: ICreateProfileDto
+  ): Promise<IProfile> {
+    return this.profileService.updateProfile(id, profile);
+  }
+
+  async deleteProfile(id: number): Promise<void> {
+    await this.profileService.deleteProfile(id);
+  }
 }

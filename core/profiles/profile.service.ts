@@ -33,4 +33,15 @@ export class ProfileService implements IProfileService {
   async createProfile(profile: ICreateProfileDto): Promise<IProfile> {
     return this.profileRepository.createProfile(profile);
   }
+
+  async updateProfile(
+    id: number,
+    profile: ICreateProfileDto
+  ): Promise<IProfile> {
+    return this.profileRepository.updateProfile(id, profile);
+  }
+
+  async deleteProfile(id: number): Promise<void> {
+    await this.profileRepository.deleteProfile(id);
+  }
 }

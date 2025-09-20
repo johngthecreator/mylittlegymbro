@@ -56,9 +56,12 @@ export class ProfileRepository implements IProfileRepository {
     return newProfile;
   }
 
-  async editProfile(profile: ICreateProfileDto): Promise<IProfile> {
-    const result = await this.db.runAsync(
-      "UPDATE profiles SET name = (?), background = (?), calorie_goal = (?), protein_goal = (?), fat_goal = (?), carb_goal = (?) WHERE id = ?",
+  async updateProfile(
+    id: number,
+    profile: ICreateProfileDto
+  ): Promise<IProfile> {
+    await this.db.runAsync(
+      "UPDATE profiles SET name = ?, background = ?, calorie_goal = ?, protein_goal = ?, fat_goal = ?, carb_goal = ? WHERE id = ?",
       [
         profile.name,
         profile.background,
@@ -66,13 +69,18 @@ export class ProfileRepository implements IProfileRepository {
         profile.protein_goal,
         profile.fat_goal,
         profile.carb_goal,
+        id,
       ]
     );
-    const newProfileId = result.lastInsertRowId;
-    const newProfile = await this.getProfileById(newProfileId);
-    if (!newProfile) {
-      throw new Error("Failed to create profile");
+    const updatedProfile = await this.getProfileById(id);
+    if (!updatedProfile) {
+      throw new Error("Failed to update profile");
     }
-    return newProfile;
+    return updatedProfile;
+  }
+
+  async deleteProfile(id: number): Promise<void> {
+    await this.db.runAsync("DELETE FROM profiles WHERE id = ?", [id]);
+    return Promise.resolve();
   }
 }
