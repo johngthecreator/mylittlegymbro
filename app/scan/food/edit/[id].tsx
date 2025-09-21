@@ -268,11 +268,11 @@ function EditScanDetails({ container }: { container: Container }) {
               }}
             >
               <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-                Protein (g)
+                Fats (g)
               </Text>
               <TextInput
                 keyboardType={"numeric"}
-                onFocus={() => setProtein("")}
+                onFocus={() => setFats("")}
                 style={[
                   styles.input,
                   {
@@ -280,8 +280,8 @@ function EditScanDetails({ container }: { container: Container }) {
                     color: Colors[colorScheme ?? "light"].text,
                   },
                 ]}
-                value={protein}
-                onChangeText={setProtein}
+                value={fats}
+                onChangeText={setFats}
               />
             </View>
             <View
@@ -324,34 +324,6 @@ function EditScanDetails({ container }: { container: Container }) {
               }}
             >
               <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-                Fats (g)
-              </Text>
-              <TextInput
-                keyboardType={"numeric"}
-                onFocus={() => setFats("")}
-                style={[
-                  styles.input,
-                  {
-                    borderColor: Colors[colorScheme ?? "light"].tint,
-                    color: Colors[colorScheme ?? "light"].text,
-                  },
-                ]}
-                value={fats}
-                onChangeText={setFats}
-              />
-            </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                borderBottomWidth: 1,
-                paddingBottom: 10,
-                borderColor: Colors[colorScheme ?? "light"].tint,
-              }}
-            >
-              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
                 Fiber (g)
               </Text>
               <TextInput
@@ -366,6 +338,32 @@ function EditScanDetails({ container }: { container: Container }) {
                 ]}
                 value={fiber}
                 onChangeText={setFiber}
+              />
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                borderColor: Colors[colorScheme ?? "light"].tint,
+              }}
+            >
+              <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
+                Protein (g)
+              </Text>
+              <TextInput
+                keyboardType={"numeric"}
+                onFocus={() => setProtein("")}
+                style={[
+                  styles.input,
+                  {
+                    borderColor: Colors[colorScheme ?? "light"].tint,
+                    color: Colors[colorScheme ?? "light"].text,
+                  },
+                ]}
+                value={protein}
+                onChangeText={setProtein}
               />
             </View>
           </View>
