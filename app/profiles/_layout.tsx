@@ -32,6 +32,16 @@ export default function SummaryLayout() {
           headerTitle: "Create Profile",
         }}
       />
+
+      <Stack.Screen
+        name="edit/[id]"
+        options={{
+          headerShown: true,
+          headerLargeTitle: false,
+          headerTransparent: true,
+          headerTitle: "Edit Profile",
+        }}
+      />
     </Stack>
   );
 }

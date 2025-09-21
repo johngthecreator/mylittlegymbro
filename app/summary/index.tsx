@@ -166,7 +166,7 @@ function HomeScreen({ container }: { container: Container }) {
       source={
         background != "blank"
           ? { uri: background }
-          : require("../../assets/images/zenitsu.jpeg")
+          : require("../../assets/images/default_background.jpeg")
       }
       style={{ flex: 1 }}
     >
