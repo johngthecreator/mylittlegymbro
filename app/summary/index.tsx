@@ -75,8 +75,6 @@ function HomeScreen({ container }: { container: Container }) {
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-  console.log(logEntries);
-
   const handleDelete = async (entry_id: number) => {
     await summaryController.deleteLogEntry(entry_id);
     setLogEntries((prev) => prev.filter((entry) => entry.id != entry_id));
@@ -86,8 +84,6 @@ function HomeScreen({ container }: { container: Container }) {
     try {
       const activeProfile = await profileController.getActiveProfile();
       const parsedProfileId = activeProfile?.id || 1; // Default to 1 if no active profile set
-
-      console.log(activeProfile?.background);
 
       if (activeProfile?.background) {
         setBackground(activeProfile.background);

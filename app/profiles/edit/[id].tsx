@@ -1,3 +1,4 @@
+import { IconSymbol } from "@/components/ui/IconSymbol.ios";
 import withContainer from "@/components/withContainer";
 import { Colors } from "@/constants/Colors";
 import {
@@ -5,14 +6,14 @@ import {
   IProfileController,
 } from "@/core/profiles/profile.interface";
 import { TYPES } from "@/core/types";
+import { HeaderButton } from "@react-navigation/elements";
 import { useFocusEffect } from "@react-navigation/native"; // Added useFocusEffect
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
-import { useLocalSearchParams, useRouter } from "expo-router"; // Added useLocalSearchParams
+import { useLocalSearchParams, useNavigation, useRouter } from "expo-router"; // Added useLocalSearchParams
 import { Container } from "inversify";
-import { useCallback, useState } from "react"; // Added useCallback
+import { useCallback, useLayoutEffect, useState } from "react"; // Added useCallback
 import {
-  ActivityIndicator,
   Alert,
   ScrollView,
   StyleSheet,
@@ -33,6 +34,7 @@ function EditProfileScreen({ container }: { container: Container }) {
   const [fatGoal, setFatGoal] = useState<string>("0"); // Changed to string for TextInput
   const [carbGoal, setCarbGoal] = useState<string>("0"); // Changed to string for TextInput
   const [isPickingImage, setIsPickingImage] = useState<boolean>(false); // New state for loading indicator
+  const navigation = useNavigation();
   const router = useRouter();
   const colorScheme = useColorScheme();
 
@@ -64,7 +66,7 @@ function EditProfileScreen({ container }: { container: Container }) {
     }, [loadProfileData])
   );
 
-  const handleUpdateProfile = async () => {
+  const handleUpdateProfile = useCallback(async () => {
     if (!profileName.trim()) {
       Alert.alert("Error", "Profile name cannot be empty.");
       return;
@@ -86,7 +88,25 @@ function EditProfileScreen({ container }: { container: Container }) {
       console.error("Error updating profile:", error);
       Alert.alert("Error", "Failed to update profile. Please try again.");
     }
-  };
+  }, [
+    profileName,
+    background,
+    calorieGoal,
+    proteinGoal,
+    fatGoal,
+    carbGoal,
+    params.id,
+  ]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButton onPress={handleUpdateProfile}>
+          <IconSymbol name="checkmark" size={20} color={"white"} />
+        </HeaderButton>
+      ),
+    });
+  }, [handleUpdateProfile, colorScheme]);
 
   const handleDeleteProfile = async () => {
     if (!params.id) return;
@@ -134,7 +154,10 @@ function EditProfileScreen({ container }: { container: Container }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      automaticallyAdjustKeyboardInsets={true}
+    >
       <View>
         <View style={{ display: "flex", alignItems: "center" }}>
           <TouchableOpacity
@@ -147,13 +170,13 @@ function EditProfileScreen({ container }: { container: Container }) {
               }
               style={styles.thumbnail}
             />
-            {isPickingImage && (
+            {/* {isPickingImage && (
               <ActivityIndicator
                 size="small"
                 color={Colors[colorScheme ?? "light"].tint}
-                style={{ marginLeft: 10 }}
+                style={{ zIndex: 10, alignSelf: "center" }}
               />
-            )}
+            )} */}
           </TouchableOpacity>
         </View>
         <Text style={styles.label}>Profile Name</Text>
@@ -215,11 +238,6 @@ function EditProfileScreen({ container }: { container: Container }) {
           onChangeText={setCarbGoal}
           keyboardType="numeric"
         />
-
-        <TouchableOpacity style={styles.button} onPress={handleUpdateProfile}>
-          <Text style={styles.buttonText}>Save Changes</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity
           style={[styles.button, styles.deleteButton]}
           onPress={handleDeleteProfile}
@@ -275,23 +293,19 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   button: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "transparent",
     paddingVertical: 15,
     borderRadius: 8,
     alignItems: "center",
   },
   buttonText: {
-    color: "#FFFFFF",
     fontSize: 18,
-    fontWeight: "bold",
   },
   deleteButton: {
-    backgroundColor: "red",
     marginTop: 10,
   },
   deleteButtonText: {
-    color: "#FFFFFF",
+    color: "red",
     fontSize: 18,
-    fontWeight: "bold",
   },
 });

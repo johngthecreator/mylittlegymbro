@@ -222,11 +222,11 @@ function ScanDetails({ container }: { container: Container }) {
               }}
             >
               <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-                Protein (g)
+                Fats (g)
               </Text>
               <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
                 {Math.round(
-                  (scanData.g_protein || 0) *
+                  (scanData.g_fats || 0) *
                     (isUnit
                       ? servingAmount / (scanData.serving_quantity || 1)
                       : servingAmount) *
@@ -268,11 +268,11 @@ function ScanDetails({ container }: { container: Container }) {
               }}
             >
               <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-                Fats (g)
+                Fiber (g)
               </Text>
               <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
                 {Math.round(
-                  (scanData.g_fats || 0) *
+                  (scanData.g_fiber || 0) *
                     (isUnit
                       ? servingAmount / (scanData.serving_quantity || 1)
                       : servingAmount) *
@@ -285,17 +285,15 @@ function ScanDetails({ container }: { container: Container }) {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                borderBottomWidth: 1,
-                paddingBottom: 10,
                 borderColor: Colors[colorScheme ?? "light"].tint,
               }}
             >
               <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
-                Fiber (g)
+                Protein (g)
               </Text>
               <Text style={{ color: Colors[colorScheme ?? "light"].text }}>
                 {Math.round(
-                  (scanData.g_fiber || 0) *
+                  (scanData.g_protein || 0) *
                     (isUnit
                       ? servingAmount / (scanData.serving_quantity || 1)
                       : servingAmount) *

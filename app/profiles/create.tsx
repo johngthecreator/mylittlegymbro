@@ -1,3 +1,4 @@
+import { IconSymbol } from "@/components/ui/IconSymbol.ios";
 import withContainer from "@/components/withContainer";
 import { Colors } from "@/constants/Colors";
 import {
@@ -5,15 +6,15 @@ import {
   IProfileController,
 } from "@/core/profiles/profile.interface";
 import { TYPES } from "@/core/types";
-import { GlassView } from "expo-glass-effect";
+import { HeaderButton } from "@react-navigation/elements";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
-import { useRouter } from "expo-router";
+import { useNavigation, useRouter } from "expo-router";
 import { Container } from "inversify";
-import { useState } from "react";
+import { useCallback, useLayoutEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -21,7 +22,7 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import defaultBackground from "../../assets/images/default_background.jpeg";
 
 function CreateProfileScreen({ container }: { container: Container }) {
   const [profileName, setProfileName] = useState<string>("");
@@ -31,15 +32,15 @@ function CreateProfileScreen({ container }: { container: Container }) {
   const [fatGoal, setFatGoal] = useState<string>("0"); // Changed to string for TextInput
   const [carbGoal, setCarbGoal] = useState<string>("0"); // Changed to string for TextInput
   const [isPickingImage, setIsPickingImage] = useState<boolean>(false); // New state for loading indicator
+  const navigation = useNavigation();
   const router = useRouter();
   const colorScheme = useColorScheme();
-  const insets = useSafeAreaInsets();
 
   const profileController = container.get<IProfileController>(
     TYPES.IProfileController
   );
 
-  const handleCreateProfile = async () => {
+  const handleCreateProfile = useCallback(async () => {
     if (!profileName.trim()) {
       Alert.alert("Error", "Profile name cannot be empty.");
       return;
@@ -60,7 +61,17 @@ function CreateProfileScreen({ container }: { container: Container }) {
       console.error("Error creating profile:", error);
       Alert.alert("Error", "Failed to create profile. Please try again.");
     }
-  };
+  }, [profileName, background, calorieGoal, proteinGoal, fatGoal, carbGoal]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButton onPress={handleCreateProfile}>
+          <IconSymbol name="checkmark" size={20} color={"white"} />
+        </HeaderButton>
+      ),
+    });
+  }, [handleCreateProfile, colorScheme]);
 
   const pickImage = async () => {
     setIsPickingImage(true); // Set loading to true
@@ -78,13 +89,24 @@ function CreateProfileScreen({ container }: { container: Container }) {
   };
 
   return (
-    <View
-      style={[
-        styles.container,
-        { backgroundColor: Colors[colorScheme ?? "light"].background },
-      ]}
+    <ScrollView
+      contentContainerStyle={styles.container}
+      automaticallyAdjustKeyboardInsets={true}
     >
-      <View style={{ paddingTop: insets.top + 50 }}>
+      <View>
+        <View style={{ display: "flex", alignItems: "center" }}>
+          <TouchableOpacity
+            onPress={pickImage}
+            disabled={isPickingImage} // Disable button while loading
+          >
+            <Image
+              source={
+                background !== "blank" ? { uri: background } : defaultBackground
+              }
+              style={styles.thumbnail}
+            />
+          </TouchableOpacity>
+        </View>
         <Text style={styles.label}>Profile Name</Text>
         <TextInput
           style={[
@@ -96,119 +118,56 @@ function CreateProfileScreen({ container }: { container: Container }) {
           value={profileName}
           onChangeText={setProfileName}
         />
-        <Text style={styles.label}>Background Image</Text>
-        <GlassView glassEffectStyle="regular" tintColor="light">
-          <TouchableOpacity
-            style={styles.imagePickerButton}
-            onPress={pickImage}
-            disabled={isPickingImage} // Disable button while loading
-          >
-            <Text
-              style={{
-                color:
-                  background !== "blank"
-                    ? Colors[colorScheme ?? "light"].text
-                    : Colors[colorScheme ?? "light"].text + "80",
-                fontSize: 18,
-              }}
-            >
-              {background === "blank"
-                ? "Select Background Image"
-                : "Image Selected"}
-            </Text>
-            {isPickingImage && (
-              <ActivityIndicator
-                size="small"
-                color={Colors[colorScheme ?? "light"].tint}
-                style={{ marginLeft: 10 }}
-              />
-            )}
-            {background !== "blank" && !isPickingImage && (
-              <Image source={{ uri: background }} style={styles.thumbnail} />
-            )}
-          </TouchableOpacity>
-        </GlassView>
-
-        <View style={styles.goalsGridContainer}>
-          <View style={styles.goalsGridRow}>
-            <View style={styles.goalGridItem}>
-              <Text style={styles.macroLabel}>Calories</Text>
-              <TextInput
-                style={[
-                  styles.input,
-                  styles.goalInput,
-                  { borderColor: Colors[colorScheme ?? "light"].tint },
-                ]}
-                placeholder="2000"
-                placeholderTextColor={
-                  Colors[colorScheme ?? "light"].text + "80"
-                }
-                value={calorieGoal}
-                onChangeText={setCalorieGoal}
-                keyboardType="numeric"
-              />
-            </View>
-            <View style={styles.goalGridItem}>
-              <Text style={styles.macroLabel}>Protein</Text>
-              <TextInput
-                style={[
-                  styles.input,
-                  styles.goalInput,
-                  { borderColor: Colors[colorScheme ?? "light"].tint },
-                ]}
-                placeholder="150"
-                placeholderTextColor={
-                  Colors[colorScheme ?? "light"].text + "80"
-                }
-                value={proteinGoal}
-                onChangeText={setProteinGoal}
-                keyboardType="numeric"
-              />
-            </View>
-          </View>
-          <View style={styles.goalsGridRow}>
-            <View style={styles.goalGridItem}>
-              <Text style={styles.macroLabel}>Fat</Text>
-              <TextInput
-                style={[
-                  styles.input,
-                  styles.goalInput,
-                  { borderColor: Colors[colorScheme ?? "light"].tint },
-                ]}
-                placeholder="60"
-                placeholderTextColor={
-                  Colors[colorScheme ?? "light"].text + "80"
-                }
-                value={fatGoal}
-                onChangeText={setFatGoal}
-                keyboardType="numeric"
-              />
-            </View>
-            <View style={styles.goalGridItem}>
-              <Text style={styles.macroLabel}>Carbs</Text>
-              <TextInput
-                style={[
-                  styles.input,
-                  styles.goalInput,
-                  { borderColor: Colors[colorScheme ?? "light"].tint },
-                ]}
-                placeholder="200"
-                placeholderTextColor={
-                  Colors[colorScheme ?? "light"].text + "80"
-                }
-                value={carbGoal}
-                onChangeText={setCarbGoal}
-                keyboardType="numeric"
-              />
-            </View>
-          </View>
-        </View>
-
-        <TouchableOpacity style={styles.button} onPress={handleCreateProfile}>
-          <Text style={styles.buttonText}>Create Profile</Text>
-        </TouchableOpacity>
+        <Text style={styles.label}>Calories Goal</Text>
+        <TextInput
+          style={[
+            styles.input,
+            { borderColor: Colors[colorScheme ?? "light"].tint },
+          ]}
+          placeholder="2000"
+          placeholderTextColor={Colors[colorScheme ?? "light"].text + "80"}
+          value={calorieGoal}
+          onChangeText={setCalorieGoal}
+          keyboardType="numeric"
+        />
+        <Text style={styles.label}>Protein Goal</Text>
+        <TextInput
+          style={[
+            styles.input,
+            { borderColor: Colors[colorScheme ?? "light"].tint },
+          ]}
+          placeholder="150"
+          placeholderTextColor={Colors[colorScheme ?? "light"].text + "80"}
+          value={proteinGoal}
+          onChangeText={setProteinGoal}
+          keyboardType="numeric"
+        />
+        <Text style={styles.label}>Fat Goal</Text>
+        <TextInput
+          style={[
+            styles.input,
+            { borderColor: Colors[colorScheme ?? "light"].tint },
+          ]}
+          placeholder="60"
+          placeholderTextColor={Colors[colorScheme ?? "light"].text + "80"}
+          value={fatGoal}
+          onChangeText={setFatGoal}
+          keyboardType="numeric"
+        />
+        <Text style={styles.label}>Carbohydrate Goal</Text>
+        <TextInput
+          style={[
+            styles.input,
+            { borderColor: Colors[colorScheme ?? "light"].tint },
+          ]}
+          placeholder="200"
+          placeholderTextColor={Colors[colorScheme ?? "light"].text + "80"}
+          value={carbGoal}
+          onChangeText={setCarbGoal}
+          keyboardType="numeric"
+        />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -239,7 +198,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     color: "#FFFFFF",
     fontSize: 18,
-    marginBottom: 20,
+    marginBottom: 5,
     backgroundColor: "#3A3A3A", // Added for consistency
   },
   imagePickerButton: {
@@ -250,44 +209,10 @@ const styles = StyleSheet.create({
     height: 50, // Match input height
     paddingHorizontal: 15,
   },
-  glassButtonContainer: {
-    borderRadius: 8,
-    marginBottom: 20,
-    overflow: "hidden", // Ensures content respects borderRadius
-    borderWidth: 1,
-    borderColor: Colors.light.tint,
-  },
-  goalsGridContainer: {
-    marginBottom: 20,
-  },
-  goalsGridRow: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginBottom: 10,
-    gap: 10,
-  },
-  goalGridItem: {
-    flex: 1,
-    alignItems: "center",
-  },
-  goalInput: {
-    textAlign: "center",
-    marginBottom: 0, // Override default input marginBottom
-  },
-  macroLabel: {
-    fontSize: 14,
-    marginBottom: 5,
-    color: Colors.light.text,
-  },
-  macroInput: {
-    flex: 1,
-    marginBottom: 0, // Override default input marginBottom
-    textAlign: "center", // Center the text within the input
-  },
   thumbnail: {
-    width: 40,
-    height: 40,
-    borderRadius: 5,
+    width: 150,
+    height: 300,
+    borderRadius: 16,
   },
   button: {
     backgroundColor: "#007AFF",
