@@ -336,6 +336,17 @@ function HomeScreen({ container }: { container: Container }) {
               >
                 <EvilIcons name="plus" size={25} />
               </Link>
+              <TouchableOpacity
+                onPress={() => router.navigate("/scan/extract-text")}
+                style={{
+                  paddingHorizontal: 7,
+                  paddingVertical: 10,
+                  borderRadius: 100,
+                  backgroundColor: "gray",
+                }}
+              >
+                <EvilIcons name="camera" size={25} />
+              </TouchableOpacity>
             </View>
           </View>
           {logEntries.length > 0 ? (

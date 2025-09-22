@@ -29,24 +29,7 @@ export default function ScanLayout() {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name="all-items"
-        options={{
-          headerShown: true,
-          headerTransparent: true,
-          headerLargeStyle: {
-            backgroundColor: "transparent",
-          },
-          headerSearchBarOptions: {
-            onChangeText: (event) => {
-              router.setParams({ q: event.nativeEvent.text });
-            },
-            placement: "inline",
-          },
-          headerLargeTitle: true, // Set to true for the desired scrolling effect
-          headerTitle: "All Food",
-        }}
-      />
+      <Stack.Screen name="extract-text" />
     </Stack>
   );
 }

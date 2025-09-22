@@ -74,6 +74,9 @@ importers:
       expo-system-ui:
         specifier: ~6.0.7
         version: 6.0.7(expo@54.0.2)(react-native-web@0.21.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))
+      expo-text-extractor:
+        specifier: ^0.2.2
+        version: 0.2.2(expo-modules-core@3.0.15(react-native@0.81.4(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(expo@54.0.2)
       expo-web-browser:
         specifier: ~15.0.7
         version: 15.0.7(expo@54.0.2)(react-native@0.81.4(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))
@@ -2422,6 +2425,12 @@ packages:
     peerDependenciesMeta:
       react-native-web:
         optional: true
+
+  expo-text-extractor@0.2.2:
+    resolution: {integrity: sha512-EcZ14fplCgF56CMrYT9cDzVxMMICO+mNcDStPxPEnZkvrXK6upSkQ+AdB9dn0VPIEACe359SD9E85KlSgaFOTg==}
+    peerDependencies:
+      expo: '>=52.0.0'
+      expo-modules-core: '>=1.5.0'
 
   expo-web-browser@15.0.7:
     resolution: {integrity: sha512-eXnfO3FQ2WthTA8uEPNJ7SDRfPaLIU/P2k082HGEYIHAFZMwh2o9Wo+SDVytO3E95TAv1qwhggUjOrczYzxteQ==}
@@ -7256,6 +7265,11 @@ snapshots:
       react-native-web: 0.21.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
     transitivePeerDependencies:
       - supports-color
+
+  expo-text-extractor@0.2.2(expo-modules-core@3.0.15(react-native@0.81.4(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(expo@54.0.2):
+    dependencies:
+      expo: 54.0.2(@babel/core@7.28.3)(@expo/metro-runtime@6.1.1)(expo-router@6.0.1)(react-native-webview@13.15.0(react-native@0.81.4(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0))(react-native@0.81.4(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0)
+      expo-modules-core: 3.0.15(react-native@0.81.4(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0))(react@19.1.0)
 
   expo-web-browser@15.0.7(expo@54.0.2)(react-native@0.81.4(@babel/core@7.28.3)(@types/react@19.1.12)(react@19.1.0)):
     dependencies:

@@ -94,6 +94,8 @@ PODS:
     - ExpoModulesCore
   - ExpoSystemUI (6.0.7):
     - ExpoModulesCore
+  - ExpoTextExtractor (0.2.2):
+    - ExpoModulesCore
   - ExpoUI (0.2.0-beta.1):
     - ExpoModulesCore
   - ExpoWebBrowser (15.0.7):
@@ -1926,6 +1928,7 @@ DEPENDENCIES:
   - ExpoSQLite (from `../node_modules/expo-sqlite/ios`)
   - ExpoSymbols (from `../node_modules/expo-symbols/ios`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
+  - ExpoTextExtractor (from `../node_modules/expo-text-extractor/ios`)
   - "ExpoUI (from `../node_modules/@expo/ui/ios`)"
   - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
@@ -2054,6 +2057,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-symbols/ios"
   ExpoSystemUI:
     :path: "../node_modules/expo-system-ui/ios"
+  ExpoTextExtractor:
+    :path: "../node_modules/expo-text-extractor/ios"
   ExpoUI:
     :path: "../node_modules/@expo/ui/ios"
   ExpoWebBrowser:
@@ -2222,6 +2227,7 @@ SPEC CHECKSUMS:
   ExpoSQLite: 7fa091ba5562474093fef09be644161a65e11b3f
   ExpoSymbols: 1ae04ce686de719b9720453b988d8bc5bf776c68
   ExpoSystemUI: 6cd74248a2282adf6dec488a75fa532d69dee314
+  ExpoTextExtractor: 79faef58f2c7f5156368440ca151fc0317464430
   ExpoUI: 1e4b3045678eb66004d78d9a6602afdcbdc06bbd
   ExpoWebBrowser: 533bc2a1b188eec1c10e4926decf658f1687b5e5
   FBLazyVector: 9e0cd874afd81d9a4d36679daca991b58b260d42
