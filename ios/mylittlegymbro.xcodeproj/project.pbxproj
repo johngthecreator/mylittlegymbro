@@ -7,31 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08E929B1340A8B1086DEDDA0 /* libPods-mylittlegymbro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 486D08B0A6A74AF99CB69C85 /* libPods-mylittlegymbro.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		2018A18DA338C9D8F6BB5889 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CFE4C494752F9E4F4A97D3 /* ExpoModulesProvider.swift */; };
+		2D6D7B1A6A1F4DD4BDE6BB72 /* mlgb.icon in Resources */ = {isa = PBXBuildFile; fileRef = E9E0903775624FD88F13A58B /* mlgb.icon */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		5240E83635A41C1FFEB4E788 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F32649FEFE1B0BA4B5AB79BF /* PrivacyInfo.xcprivacy */; };
-		6770AB912D7E0D4392BC8205 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06464DACD3C3F38D7FF55743 /* ExpoModulesProvider.swift */; };
-		B83018D6823C458D8F7AF0E8 /* mlgb.icon in Resources */ = {isa = PBXBuildFile; fileRef = 4E9F5109E6BF490D89023F4F /* mlgb.icon */; };
+		A452AECE51C1D70A740C2BA6 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C7BA5B634404EE5101AB3DF1 /* PrivacyInfo.xcprivacy */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		C6C2E51901DFBA936A45B84C /* libPods-mylittlegymbro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D80D46E4B3C20F28FA615415 /* libPods-mylittlegymbro.a */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		06464DACD3C3F38D7FF55743 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-mylittlegymbro/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		0E0196B9960354EF6C0D82DA /* Pods-mylittlegymbro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.debug.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* mylittlegymbro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mylittlegymbro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = mylittlegymbro/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mylittlegymbro/Info.plist; sourceTree = "<group>"; };
-		44F688A2F5AB3EA8C6144D08 /* Pods-mylittlegymbro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.release.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.release.xcconfig"; sourceTree = "<group>"; };
-		486D08B0A6A74AF99CB69C85 /* libPods-mylittlegymbro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mylittlegymbro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4E9F5109E6BF490D89023F4F /* mlgb.icon */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = mlgb.icon; path = mylittlegymbro/mlgb.icon; sourceTree = "<group>"; };
-		9AB5DEBC61A1D5E7B3FAB322 /* Pods-mylittlegymbro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.debug.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.debug.xcconfig"; sourceTree = "<group>"; };
+		18CFE4C494752F9E4F4A97D3 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-mylittlegymbro/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = mylittlegymbro/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		C7BA5B634404EE5101AB3DF1 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = mylittlegymbro/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		D80D46E4B3C20F28FA615415 /* libPods-mylittlegymbro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mylittlegymbro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9E0903775624FD88F13A58B /* mlgb.icon */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = mlgb.icon; path = mylittlegymbro/mlgb.icon; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = mylittlegymbro/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* mylittlegymbro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mylittlegymbro-Bridging-Header.h"; path = "mylittlegymbro/mylittlegymbro-Bridging-Header.h"; sourceTree = "<group>"; };
-		F32649FEFE1B0BA4B5AB79BF /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = mylittlegymbro/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		FAC6ACC622E36E7A208D7635 /* Pods-mylittlegymbro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.release.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,23 +39,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08E929B1340A8B1086DEDDA0 /* libPods-mylittlegymbro.a in Frameworks */,
+				C6C2E51901DFBA936A45B84C /* libPods-mylittlegymbro.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		002C9D440722C73878E5EA9E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9AB5DEBC61A1D5E7B3FAB322 /* Pods-mylittlegymbro.debug.xcconfig */,
-				44F688A2F5AB3EA8C6144D08 /* Pods-mylittlegymbro.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		13B07FAE1A68108700A75B9A /* mylittlegymbro */ = {
 			isa = PBXGroup;
 			children = (
@@ -65,8 +55,8 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				4E9F5109E6BF490D89023F4F /* mlgb.icon */,
-				F32649FEFE1B0BA4B5AB79BF /* PrivacyInfo.xcprivacy */,
+				E9E0903775624FD88F13A58B /* mlgb.icon */,
+				C7BA5B634404EE5101AB3DF1 /* PrivacyInfo.xcprivacy */,
 			);
 			name = mylittlegymbro;
 			sourceTree = "<group>";
@@ -75,25 +65,35 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				486D08B0A6A74AF99CB69C85 /* libPods-mylittlegymbro.a */,
+				D80D46E4B3C20F28FA615415 /* libPods-mylittlegymbro.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		70E5DD00EA5329D47E203A36 /* mylittlegymbro */ = {
+		35BDBB8CDBAB91C115996EBE /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				06464DACD3C3F38D7FF55743 /* ExpoModulesProvider.swift */,
-			);
-			name = mylittlegymbro;
-			sourceTree = "<group>";
-		};
-		78A813A2E348D4963483DC0D /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				70E5DD00EA5329D47E203A36 /* mylittlegymbro */,
+				6C23CC1E9F79FE2D237367BF /* mylittlegymbro */,
 			);
 			name = ExpoModulesProviders;
+			sourceTree = "<group>";
+		};
+		6566AB0F060653535A7A8E88 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0E0196B9960354EF6C0D82DA /* Pods-mylittlegymbro.debug.xcconfig */,
+				FAC6ACC622E36E7A208D7635 /* Pods-mylittlegymbro.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6C23CC1E9F79FE2D237367BF /* mylittlegymbro */ = {
+			isa = PBXGroup;
+			children = (
+				18CFE4C494752F9E4F4A97D3 /* ExpoModulesProvider.swift */,
+			);
+			name = mylittlegymbro;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -110,8 +110,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				002C9D440722C73878E5EA9E /* Pods */,
-				78A813A2E348D4963483DC0D /* ExpoModulesProviders */,
+				6566AB0F060653535A7A8E88 /* Pods */,
+				35BDBB8CDBAB91C115996EBE /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -143,13 +143,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "mylittlegymbro" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				D0E1F1BE0898210F6361341F /* [Expo] Configure project */,
+				75F02C79F7D4AA4DB1E603FF /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				8492BD0A6B5E0357242F3766 /* [CP] Embed Pods Frameworks */,
+				37910E7B34A8058B7505862D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -170,8 +170,6 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1250;
-						DevelopmentTeam = "W926TURM5Y";
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -201,8 +199,8 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				B83018D6823C458D8F7AF0E8 /* mlgb.icon in Resources */,
-				5240E83635A41C1FFEB4E788 /* PrivacyInfo.xcprivacy in Resources */,
+				2D6D7B1A6A1F4DD4BDE6BB72 /* mlgb.icon in Resources */,
+				A452AECE51C1D70A740C2BA6 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,6 +246,54 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		37910E7B34A8058B7505862D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/llama-rn/rnllama.framework/rnllama",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/rnllama.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		75F02C79F7D4AA4DB1E603FF /* [Expo] Configure project */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env",
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/mylittlegymbro/mylittlegymbro.entitlements",
+				"$(SRCROOT)/Pods/Target Support Files/Pods-mylittlegymbro/expo-configure-project.sh",
+			);
+			name = "[Expo] Configure project";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(SRCROOT)/Pods/Target Support Files/Pods-mylittlegymbro/ExpoModulesProvider.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-mylittlegymbro/expo-configure-project.sh\"\n";
+		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -278,52 +324,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8492BD0A6B5E0357242F3766 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D0E1F1BE0898210F6361341F /* [Expo] Configure project */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/.xcode.env",
-				"$(SRCROOT)/.xcode.env.local",
-				"$(SRCROOT)/mylittlegymbro/mylittlegymbro.entitlements",
-				"$(SRCROOT)/Pods/Target Support Files/Pods-mylittlegymbro/expo-configure-project.sh",
-			);
-			name = "[Expo] Configure project";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(SRCROOT)/Pods/Target Support Files/Pods-mylittlegymbro/ExpoModulesProvider.swift",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-mylittlegymbro/expo-configure-project.sh\"\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -332,7 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				6770AB912D7E0D4392BC8205 /* ExpoModulesProvider.swift in Sources */,
+				2018A18DA338C9D8F6BB5889 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,7 +341,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9AB5DEBC61A1D5E7B3FAB322 /* Pods-mylittlegymbro.debug.xcconfig */;
+			baseConfigurationReference = 0E0196B9960354EF6C0D82DA /* Pods-mylittlegymbro.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = mlgb;
 				CLANG_ENABLE_MODULES = YES;
@@ -372,15 +372,12 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
-				DEVELOPMENT_TEAM = "W926TURM5Y";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 44F688A2F5AB3EA8C6144D08 /* Pods-mylittlegymbro.release.xcconfig */;
+			baseConfigurationReference = FAC6ACC622E36E7A208D7635 /* Pods-mylittlegymbro.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = mlgb;
 				CLANG_ENABLE_MODULES = YES;
@@ -405,9 +402,6 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
-				DEVELOPMENT_TEAM = "W926TURM5Y";
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
 			};
 			name = Release;
 		};

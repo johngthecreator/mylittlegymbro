@@ -74,6 +74,13 @@ export default function RootLayout() {
             <Icon sf="magnifyingglass" drawable="ic_search" />
             <Label>Search</Label>
           </NativeTabs.Trigger>
+          <NativeTabs.Trigger name="chat">
+            <Icon
+              sf="bubble.left.and.bubble.right.fill"
+              drawable="custom_android_drawable"
+            />
+            <Label>Chat</Label>
+          </NativeTabs.Trigger>
         </NativeTabs>
         <StatusBar style="auto" />
       </ThemeProvider>
