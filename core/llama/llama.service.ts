@@ -1,5 +1,9 @@
 import { Directory, File, Paths } from "expo-file-system";
-import { initLlama, releaseAllLlama } from "llama.rn";
+import {
+  convertJsonSchemaToGrammar,
+  initLlama,
+  releaseAllLlama,
+} from "llama.rn";
 
 interface Message {
   role: "system" | "user" | "assistant";
@@ -128,6 +132,18 @@ export class LlamaService {
       throw new Error("Model not loaded. Please load the model first.");
     }
 
+    const schema = {
+      schema: {
+        type: "object",
+        properties: {
+          name: { type: "string" },
+          age: { type: "string" },
+        },
+        required: ["name", "age"],
+        additionalProperties: false,
+      },
+    };
+
     const stopWords = [
       "</s>",
       "<|end|>",
@@ -145,6 +161,9 @@ export class LlamaService {
           messages: messages,
           n_predict: 10000,
           stop: stopWords,
+          jinja: true, // Enable Jinja template parser
+          tool_choice: "auto",
+          grammar: await convertJsonSchemaToGrammar(schema),
         },
         (data: { token: string }) => {
           if (onToken) {
@@ -153,6 +172,8 @@ export class LlamaService {
         }
       );
       if (result && result.text) {
+        const parsedResult = JSON.parse(result.text);
+        console.log(`${parsedResult.name} : ${parsedResult.age}`);
         return result.text.trim();
       } else {
         throw new Error("No response from the model.");

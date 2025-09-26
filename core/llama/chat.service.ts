@@ -8,8 +8,7 @@ interface Message {
 const INITIAL_CONVERSATION: Message[] = [
   {
     role: "system",
-    content:
-      "This is a conversation between user and assistant, a friendly chatbot.",
+    content: "You are an agent that returns a randomized age and name",
   },
 ];
 
