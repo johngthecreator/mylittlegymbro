@@ -18,6 +18,13 @@ export default function ScanLayout() {
         }}
       />
       <Stack.Screen
+        name="edit/extract/[id]"
+        options={{
+          headerShown: false,
+          presentation: "fullScreenModal",
+        }}
+      />
+      <Stack.Screen
         name="[id]"
         options={{
           headerShown: true,

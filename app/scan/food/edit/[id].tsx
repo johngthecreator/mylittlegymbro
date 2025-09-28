@@ -375,6 +375,28 @@ function EditScanDetails({ container }: { container: Container }) {
               justifyContent: "center",
               gap: 3,
               width: "auto",
+              backgroundColor: "darkgray",
+              padding: 10,
+              marginTop: 20,
+              borderRadius: 100,
+            }}
+            onPress={() =>
+              router.navigate({
+                pathname: "/scan/food/edit/extract/[id]",
+                params: { id: params.id },
+              })
+            }
+          >
+            <Text>AI Edit</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 3,
+              width: "auto",
               backgroundColor: "lightblue",
               padding: 10,
               marginTop: 20,

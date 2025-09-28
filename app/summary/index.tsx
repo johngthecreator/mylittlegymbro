@@ -322,32 +322,19 @@ function HomeScreen({ container }: { container: Container }) {
             >
               Food Log
             </Text>
-            <View style={{ display: "flex", flexDirection: "row", gap: 10 }}>
-              <Link
-                href="/summary/quick-add"
-                style={{
-                  color: "white",
-                  fontSize: 16,
-                  paddingHorizontal: 7,
-                  paddingVertical: 10,
-                  borderRadius: 100,
-                  backgroundColor: "gray",
-                }}
-              >
-                <EvilIcons name="plus" size={25} />
-              </Link>
-              <TouchableOpacity
-                onPress={() => router.navigate("/scan/extract-text")}
-                style={{
-                  paddingHorizontal: 7,
-                  paddingVertical: 10,
-                  borderRadius: 100,
-                  backgroundColor: "gray",
-                }}
-              >
-                <EvilIcons name="camera" size={25} />
-              </TouchableOpacity>
-            </View>
+            <Link
+              href="/summary/quick-add"
+              style={{
+                color: "white",
+                fontSize: 16,
+                paddingHorizontal: 7,
+                paddingVertical: 10,
+                borderRadius: 100,
+                backgroundColor: "gray",
+              }}
+            >
+              <EvilIcons name="plus" size={25} />
+            </Link>
           </View>
           {logEntries.length > 0 ? (
             <FlatList

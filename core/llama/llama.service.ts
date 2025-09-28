@@ -49,16 +49,16 @@ const NUTRITIONAL_DATA_SCHEMA = {
   },
 };
 
+const DEFAULT_LLAMA_MODEL_NAME = "Qwen3-0.6B-Q4_K_M.gguf";
+const DEFAULT_LLAMA_MODEL_URL =
+  "https://huggingface.co/unsloth/Qwen3-0.6B-GGUF/blob/main/Qwen3-0.6B-Q4_K_M.gguf";
+
 @injectable()
 export class LlamaService implements ILlamaService {
+  constructor() {}
   private context: any = null;
   private onProgressCallback: ((progress: number) => void) | null = null;
 
-  constructor(onProgress?: (progress: number) => void) {
-    if (onProgress) {
-      this.onProgressCallback = onProgress;
-    }
-  }
   dataExtraction(text: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
@@ -223,7 +223,20 @@ export class LlamaService implements ILlamaService {
     onToken?: (token: string) => void
   ): Promise<string> {
     if (!this.context) {
-      throw new Error("Model not loaded. Please load the model first.");
+      // Attempt to load the default model if not already loaded
+      console.log(
+        "Model not loaded, attempting to download and load default model."
+      );
+      await this.downloadAndLoadModel(
+        DEFAULT_LLAMA_MODEL_NAME,
+        DEFAULT_LLAMA_MODEL_URL
+      );
+    }
+
+    if (!this.context) {
+      throw new Error(
+        "Model not loaded after attempt. Please ensure model can be downloaded and loaded."
+      );
     }
 
     const formattedPrompt = `<<SYS>>\n${systemPrompt}\n<</SYS>>\n\n[INST] ${userInput}\n[/INST]`;
