@@ -1,0 +1,90 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+
+# Learn more about building a configuration: https://promptfoo.dev/docs/configuration/guide
+
+description: "My eval"
+
+prompts:
+  # - "You are an OCR extraction agent. Given a nutritional data, you MUST return the serving size and the three common macros (Protein, Fats, Carbs) from the nutritional data. You must only return those those fields. You must also provide the measurement unit for each value and ensure that you gather the sering size and not the amount of servings per container. Nutritional Information: {{topic}}"
+  - |-
+    You function as a **High-Precision OCR Data Extraction Agent**. Your sole responsibility is to process raw text from **Nutritional Information** (simulating an OCR scan) and extract the quantities for the **Serving Size** and the three key dietary macros (Protein, Total Fat, and Total Carbohydrate).
+
+    ***
+
+    **Crucial Clarification:** You **MUST** extract the **Serving Size** (the amount and **metric** unit for a single serving, **prioritizing mass (g/mg) or volume (mL) over arbitrary measures** like '1/2 cup'. For example, extract '55 g' instead of '1/2 cup'). You **MUST NOT** extract the 'Servings Per Container' or 'Servings Per Package' value.
+
+    ***
+
+    **Required Extraction Fields:**
+    1. **Serving Size** (**Metric** Amount and **Metric** Unit, e.g., '55 g')
+    2. **Protein** (Amount and Unit)
+    3. **Total Fat** (Amount and Unit)
+    4. **Total Carbohydrate** (Amount and Unit)
+
+    ***
+
+    **Strict Output Constraint:** Your response **MUST** be a single JSON object. **ABSOLUTELY NO** introductory text, explanations, or data outside of the JSON structure. All keys in the JSON **MUST** use **lowercase with underscores (snake\_case)**. If any specific field (amount or unit) cannot be found, output **"N/A"** for its value.
+
+    **Input Structure:** Nutritional Information: {{topic}}
+
+    **Desired Output Format (Using Nested Objects):**
+    ```json
+    {
+      "serving_size": {
+        "amount": [Value, e.g., 55],
+        "unit": [Value, e.g., "g" or "mL"]
+      },
+      "protein": {
+        "amount": [Value, e.g., 15],
+        "unit": [Value, e.g., "g" or "mg"]
+      },
+      "total_fat": {
+        "amount": [Value, e.g., 3.5],
+        "unit": [Value, e.g., "g" or "mg"]
+      },
+      "total_carbohydrate": {
+        "amount": [Value, e.g., 25],
+        "unit": [Value, e.g., "g" or "mg"]
+      }
+    }
+
+providers:
+  # - "ollama:chat:smollm2:360m"
+  # - "ollama:chat:llama3.2:1b-instruct-q2_K"
+  # - "ollama:chat:granite3.1-moe:1b-instruct-q2_K"
+  - "ollama:chat:qwen3:0.6b-q4_K_M"
+
+defaultTest:
+  options:
+    provider: google:gemini-2.5-flash
+    apiKey: AIzaSyDoYYNUBAR7IU8vsVAi3aUhcyLYN8_JaoU
+
+tests:
+  - vars:
+      topic: "Nutrition Facts 25 servings per container Serving size 1 Scoop (37.4g) Amount per serving Calories Total Fat 3g Saturated Fat 3g Trans Fat 0g Cholesterol 0mg Sodium 125mg Total Carbohydrate 6g Dietary Fiber 0g Total Sugars 1g Includes 0g Added Sugars Protein 25g 150 % Daily Value* 4% 15% 0% 5% 2% 0% 0% 50% Vitamin D 0mcg 0% • Calcium 120mg 10% Iron 0.2mg 2% Potassium 160mg 4% Phosphorus 60mg 4% Magnesium 15mg 4% * The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice. Ingredients: 100% Grass-Fed Whey Protein Isolate, Coconut Oil Creamer, 100% Vietnamese Robusta Coffee, Monk Fruit Extract, Salt Contains Milk † 98% Lactose Free Caffeine: Contains about 112mg of naturally-occurring caffeine per serving"
+    assert:
+      # For more information on model-graded evals, see https://promptfoo.dev/docs/configuration/expected-outputs/model-graded
+      - type: llm-rubric
+        value: From the nutritional information, extract the serving amount, total protein (g), total fats (g), and total carbs (g). Ensure the returned data (whether in sentence or JSON format) includes the actual serving amount (usually in grams or milliliters) and not just the servings per container, matches the source for the latter three values, and all data is factually accurate.
+  - vars:
+      topic: "t. n ate. of 165 F. ting. OR SIEROIDS PROTEIN Nutrition Facts About 22 servings per container Serving size 3 oz (84g) Amount per serving Calories 160 % Daily Value* Total Fat 6g 8% Saturated Fat 1g 6% Trans Fat 0g Polyunsaturated Fat 3g Monounsaturated Fat 1.5g Cholesterol 50mg 16% Sodium 540mg 23% Total Carbohydrate 9g 3% Dietary Fiber 0g 0% Total Sugars 2g Includes 1g Added Sugars 3% Protein 16g 28% Vit. D 0mcg 0% • Calcium 10mg 0% Iron 0.4mg 2% 300mg 6% • The % Bally contributes Potas.: oral nuts Buttent INGREDIENTS: BONELESS S WATER, SEASONING SUGA PAPRIKA AND CELERY, CHI CANOLA OIL, SOYBEAN OIl WITH: WHEAT FLOUR, SUC DRIED EGG WHITES, BAKIN PYROPHOSPHATE, SODIU STARCH, MONOCALCIUM F BREADING SET IN VEGET/ CONTAINS: MILK, EGGS, I DISTRIBUTED BY: COSTCO WHOLESALE CORPI 999 LAKE DRIVE, SAQUA WWW.COSTCO.COM KIRKL Sig money will be n If you're not cor Signature pr 06633 95"
+    assert:
+      # For more information on model-graded evals, see https://promptfoo.dev/docs/configuration/expected-outputs/model-graded
+      - type: llm-rubric
+        value: From the nutritional information, extract the serving amount, total protein (g), total fats (g), and total carbs (g). Ensure the returned data (whether in sentence or JSON format) includes the actual serving amount (usually in grams or milliliters) and not just the servings per container, matches the source for the latter three values, and all data is factually accurate.
+
+  # - vars:
+  #     topic: avocado toast
+  #   assert:
+  #     # For more information on assertions, see https://promptfoo.dev/docs/configuration/expected-outputs
+
+  #     # Make sure output contains the word "avocado"
+  #     - type: icontains
+  #       value: avocado
+
+  #     # Prefer shorter outputs
+  #     - type: javascript
+  #       value: 1 / (output.length + 1)
+
+  # - vars:
+  #     topic: new york city

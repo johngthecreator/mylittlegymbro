@@ -1,5 +1,8 @@
 import { Container } from "inversify";
 import "reflect-metadata";
+import { LlamaController } from "./llama/llama.controller";
+import { ILlamaController, ILlamaService } from "./llama/llama.interface";
+import { LlamaService } from "./llama/llama.service";
 import { MigrationController } from "./migrations/migration.controller";
 import {
   IMigrationController,
@@ -67,5 +70,8 @@ container
   .bind<IProfileRepository>(TYPES.IProfileRepository)
   .to(ProfileRepository);
 container.bind<IProfileService>(TYPES.IProfileService).to(ProfileService);
+
+container.bind<ILlamaService>(TYPES.ILlamaService).to(LlamaService);
+container.bind<ILlamaController>(TYPES.ILlamaController).to(LlamaController);
 
 export { container };

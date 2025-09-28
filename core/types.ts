@@ -1,4 +1,5 @@
 const TYPES = {
+  ILlamaService: Symbol.for("ILlamaService"),
   IGreetingService: Symbol.for("IGreetingService"),
   IGreetingController: Symbol.for("IGreetingController"),
   IScannerController: Symbol.for("IScannerController"),
@@ -13,6 +14,7 @@ const TYPES = {
   IProfileRepository: Symbol.for("IProfileRepository"),
   IProfileService: Symbol.for("IProfileService"),
   IProfileController: Symbol.for("IProfileController"),
+  ILlamaController: Symbol.for("ILlamaController"),
   SQLiteDatabase: Symbol.for("SQLiteDatabase"),
 };
 

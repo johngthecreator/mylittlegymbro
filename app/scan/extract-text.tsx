@@ -1,6 +1,6 @@
 import { launchImageLibraryAsync } from "expo-image-picker";
 import { extractTextFromImage, isSupported } from "expo-text-extractor";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -17,6 +17,16 @@ export default function TextractScreen() {
   const [result, setResult] = useState<string[]>([]);
   const [imageUri, setImageUri] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (result) {
+      let allText = "";
+      result.forEach((line) => {
+        allText = allText + " " + line;
+      });
+      console.log(allText);
+    }
+  }, [result]);
 
   const processImage = async (path?: string) => {
     console.log("processImage started with path:", path);

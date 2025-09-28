@@ -1,16 +1,56 @@
 import { Directory, File, Paths } from "expo-file-system";
+import { injectable } from "inversify";
 import {
   convertJsonSchemaToGrammar,
   initLlama,
   releaseAllLlama,
 } from "llama.rn";
+import { ILlamaService, Message } from "./llama.interface";
 
-interface Message {
-  role: "system" | "user" | "assistant";
-  content: string;
-}
+const NUTRITIONAL_DATA_SCHEMA = {
+  schema: {
+    type: "object",
+    properties: {
+      serving_size: {
+        type: "object",
+        properties: {
+          amount: { type: "number" },
+          unit: { type: "string" },
+        },
+        required: ["amount", "unit"],
+      },
+      protein: {
+        type: "object",
+        properties: {
+          amount: { type: "number" },
+          unit: { type: "string" },
+        },
+        required: ["amount", "unit"],
+      },
+      total_fat: {
+        type: "object",
+        properties: {
+          amount: { type: "number" },
+          unit: { type: "string" },
+        },
+        required: ["amount", "unit"],
+      },
+      total_carbohydrate: {
+        type: "object",
+        properties: {
+          amount: { type: "number" },
+          unit: { type: "string" },
+        },
+        required: ["amount", "unit"],
+      },
+    },
+    required: ["serving_size", "protein", "total_fat", "total_carbohydrate"],
+    additionalProperties: false,
+  },
+};
 
-export class LlamaService {
+@injectable()
+export class LlamaService implements ILlamaService {
   private context: any = null;
   private onProgressCallback: ((progress: number) => void) | null = null;
 
@@ -19,12 +59,15 @@ export class LlamaService {
       this.onProgressCallback = onProgress;
     }
   }
+  dataExtraction(text: string): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
 
   public setOnProgressCallback(callback: (progress: number) => void) {
     this.onProgressCallback = callback;
   }
 
-  private async handleDownloadProgress(progress: number) {
+  private async _handleDownloadProgress(progress: number) {
     if (this.onProgressCallback) {
       this.onProgressCallback(progress);
     }
@@ -44,22 +87,12 @@ export class LlamaService {
       }
 
       if (destFile.exists) {
-        await destFile.delete();
-        console.log(`Deleted existing file at ${destPath}`);
+        console.log(`Model already exists at ${destPath}, skipping download.`);
+        return destPath;
       }
 
       console.log("Starting download from:", modelUrl);
-      const downloadResult = await File.downloadFileAsync(
-        modelUrl,
-        destFile,
-        { httpMethod: "GET", sessionType: "BACKGROUND", cache: true },
-        (downloadProgress) => {
-          const progress =
-            downloadProgress.totalBytesWritten /
-            downloadProgress.totalBytesExpectedToWrite;
-          onProgress(Math.floor(progress * 100));
-        }
-      );
+      const downloadResult = await File.downloadFileAsync(modelUrl, destFile);
 
       if (downloadResult?.uri) {
         return downloadResult.uri;
@@ -83,7 +116,7 @@ export class LlamaService {
       const destPath = await this._performDownload(
         modelName,
         modelUrl,
-        this.handleDownloadProgress.bind(this)
+        this._handleDownloadProgress.bind(this)
       );
       if (destPath) {
         return await this.loadModel(modelName);
@@ -132,18 +165,6 @@ export class LlamaService {
       throw new Error("Model not loaded. Please load the model first.");
     }
 
-    const schema = {
-      schema: {
-        type: "object",
-        properties: {
-          name: { type: "string" },
-          age: { type: "string" },
-        },
-        required: ["name", "age"],
-        additionalProperties: false,
-      },
-    };
-
     const stopWords = [
       "</s>",
       "<|end|>",
@@ -163,7 +184,7 @@ export class LlamaService {
           stop: stopWords,
           jinja: true, // Enable Jinja template parser
           tool_choice: "auto",
-          grammar: await convertJsonSchemaToGrammar(schema),
+          grammar: await convertJsonSchemaToGrammar(NUTRITIONAL_DATA_SCHEMA),
         },
         (data: { token: string }) => {
           if (onToken) {
@@ -173,7 +194,7 @@ export class LlamaService {
       );
       if (result && result.text) {
         const parsedResult = JSON.parse(result.text);
-        console.log(`${parsedResult.name} : ${parsedResult.age}`);
+        // console.log(`${parsedResult.name} : ${parsedResult.age}`);
         return result.text.trim();
       } else {
         throw new Error("No response from the model.");
@@ -194,5 +215,55 @@ export class LlamaService {
 
   public isModelLoaded(): boolean {
     return this.context !== null;
+  }
+
+  public async generateWithSystemPrompt(
+    systemPrompt: string,
+    userInput: string,
+    onToken?: (token: string) => void
+  ): Promise<string> {
+    if (!this.context) {
+      throw new Error("Model not loaded. Please load the model first.");
+    }
+
+    const formattedPrompt = `<<SYS>>\n${systemPrompt}\n<</SYS>>\n\n[INST] ${userInput}\n[/INST]`;
+    const messages: Message[] = [{ role: "user", content: formattedPrompt }];
+
+    const stopWords = [
+      "</s>",
+      "<|end|>",
+      "user:",
+      "assistant:",
+      "<|im_end|>",
+      "<|eot_id|>",
+      "<|end of sentence|>",
+      "<｜end of sentence｜>",
+    ];
+
+    try {
+      const result = await this.context.completion(
+        {
+          messages: messages,
+          n_predict: 10000,
+          stop: stopWords,
+          jinja: true, // Enable Jinja template parser
+          tool_choice: "auto",
+          grammar: await convertJsonSchemaToGrammar(NUTRITIONAL_DATA_SCHEMA),
+        },
+        (data: { token: string }) => {
+          if (onToken) {
+            onToken(data.token);
+          }
+        }
+      );
+      if (result && result.text) {
+        return result.text.trim();
+      } else {
+        throw new Error("No response from the model.");
+      }
+    } catch (error) {
+      console.error("Error during inference with system prompt:", error);
+      throw error;
+    }
   }
 }

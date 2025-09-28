@@ -49,7 +49,7 @@ export default function ChatScreen(): React.JSX.Element {
 
   const modelFormats = [
     { label: "Llama-3.2-1B-Instruct" },
-    { label: "Qwen2-0.5B-Instruct" },
+    { label: "Qwen3-0.6B" },
     { label: "DeepSeek-R1-Distill-Qwen-1.5B" },
     { label: "SmolLM2-360M-Instruct" },
   ];
@@ -58,7 +58,7 @@ export default function ChatScreen(): React.JSX.Element {
     "Llama-3.2-1B-Instruct": "medmekk/Llama-3.2-1B-Instruct.GGUF",
     "DeepSeek-R1-Distill-Qwen-1.5B":
       "medmekk/DeepSeek-R1-Distill-Qwen-1.5B.GGUF",
-    "Qwen2-0.5B-Instruct": "medmekk/Qwen2.5-0.5B-Instruct.GGUF",
+    "Qwen3-0.6B": "unsloth/Qwen3-0.6B-GGUF",
     "SmolLM2-360M-Instruct": "HuggingFaceTB/SmolLM2-360M-Instruct-GGUF",
   };
 
