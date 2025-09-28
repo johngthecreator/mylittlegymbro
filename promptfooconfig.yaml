@@ -57,7 +57,7 @@ providers:
 defaultTest:
   options:
     provider: google:gemini-2.5-flash
-    apiKey: AIzaSyDoYYNUBAR7IU8vsVAi3aUhcyLYN8_JaoU
+    apiKey: ${GOOGLE_API_KEY}
 
 tests:
   - vars:
