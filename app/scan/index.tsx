@@ -7,7 +7,14 @@ import { useIsFocused } from "@react-navigation/native";
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback, useRef, useState } from "react";
-import { Alert, Button, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Button,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 interface Nutriments {
   "energy-kcal": number; // in kcal [cite: 78]
@@ -56,6 +63,7 @@ interface FoodDataResponse {
 export default function Scanner() {
   const [facing, setFacing] = useState<CameraType>("back");
   const [permission, requestPermission] = useCameraPermissions();
+  const [isSearching, setIsSearching] = useState<boolean>(false);
   const lastScanTimeRef = useRef(0);
   const searching = useRef(false);
   const lastScanned = useRef("");
@@ -70,6 +78,7 @@ export default function Scanner() {
 
   const handleBarCodeScanned = async (data: any) => {
     console.log("barcode scanned");
+    setIsSearching(true);
     const scannerController = container.get<IScannerController>(
       TYPES.IScannerController
     );
@@ -94,9 +103,11 @@ export default function Scanner() {
 
     try {
       const id = await summaryController.processScannedEan(ean_id);
+      setIsSearching(false);
       router.navigate({ pathname: "/scan/food/[id]", params: { id: id } });
     } catch (error) {
       console.log(error);
+      setIsSearching(false);
       Alert.alert(
         "Can't find food item!",
         "",
@@ -134,13 +145,40 @@ export default function Scanner() {
     <View style={styles.container}>
       {isFocused ? (
         <CameraView
-          style={styles.camera}
+          style={[
+            styles.camera,
+            isSearching
+              ? {
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "black",
+                  opacity: 0.7,
+                }
+              : {},
+          ]}
           facing={facing}
           barcodeScannerSettings={{
             barcodeTypes: ["ean13", "ean8"],
           }}
           onBarcodeScanned={handleBarCodeScanned}
-        ></CameraView>
+        >
+          {isSearching && (
+            <View>
+              <ActivityIndicator size={"large"} />
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  marginTop: 10,
+                }}
+              >
+                Searching ...
+              </Text>
+            </View>
+          )}
+        </CameraView>
       ) : null}
     </View>
   );
