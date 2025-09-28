@@ -55,10 +55,19 @@ export const DEFAULT_LLAMA_MODEL_URL =
 
 @injectable()
 export class LlamaService implements ILlamaService {
-  constructor() {}
+  constructor() {
+    this.cachedGrammar = convertJsonSchemaToGrammar(NUTRITIONAL_DATA_SCHEMA);
+  }
+  public async releaseModel(): Promise<void> {
+    if (this.context) {
+      this.context = null; // Set JavaScript context to null first
+      await releaseAllLlama(); // Then await the global native release
+    }
+  }
   public readonly DEFAULT_LLAMA_MODEL_NAME = DEFAULT_LLAMA_MODEL_NAME;
   public readonly DEFAULT_LLAMA_MODEL_URL = DEFAULT_LLAMA_MODEL_URL;
   private context: any = null;
+  private cachedGrammar: any = null;
 
   dataExtraction(text: string): Promise<void> {
     throw new Error("Method not implemented.");
@@ -126,8 +135,7 @@ export class LlamaService implements ILlamaService {
       }
 
       if (this.context) {
-        await releaseAllLlama();
-        this.context = null;
+        await this.releaseModel(); // Release any existing context before loading a new one
       }
 
       this.context = await initLlama({
@@ -191,14 +199,6 @@ export class LlamaService implements ILlamaService {
     }
   }
 
-  public releaseModel(): Promise<void> {
-    if (this.context) {
-      this.context = null;
-      return releaseAllLlama();
-    }
-    return Promise.resolve();
-  }
-
   public async isModelLoaded(): Promise<boolean> {
     return (
       this.context !== null &&
@@ -217,16 +217,14 @@ export class LlamaService implements ILlamaService {
     userInput: string,
     onToken?: (token: string) => void
   ): Promise<string> {
-    if (!this.context) {
-      // Attempt to load the default model if not already loaded
-      console.log(
-        "Model not loaded, attempting to download and load default model."
-      );
-      await this.downloadAndLoadModel(
-        DEFAULT_LLAMA_MODEL_NAME,
-        DEFAULT_LLAMA_MODEL_URL
-      );
+    // Aggressive memory management: release and reload model for each inference
+    if (this.context) {
+      await this.releaseModel();
     }
+    await this.downloadAndLoadModel(
+      DEFAULT_LLAMA_MODEL_NAME,
+      DEFAULT_LLAMA_MODEL_URL
+    );
 
     if (!this.context) {
       throw new Error(
@@ -256,7 +254,7 @@ export class LlamaService implements ILlamaService {
           stop: stopWords,
           jinja: true, // Enable Jinja template parser
           tool_choice: "auto",
-          grammar: await convertJsonSchemaToGrammar(NUTRITIONAL_DATA_SCHEMA),
+          grammar: this.cachedGrammar, // Use cached grammar instead of recreating
         },
         (data: { token: string }) => {
           if (onToken) {
@@ -272,14 +270,16 @@ export class LlamaService implements ILlamaService {
     } catch (error) {
       console.error("Error during inference with system prompt:", error);
       throw error;
+    } finally {
+      // Ensure model is released after each inference
+      await this.releaseModel();
     }
   }
 
   public async deleteModel(): Promise<void> {
     try {
       if (this.context) {
-        await releaseAllLlama();
-        this.context = null;
+        await this.releaseModel(); // Use the unified release method
       }
       const destDirectory = new Directory(Paths.document, "");
       const destFile = new File(destDirectory, this.DEFAULT_LLAMA_MODEL_NAME);

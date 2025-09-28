@@ -71,7 +71,10 @@ container
   .to(ProfileRepository);
 container.bind<IProfileService>(TYPES.IProfileService).to(ProfileService);
 
-container.bind<ILlamaService>(TYPES.ILlamaService).to(LlamaService);
+container
+  .bind<ILlamaService>(TYPES.ILlamaService)
+  .to(LlamaService)
+  .inSingletonScope();
 container.bind<ILlamaController>(TYPES.ILlamaController).to(LlamaController);
 
 export { container };
