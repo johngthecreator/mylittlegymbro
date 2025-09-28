@@ -49,34 +49,24 @@ const NUTRITIONAL_DATA_SCHEMA = {
   },
 };
 
-const DEFAULT_LLAMA_MODEL_NAME = "Qwen3-0.6B-Q4_K_M.gguf";
-const DEFAULT_LLAMA_MODEL_URL =
-  "https://huggingface.co/unsloth/Qwen3-0.6B-GGUF/blob/main/Qwen3-0.6B-Q4_K_M.gguf";
+export const DEFAULT_LLAMA_MODEL_NAME = "Qwen3-0.6B-Q4_K_M.gguf";
+export const DEFAULT_LLAMA_MODEL_URL =
+  "https://huggingface.co/unsloth/Qwen3-0.6B-GGUF/resolve/main/Qwen3-0.6B-Q4_K_M.gguf";
 
 @injectable()
 export class LlamaService implements ILlamaService {
   constructor() {}
+  public readonly DEFAULT_LLAMA_MODEL_NAME = DEFAULT_LLAMA_MODEL_NAME;
+  public readonly DEFAULT_LLAMA_MODEL_URL = DEFAULT_LLAMA_MODEL_URL;
   private context: any = null;
-  private onProgressCallback: ((progress: number) => void) | null = null;
 
   dataExtraction(text: string): Promise<void> {
     throw new Error("Method not implemented.");
   }
 
-  public setOnProgressCallback(callback: (progress: number) => void) {
-    this.onProgressCallback = callback;
-  }
-
-  private async _handleDownloadProgress(progress: number) {
-    if (this.onProgressCallback) {
-      this.onProgressCallback(progress);
-    }
-  }
-
   private async _performDownload(
     modelName: string,
-    modelUrl: string,
-    onProgress: (progress: number) => void
+    modelUrl: string
   ): Promise<string> {
     const destDirectory = new Directory(Paths.document, "");
     const destFile = new File(destDirectory, modelName);
@@ -113,11 +103,7 @@ export class LlamaService implements ILlamaService {
     modelUrl: string
   ): Promise<boolean> {
     try {
-      const destPath = await this._performDownload(
-        modelName,
-        modelUrl,
-        this._handleDownloadProgress.bind(this)
-      );
+      const destPath = await this._performDownload(modelName, modelUrl);
       if (destPath) {
         return await this.loadModel(modelName);
       } else {
@@ -213,8 +199,17 @@ export class LlamaService implements ILlamaService {
     return Promise.resolve();
   }
 
-  public isModelLoaded(): boolean {
-    return this.context !== null;
+  public async isModelLoaded(): Promise<boolean> {
+    return (
+      this.context !== null &&
+      (await this.isModelFilePresent(this.DEFAULT_LLAMA_MODEL_NAME))
+    );
+  }
+
+  public async isModelFilePresent(modelName: string): Promise<boolean> {
+    const destDirectory = new Directory(Paths.document, "");
+    const destFile = new File(destDirectory, modelName);
+    return destFile.exists;
   }
 
   public async generateWithSystemPrompt(
@@ -277,6 +272,31 @@ export class LlamaService implements ILlamaService {
     } catch (error) {
       console.error("Error during inference with system prompt:", error);
       throw error;
+    }
+  }
+
+  public async deleteModel(): Promise<void> {
+    try {
+      if (this.context) {
+        await releaseAllLlama();
+        this.context = null;
+      }
+      const destDirectory = new Directory(Paths.document, "");
+      const destFile = new File(destDirectory, this.DEFAULT_LLAMA_MODEL_NAME);
+
+      if (destFile.exists) {
+        await destFile.delete();
+        console.log("Model deleted successfully.");
+      } else {
+        console.log("Model file does not exist, nothing to delete.");
+      }
+    } catch (error) {
+      console.error("Error deleting model:", error);
+      throw new Error(
+        `Failed to delete model: ${
+          error instanceof Error ? error.message : "Unknown error"
+        }`
+      );
     }
   }
 }

@@ -18,12 +18,16 @@ export interface ILlamaService {
     onToken?: (token: string) => void
   ): Promise<string>;
   releaseModel(): Promise<void>;
-  isModelLoaded(): boolean;
+  isModelLoaded(): Promise<boolean>;
+  isModelFilePresent(modelName: string): Promise<boolean>;
   generateWithSystemPrompt(
     systemPrompt: string,
     userInput: string,
     onToken?: (token: string) => void
   ): Promise<string>;
+  readonly DEFAULT_LLAMA_MODEL_NAME: string;
+  readonly DEFAULT_LLAMA_MODEL_URL: string;
+  deleteModel(): Promise<void>;
 }
 
 export interface IMeasurement {

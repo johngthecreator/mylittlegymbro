@@ -1,3 +1,4 @@
+import { IconSymbol } from "@/components/ui/IconSymbol.ios";
 import { container } from "@/core/container";
 import { IProfileController } from "@/core/profiles/profile.interface";
 import { TYPES } from "@/core/types";
@@ -30,6 +31,11 @@ export default function SummaryLayout() {
           headerLargeTitle: false,
           headerTransparent: true,
           headerTitle: "",
+          headerLeft: () => (
+            <HeaderButton onPress={() => router.navigate("/summary/model")}>
+              <IconSymbol name="gear" color={"white"} />
+            </HeaderButton>
+          ),
           headerRight: () => (
             <HeaderButton
               style={{
@@ -76,6 +82,15 @@ export default function SummaryLayout() {
           headerLargeTitle: false,
           headerTransparent: true,
           headerTitle: "Quick Add",
+        }}
+      />
+      <Stack.Screen
+        name="model"
+        options={{
+          headerShown: true,
+          headerLargeTitle: false,
+          headerTransparent: true,
+          headerTitle: "Llama Model Settings",
         }}
       />
     </Stack>
