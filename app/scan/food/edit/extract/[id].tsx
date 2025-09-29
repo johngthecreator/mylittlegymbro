@@ -10,7 +10,15 @@ import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useFocusEffect, useLocalSearchParams, useRouter } from "expo-router";
 import { extractTextFromImage } from "expo-text-extractor";
 import { useCallback, useRef, useState } from "react";
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Button,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 interface Nutriments {
   "energy-kcal": number; // in kcal [cite: 78]
@@ -64,6 +72,7 @@ export default function Scanner() {
   const router = useRouter();
   const isFocused = useIsFocused();
   const cameraRef = useRef<CameraView>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const llamaController = container.get<ILlamaController>(
     TYPES.ILlamaController
@@ -144,51 +153,59 @@ export default function Scanner() {
 
   const takePicture = async () => {
     if (cameraRef.current) {
-      const photo = await cameraRef.current.takePictureAsync();
-      console.log("Photo taken:", photo.uri);
-      const extractedTexts = await extractTextFromImage(photo.uri);
-      const result = await llamaController.dataExtraction(
-        systemPrompt,
-        extractedTexts.join(" ")
-      );
-
-      const data = JSON.parse(result);
-
-      const requiredKeys = [
-        "serving_size",
-        "protein",
-        "total_fat",
-        "total_carbohydrate",
-      ];
-
-      let allKeysPresent = true;
-      for (const key of requiredKeys) {
-        if (!data[key] || !data[key].amount || !data[key].unit) {
-          allKeysPresent = false;
-          break;
-        }
-      }
-
-      console.log(data);
-
-      if (allKeysPresent) {
-        const updatedFoodItem: IFoodItem = {
-          ...currData,
-          g_carbs: data.total_carbohydrate.amount,
-          g_fats: data.total_fat.amount,
-          g_protein: data.protein.amount,
-          serving_quantity: data.serving_size.amount,
-          serving_unit: data.serving_size.unit,
-        };
-
-        await scannerController.updateFoodItem(
-          updatedFoodItem,
-          Number(params.id)
+      setIsLoading(true);
+      try {
+        const photo = await cameraRef.current.takePictureAsync();
+        console.log("Photo taken:", photo.uri);
+        const extractedTexts = await extractTextFromImage(photo.uri);
+        const result = await llamaController.dataExtraction(
+          systemPrompt,
+          extractedTexts.join(" ")
         );
-        console.log("edited");
-        router.back();
-      } else {
-        throw new Error("incorrect json response");
+
+        const data = JSON.parse(result);
+
+        const requiredKeys = [
+          "serving_size",
+          "protein",
+          "total_fat",
+          "total_carbohydrate",
+        ];
+
+        let allKeysPresent = true;
+        for (const key of requiredKeys) {
+          if (!data[key] || !data[key].amount || !data[key].unit) {
+            allKeysPresent = false;
+            break;
+          }
+        }
+
+        console.log(data);
+
+        if (allKeysPresent) {
+          const updatedFoodItem: IFoodItem = {
+            ...currData,
+            g_carbs: data.total_carbohydrate.amount,
+            g_fats: data.total_fat.amount,
+            g_protein: data.protein.amount,
+            serving_quantity: data.serving_size.amount,
+            serving_unit: data.serving_size.unit,
+          };
+
+          await scannerController.updateFoodItem(
+            updatedFoodItem,
+            Number(params.id)
+          );
+          console.log("edited");
+          router.back();
+        } else {
+          throw new Error("incorrect json response");
+        }
+      } catch (error) {
+        console.error("Error taking picture or extracting text:", error);
+        Alert.alert("Error", "Failed to process image.");
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -211,31 +228,61 @@ export default function Scanner() {
   return (
     <View style={styles.container}>
       {isFocused ? (
-        <CameraView ref={cameraRef} style={styles.camera} facing={facing}>
-          <TouchableOpacity
-            style={{
-              height: 100,
-              width: 100,
-              backgroundColor: "white",
-              borderRadius: 150,
-              margin: 35,
-            }}
-            onPress={takePicture}
-          />
+        <CameraView
+          ref={cameraRef}
+          style={[
+            styles.camera,
+            isLoading
+              ? {
+                  opacity: 0.7,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }
+              : {},
+          ]}
+          facing={facing}
+        >
+          {isLoading ? (
+            <View
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ActivityIndicator size={"large"} color={"white"} />
+              <Text style={styles.loadingText}>Processing...</Text>
+            </View>
+          ) : (
+            <>
+              <TouchableOpacity
+                style={{
+                  height: 100,
+                  width: 100,
+                  backgroundColor: "white",
+                  borderRadius: 150,
+                  margin: 35,
+                }}
+                onPress={takePicture}
+                disabled={isLoading}
+              />
 
-          <TouchableOpacity
-            style={{
-              position: "absolute",
-              height: 50,
-              width: 50,
-              backgroundColor: "red",
-              borderRadius: 150,
-              margin: 35,
-              marginRight: 250,
-              marginBottom: 60,
-            }}
-            onPress={() => router.back()}
-          />
+              <TouchableOpacity
+                style={{
+                  position: "absolute",
+                  height: 50,
+                  width: 50,
+                  backgroundColor: "red",
+                  borderRadius: 150,
+                  margin: 35,
+                  marginRight: 250,
+                  marginBottom: 60,
+                }}
+                onPress={() => router.back()}
+                disabled={isLoading}
+              />
+            </>
+          )}
         </CameraView>
       ) : null}
     </View>
@@ -273,5 +320,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "white",
+  },
+  loadingText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginTop: 10,
   },
 });

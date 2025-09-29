@@ -17,7 +17,6 @@ export interface ILlamaService {
     messages: Message[],
     onToken?: (token: string) => void
   ): Promise<string>;
-  releaseModel(): Promise<void>;
   isModelLoaded(): Promise<boolean>;
   isModelFilePresent(modelName: string): Promise<boolean>;
   generateWithSystemPrompt(

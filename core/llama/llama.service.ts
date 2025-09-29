@@ -58,7 +58,7 @@ export class LlamaService implements ILlamaService {
   constructor() {
     this.cachedGrammar = convertJsonSchemaToGrammar(NUTRITIONAL_DATA_SCHEMA);
   }
-  public async releaseModel(): Promise<void> {
+  private async _releaseModel(): Promise<void> {
     if (this.context) {
       this.context = null; // Set JavaScript context to null first
       await releaseAllLlama(); // Then await the global native release
@@ -134,8 +134,10 @@ export class LlamaService implements ILlamaService {
         throw new Error("The model file does not exist.");
       }
 
+      // Only load if not already loaded
       if (this.context) {
-        await this.releaseModel(); // Release any existing context before loading a new one
+        console.log("Model already loaded, skipping reload.");
+        return true;
       }
 
       this.context = await initLlama({
@@ -217,14 +219,13 @@ export class LlamaService implements ILlamaService {
     userInput: string,
     onToken?: (token: string) => void
   ): Promise<string> {
-    // Aggressive memory management: release and reload model for each inference
-    if (this.context) {
-      await this.releaseModel();
+    // Ensure the model is downloaded and loaded if not already.
+    if (!(await this.isModelLoaded())) {
+      await this.downloadAndLoadModel(
+        DEFAULT_LLAMA_MODEL_NAME,
+        DEFAULT_LLAMA_MODEL_URL
+      );
     }
-    await this.downloadAndLoadModel(
-      DEFAULT_LLAMA_MODEL_NAME,
-      DEFAULT_LLAMA_MODEL_URL
-    );
 
     if (!this.context) {
       throw new Error(
@@ -270,16 +271,13 @@ export class LlamaService implements ILlamaService {
     } catch (error) {
       console.error("Error during inference with system prompt:", error);
       throw error;
-    } finally {
-      // Ensure model is released after each inference
-      await this.releaseModel();
     }
   }
 
   public async deleteModel(): Promise<void> {
     try {
       if (this.context) {
-        await this.releaseModel(); // Use the unified release method
+        await this._releaseModel(); // Use the internal release method
       }
       const destDirectory = new Directory(Paths.document, "");
       const destFile = new File(destDirectory, this.DEFAULT_LLAMA_MODEL_NAME);

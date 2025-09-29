@@ -1,7 +1,6 @@
 import withContainer from "@/components/withContainer";
 import { Colors } from "@/constants/Colors";
 import { IFoodItem } from "@/core/interfaces";
-import { ILlamaService } from "@/core/llama/llama.interface";
 import { IScannerController } from "@/core/scanner/scanner.interface";
 import { ISummaryController } from "@/core/summary/summary.interface";
 import { TYPES } from "@/core/types";
@@ -112,11 +111,6 @@ function EditScanDetails({ container }: { container: Container }) {
   useFocusEffect(
     useCallback(() => {
       loadData();
-      return () => {
-        // Cleanup function: Release the Llama model when the screen loses focus.
-        const llamaService = container.get<ILlamaService>(TYPES.ILlamaService);
-        llamaService.releaseModel();
-      };
     }, [])
   );
 
