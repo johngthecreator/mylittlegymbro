@@ -119,7 +119,11 @@ function HomeScreen({ container }: { container: Container }) {
       >
         <ImageBackground
           blurRadius={20}
-          source={{ uri: entry.image_url }}
+          source={
+            entry.image_url
+              ? entry.image_url
+              : require("../../assets/images/veg.jpg")
+          }
           style={{
             overflow: "hidden",
             marginRight: 10,

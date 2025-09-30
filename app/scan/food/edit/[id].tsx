@@ -120,22 +120,28 @@ function EditScanDetails({ container }: { container: Container }) {
 
   return (
     <ScrollView
-      contentContainerStyle={styles.container}
-      automaticallyAdjustContentInsets={true}
+      contentContainerStyle={styles.scrollContentContainer}
+      automaticallyAdjustKeyboardInsets={true}
+      scrollEnabled={true}
+      style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.inner}>
           <View style={styles.scanHeader}>
             <Image
-              source={scanData.image_url}
+              source={
+                scanData.image_url
+                  ? scanData.image_url
+                  : require("../../../../assets/images/veg.jpg")
+              }
               style={{
-                height: 100,
-                width: 100,
+                height: 110,
+                width: 110,
                 borderRadius: 20,
                 overflow: "hidden",
               }}
             />
-            <View style={{ display: "flex", gap: 10, width: "70%" }}>
+            <View style={{ display: "flex", gap: 10, width: "60%" }}>
               <TextInput
                 style={[
                   {
@@ -375,7 +381,7 @@ function EditScanDetails({ container }: { container: Container }) {
               justifyContent: "center",
               gap: 3,
               width: "auto",
-              backgroundColor: "lightblue",
+              backgroundColor: "white",
               padding: 10,
               marginTop: 20,
               borderRadius: 100,
@@ -395,9 +401,12 @@ export default withContainer(EditScanDetails);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 20,
+  },
+  scrollContentContainer: {
+    flexGrow: 1,
   },
   inner: {
-    padding: 10,
     flex: 1,
   },
   scanHeader: {
@@ -405,7 +414,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 20,
     paddingVertical: 20,
-    padding: 15,
     marginTop: 100,
   },
   input: {

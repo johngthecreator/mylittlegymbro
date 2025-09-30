@@ -137,7 +137,7 @@ function AllItems({ container }: { container: Container }) {
       keyExtractor={(item) => item.id.toString()}
       style={{
         flex: 1,
-        backgroundColor: Colors[colorScheme ?? "light"].background,
+        backgroundColor: "#OOO",
       }}
       contentContainerStyle={{ paddingBottom: 100 }}
       showsVerticalScrollIndicator={false}

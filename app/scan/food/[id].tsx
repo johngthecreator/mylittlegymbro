@@ -108,7 +108,11 @@ function ScanDetails({ container }: { container: Container }) {
         <View style={styles.innerContainer}>
           <View style={styles.scanHeader}>
             <Image
-              source={scanData.image_url}
+              source={
+                scanData.image_url
+                  ? scanData.image_url
+                  : require("../../../assets/images/veg.jpg")
+              }
               style={{
                 height: 100,
                 width: 100,

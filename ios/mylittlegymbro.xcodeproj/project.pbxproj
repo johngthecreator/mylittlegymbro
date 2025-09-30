@@ -8,32 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		255B2834F6BBF13569324CA7 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FADA5ACEE7BA9A6B69BFE1 /* ExpoModulesProvider.swift */; };
-		337BD3D72E7FCCEB0029E434 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 337BD3D62E7FCCEB0029E434 /* main.jsbundle */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		7182FF8314F2209E07DC9F1A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9E8129698CA7C3F098810373 /* PrivacyInfo.xcprivacy */; };
-		BAD2337167424A6F884D7E7C /* mlgb.icon in Resources */ = {isa = PBXBuildFile; fileRef = 72192E0AFBB6441296DFFC49 /* mlgb.icon */; };
+		5CAD450C15F94B0CA1B2EC32 /* mlgb.icon in Resources */ = {isa = PBXBuildFile; fileRef = 013C73BCE5E84AF79BDF4A23 /* mlgb.icon */; };
+		5FFEA2D4FC4FBEDF559E7D55 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B294D8DDF8187A379FFCB7 /* ExpoModulesProvider.swift */; };
+		87B2E0FF7ABAB3C047EE58F9 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FD3B1CC0ED94CD6DC463336B /* PrivacyInfo.xcprivacy */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		C3604BCB0FECDECBB73FF9F1 /* libPods-mylittlegymbro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A759E85E9A72E5F54859FE0A /* libPods-mylittlegymbro.a */; };
+		D8228EAC82CB334FFB3CBC47 /* libPods-mylittlegymbro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB66EA9A5AD3251381936D71 /* libPods-mylittlegymbro.a */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1074B3D7C1941B98D708F156 /* Pods-mylittlegymbro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.release.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.release.xcconfig"; sourceTree = "<group>"; };
+		013C73BCE5E84AF79BDF4A23 /* mlgb.icon */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = mlgb.icon; path = mylittlegymbro/mlgb.icon; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* mylittlegymbro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mylittlegymbro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = mylittlegymbro/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mylittlegymbro/Info.plist; sourceTree = "<group>"; };
-		337BD3D62E7FCCEB0029E434 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
-		72192E0AFBB6441296DFFC49 /* mlgb.icon */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = mlgb.icon; path = mylittlegymbro/mlgb.icon; sourceTree = "<group>"; };
-		9E8129698CA7C3F098810373 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = mylittlegymbro/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		A759E85E9A72E5F54859FE0A /* libPods-mylittlegymbro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mylittlegymbro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B2015374374A746F800B80E /* Pods-mylittlegymbro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.release.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.release.xcconfig"; sourceTree = "<group>"; };
+		7DDE7D8A5080459E8134FE84 /* Pods-mylittlegymbro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.debug.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.debug.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = mylittlegymbro/SplashScreen.storyboard; sourceTree = "<group>"; };
-		B3FADA5ACEE7BA9A6B69BFE1 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-mylittlegymbro/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		EC5AF657362C6C7AB9C7F38A /* Pods-mylittlegymbro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.debug.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.debug.xcconfig"; sourceTree = "<group>"; };
+		D0B294D8DDF8187A379FFCB7 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-mylittlegymbro/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		DB66EA9A5AD3251381936D71 /* libPods-mylittlegymbro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-mylittlegymbro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = mylittlegymbro/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* mylittlegymbro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mylittlegymbro-Bridging-Header.h"; path = "mylittlegymbro/mylittlegymbro-Bridging-Header.h"; sourceTree = "<group>"; };
+		FD3B1CC0ED94CD6DC463336B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = mylittlegymbro/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3604BCB0FECDECBB73FF9F1 /* libPods-mylittlegymbro.a in Frameworks */,
+				D8228EAC82CB334FFB3CBC47 /* libPods-mylittlegymbro.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,23 +49,14 @@
 		13B07FAE1A68108700A75B9A /* mylittlegymbro */ = {
 			isa = PBXGroup;
 			children = (
-				337BD3D62E7FCCEB0029E434 /* main.jsbundle */,
 				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
 				F11748442D0722820044C1D9 /* mylittlegymbro-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				72192E0AFBB6441296DFFC49 /* mlgb.icon */,
-				9E8129698CA7C3F098810373 /* PrivacyInfo.xcprivacy */,
-			);
-			name = mylittlegymbro;
-			sourceTree = "<group>";
-		};
-		177DC0A26903B65751292CC4 /* mylittlegymbro */ = {
-			isa = PBXGroup;
-			children = (
-				B3FADA5ACEE7BA9A6B69BFE1 /* ExpoModulesProvider.swift */,
+				013C73BCE5E84AF79BDF4A23 /* mlgb.icon */,
+				FD3B1CC0ED94CD6DC463336B /* PrivacyInfo.xcprivacy */,
 			);
 			name = mylittlegymbro;
 			sourceTree = "<group>";
@@ -76,17 +65,9 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				A759E85E9A72E5F54859FE0A /* libPods-mylittlegymbro.a */,
+				DB66EA9A5AD3251381936D71 /* libPods-mylittlegymbro.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		5E4AC3F9C2F392AF6E38A899 /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				177DC0A26903B65751292CC4 /* mylittlegymbro */,
-			);
-			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -103,8 +84,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				B50381E349BB91A0460F5236 /* Pods */,
-				5E4AC3F9C2F392AF6E38A899 /* ExpoModulesProviders */,
+				F2F944A5717AAFDF92F4F7B3 /* Pods */,
+				B481C07A54F43AAF41E07003 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -119,13 +100,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B50381E349BB91A0460F5236 /* Pods */ = {
+		B481C07A54F43AAF41E07003 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				EC5AF657362C6C7AB9C7F38A /* Pods-mylittlegymbro.debug.xcconfig */,
-				1074B3D7C1941B98D708F156 /* Pods-mylittlegymbro.release.xcconfig */,
+				E7C90DA2E810CA9B1492D576 /* mylittlegymbro */,
 			);
-			path = Pods;
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
@@ -137,6 +117,24 @@
 			path = mylittlegymbro/Supporting;
 			sourceTree = "<group>";
 		};
+		E7C90DA2E810CA9B1492D576 /* mylittlegymbro */ = {
+			isa = PBXGroup;
+			children = (
+				D0B294D8DDF8187A379FFCB7 /* ExpoModulesProvider.swift */,
+			);
+			name = mylittlegymbro;
+			sourceTree = "<group>";
+		};
+		F2F944A5717AAFDF92F4F7B3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7DDE7D8A5080459E8134FE84 /* Pods-mylittlegymbro.debug.xcconfig */,
+				6B2015374374A746F800B80E /* Pods-mylittlegymbro.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -145,13 +143,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "mylittlegymbro" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				30F769C7B51329A37FBE55EF /* [Expo] Configure project */,
+				57D9790B25AE4807C6C762E9 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				393E56ED86E170F2CFDCCEB0 /* [CP] Embed Pods Frameworks */,
+				EA79CD0E75793E293D3E6FF4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -201,9 +199,8 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				337BD3D72E7FCCEB0029E434 /* main.jsbundle in Resources */,
-				BAD2337167424A6F884D7E7C /* mlgb.icon in Resources */,
-				7182FF8314F2209E07DC9F1A /* PrivacyInfo.xcprivacy in Resources */,
+				5CAD450C15F94B0CA1B2EC32 /* mlgb.icon in Resources */,
+				87B2E0FF7ABAB3C047EE58F9 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,7 +246,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		30F769C7B51329A37FBE55EF /* [Expo] Configure project */ = {
+		57D9790B25AE4807C6C762E9 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -272,28 +269,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# This script configures Expo modules and generates the modules provider file.\nbash -l -c \"./Pods/Target\\ Support\\ Files/Pods-mylittlegymbro/expo-configure-project.sh\"\n";
-		};
-		393E56ED86E170F2CFDCCEB0 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -325,6 +300,28 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		EA79CD0E75793E293D3E6FF4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -333,7 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				255B2834F6BBF13569324CA7 /* ExpoModulesProvider.swift in Sources */,
+				5FFEA2D4FC4FBEDF559E7D55 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,13 +339,12 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EC5AF657362C6C7AB9C7F38A /* Pods-mylittlegymbro.debug.xcconfig */;
+			baseConfigurationReference = 7DDE7D8A5080459E8134FE84 /* Pods-mylittlegymbro.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = mlgb;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = mylittlegymbro/mylittlegymbro.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W926TURM5Y;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -368,7 +364,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.anonymous.mylittlegymbro;
-				PRODUCT_NAME = "mylittlegymbro";
+				PRODUCT_NAME = mylittlegymbro;
 				SWIFT_OBJC_BRIDGING_HEADER = "mylittlegymbro/mylittlegymbro-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -379,13 +375,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1074B3D7C1941B98D708F156 /* Pods-mylittlegymbro.release.xcconfig */;
+			baseConfigurationReference = 6B2015374374A746F800B80E /* Pods-mylittlegymbro.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = mlgb;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = mylittlegymbro/mylittlegymbro.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W926TURM5Y;
 				INFOPLIST_FILE = mylittlegymbro/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -400,7 +395,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.anonymous.mylittlegymbro;
-				PRODUCT_NAME = "mylittlegymbro";
+				PRODUCT_NAME = mylittlegymbro;
 				SWIFT_OBJC_BRIDGING_HEADER = "mylittlegymbro/mylittlegymbro-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
