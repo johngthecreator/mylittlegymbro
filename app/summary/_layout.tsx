@@ -39,7 +39,7 @@ export default function SummaryLayout() {
                 justifyContent: "center", // Center content horizontally
                 alignItems: "center", // Center content vertically
               }}
-              onPress={() => router.navigate({ pathname: "/profiles" })}
+              onPress={() => router.navigate({ pathname: "/summary/profiles" })}
             >
               <Text
                 style={{
@@ -70,12 +70,19 @@ export default function SummaryLayout() {
         }}
       />
       <Stack.Screen
+        name="profiles"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="quick-add"
         options={{
           headerShown: true,
-          headerLargeTitle: false,
+          headerLargeTitle: true,
           headerTransparent: true,
           headerTitle: "Quick Add",
+          presentation: "modal",
         }}
       />
     </Stack>

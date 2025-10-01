@@ -8,15 +8,22 @@ export default function SummaryLayout() {
         name="index"
         options={{
           headerShown: true,
-          headerLargeTitle: true,
+          headerLargeTitle: false,
           headerTransparent: true,
           headerLargeStyle: {
             backgroundColor: "transparent",
           },
           headerTitle: "Profiles",
+          headerLeft: () => (
+            <HeaderButton onPress={() => router.back()}>
+              <IconSymbol name="chevron.left" size={30} color={"white"} />
+            </HeaderButton>
+          ),
           headerRight: () => (
             <HeaderButton
-              onPress={() => router.navigate({ pathname: "/profiles/create" })}
+              onPress={() =>
+                router.navigate({ pathname: "/summary/profiles/create" })
+              }
             >
               <IconSymbol name="plus" size={30} color={"white"} />
             </HeaderButton>

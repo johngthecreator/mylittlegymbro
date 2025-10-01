@@ -66,10 +66,6 @@ export default function RootLayout() {
             <Icon sf="barcode.viewfinder" drawable="custom_android_drawable" />
             <Label>Scanner</Label>
           </NativeTabs.Trigger>
-          <NativeTabs.Trigger name="profiles">
-            <Icon sf="person" drawable="custom_android_drawable" />
-            <Label>Profiles</Label>
-          </NativeTabs.Trigger>
           <NativeTabs.Trigger name="(search)" role="search">
             <Icon sf="magnifyingglass" drawable="ic_search" />
             <Label>Search</Label>

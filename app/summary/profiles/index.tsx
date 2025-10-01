@@ -14,7 +14,7 @@ import {
   useColorScheme,
   View,
 } from "react-native";
-import { IconSymbol } from "../../components/ui/IconSymbol";
+import { IconSymbol } from "../../../components/ui/IconSymbol";
 
 const ITEM_LIMIT = 10; // Define item limit
 
@@ -77,7 +77,7 @@ function ProfilesScreen({ container }: { container: Container }) {
         <TouchableOpacity
           onPress={() =>
             router.navigate({
-              pathname: "/profiles/edit/[id]",
+              pathname: "/summary/profiles/edit/[id]",
               params: { id: item.id },
             })
           }

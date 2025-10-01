@@ -7,12 +7,11 @@ import {
 } from "@/core/profiles/profile.interface";
 import { TYPES } from "@/core/types";
 import { HeaderButton } from "@react-navigation/elements";
-import { useFocusEffect } from "@react-navigation/native"; // Added useFocusEffect
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
-import { useLocalSearchParams, useNavigation, useRouter } from "expo-router"; // Added useLocalSearchParams
+import { useNavigation, useRouter } from "expo-router";
 import { Container } from "inversify";
-import { useCallback, useLayoutEffect, useState } from "react"; // Added useCallback
+import { useCallback, useLayoutEffect, useState } from "react";
 import {
   Alert,
   ScrollView,
@@ -25,8 +24,7 @@ import {
 } from "react-native";
 import defaultBackground from "../../../assets/images/default_background.jpeg";
 
-function EditProfileScreen({ container }: { container: Container }) {
-  const params = useLocalSearchParams<{ id: string }>(); // Get ID from route params
+function CreateProfileScreen({ container }: { container: Container }) {
   const [profileName, setProfileName] = useState<string>("");
   const [background, setBackground] = useState<string>("blank"); // Stores image URI or "blank"
   const [calorieGoal, setCalorieGoal] = useState<string>("0"); // Changed to string for TextInput
@@ -42,39 +40,14 @@ function EditProfileScreen({ container }: { container: Container }) {
     TYPES.IProfileController
   );
 
-  const loadProfileData = useCallback(async () => {
-    if (!params.id) return;
-    try {
-      const profile = await profileController.getProfileById(Number(params.id));
-      if (profile) {
-        setProfileName(profile.name);
-        setBackground(profile.background || "blank");
-        setCalorieGoal(String(profile.calorie_goal || 0));
-        setProteinGoal(String(profile.protein_goal || 0));
-        setFatGoal(String(profile.fat_goal || 0));
-        setCarbGoal(String(profile.carb_goal || 0));
-      }
-    } catch (error) {
-      console.error("Error loading profile data:", error);
-      Alert.alert("Error", "Failed to load profile. Please try again.");
-    }
-  }, [params.id]);
-
-  useFocusEffect(
-    useCallback(() => {
-      loadProfileData();
-    }, [loadProfileData])
-  );
-
-  const handleUpdateProfile = useCallback(async () => {
+  const handleCreateProfile = useCallback(async () => {
     if (!profileName.trim()) {
       Alert.alert("Error", "Profile name cannot be empty.");
       return;
     }
-    if (!params.id) return;
 
     try {
-      const updatedProfile: ICreateProfileDto = {
+      const newProfile: ICreateProfileDto = {
         name: profileName.trim(),
         background: background,
         calorie_goal: Number(calorieGoal),
@@ -82,61 +55,23 @@ function EditProfileScreen({ container }: { container: Container }) {
         fat_goal: Number(fatGoal),
         carb_goal: Number(carbGoal),
       };
-      await profileController.updateProfile(Number(params.id), updatedProfile); // New update method
+      await profileController.createProfile(newProfile);
       router.back();
     } catch (error) {
-      console.error("Error updating profile:", error);
-      Alert.alert("Error", "Failed to update profile. Please try again.");
+      console.error("Error creating profile:", error);
+      Alert.alert("Error", "Failed to create profile. Please try again.");
     }
-  }, [
-    profileName,
-    background,
-    calorieGoal,
-    proteinGoal,
-    fatGoal,
-    carbGoal,
-    params.id,
-  ]);
+  }, [profileName, background, calorieGoal, proteinGoal, fatGoal, carbGoal]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <HeaderButton onPress={handleUpdateProfile}>
+        <HeaderButton onPress={handleCreateProfile}>
           <IconSymbol name="checkmark" size={20} color={"white"} />
         </HeaderButton>
       ),
     });
-  }, [handleUpdateProfile, colorScheme]);
-
-  const handleDeleteProfile = async () => {
-    if (!params.id) return;
-    Alert.alert(
-      "Confirm Deletion",
-      "Are you sure you want to delete this profile? This action cannot be undone.",
-      [
-        {
-          text: "Cancel",
-          style: "cancel",
-        },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              await profileController.deleteProfile(Number(params.id));
-              router.back();
-            } catch (error) {
-              console.error("Error deleting profile:", error);
-              Alert.alert(
-                "Error",
-                "Failed to delete profile. Please try again."
-              );
-            }
-          },
-        },
-      ]
-    );
-  };
+  }, [handleCreateProfile, colorScheme]);
 
   const pickImage = async () => {
     setIsPickingImage(true); // Set loading to true
@@ -170,13 +105,6 @@ function EditProfileScreen({ container }: { container: Container }) {
               }
               style={styles.thumbnail}
             />
-            {/* {isPickingImage && (
-              <ActivityIndicator
-                size="small"
-                color={Colors[colorScheme ?? "light"].tint}
-                style={{ zIndex: 10, alignSelf: "center" }}
-              />
-            )} */}
           </TouchableOpacity>
         </View>
         <Text style={styles.label}>Profile Name</Text>
@@ -238,18 +166,12 @@ function EditProfileScreen({ container }: { container: Container }) {
           onChangeText={setCarbGoal}
           keyboardType="numeric"
         />
-        <TouchableOpacity
-          style={[styles.button, styles.deleteButton]}
-          onPress={handleDeleteProfile}
-        >
-          <Text style={styles.deleteButtonText}>Delete Profile</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
 }
 
-export default withContainer(EditProfileScreen); // Changed component name
+export default withContainer(CreateProfileScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -293,19 +215,14 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   button: {
-    backgroundColor: "transparent",
+    backgroundColor: "#007AFF",
     paddingVertical: 15,
     borderRadius: 8,
     alignItems: "center",
   },
   buttonText: {
+    color: "#FFFFFF",
     fontSize: 18,
-  },
-  deleteButton: {
-    marginTop: 10,
-  },
-  deleteButtonText: {
-    color: "red",
-    fontSize: 18,
+    fontWeight: "bold",
   },
 });

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		33A6DB0D2E8BA50200443410 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 33A6DB0C2E8BA50200443410 /* main.jsbundle */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		5CAD450C15F94B0CA1B2EC32 /* mlgb.icon in Resources */ = {isa = PBXBuildFile; fileRef = 013C73BCE5E84AF79BDF4A23 /* mlgb.icon */; };
 		5FFEA2D4FC4FBEDF559E7D55 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B294D8DDF8187A379FFCB7 /* ExpoModulesProvider.swift */; };
@@ -18,10 +19,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		013C73BCE5E84AF79BDF4A23 /* mlgb.icon */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = mlgb.icon; path = mylittlegymbro/mlgb.icon; sourceTree = "<group>"; };
+		013C73BCE5E84AF79BDF4A23 /* mlgb.icon */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = mlgb.icon; path = mylittlegymbro/mlgb.icon; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* mylittlegymbro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mylittlegymbro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = mylittlegymbro/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mylittlegymbro/Info.plist; sourceTree = "<group>"; };
+		33A6DB0C2E8BA50200443410 /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		6B2015374374A746F800B80E /* Pods-mylittlegymbro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.release.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.release.xcconfig"; sourceTree = "<group>"; };
 		7DDE7D8A5080459E8134FE84 /* Pods-mylittlegymbro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-mylittlegymbro.debug.xcconfig"; path = "Target Support Files/Pods-mylittlegymbro/Pods-mylittlegymbro.debug.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = mylittlegymbro/SplashScreen.storyboard; sourceTree = "<group>"; };
@@ -31,7 +33,7 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = mylittlegymbro/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* mylittlegymbro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "mylittlegymbro-Bridging-Header.h"; path = "mylittlegymbro/mylittlegymbro-Bridging-Header.h"; sourceTree = "<group>"; };
-		FD3B1CC0ED94CD6DC463336B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = mylittlegymbro/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		FD3B1CC0ED94CD6DC463336B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = mylittlegymbro/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +51,7 @@
 		13B07FAE1A68108700A75B9A /* mylittlegymbro */ = {
 			isa = PBXGroup;
 			children = (
+				33A6DB0C2E8BA50200443410 /* main.jsbundle */,
 				F11748412D0307B40044C1D9 /* AppDelegate.swift */,
 				F11748442D0722820044C1D9 /* mylittlegymbro-Bridging-Header.h */,
 				BB2F792B24A3F905000567C9 /* Supporting */,
@@ -131,7 +134,6 @@
 				7DDE7D8A5080459E8134FE84 /* Pods-mylittlegymbro.debug.xcconfig */,
 				6B2015374374A746F800B80E /* Pods-mylittlegymbro.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -199,6 +201,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
+				33A6DB0D2E8BA50200443410 /* main.jsbundle in Resources */,
 				5CAD450C15F94B0CA1B2EC32 /* mlgb.icon in Resources */,
 				87B2E0FF7ABAB3C047EE58F9 /* PrivacyInfo.xcprivacy in Resources */,
 			);
@@ -345,6 +348,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = mylittlegymbro/mylittlegymbro.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W926TURM5Y;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -381,6 +385,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = mylittlegymbro/mylittlegymbro.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W926TURM5Y;
 				INFOPLIST_FILE = mylittlegymbro/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
