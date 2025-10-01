@@ -36,6 +36,7 @@ export default function SummaryLayout() {
           headerShown: true,
           headerLargeTitle: false,
           headerTransparent: true,
+          headerBackButtonDisplayMode: "minimal",
           headerTitle: "Create Profile",
         }}
       />
@@ -46,6 +47,7 @@ export default function SummaryLayout() {
           headerShown: true,
           headerLargeTitle: false,
           headerTransparent: true,
+          headerBackButtonDisplayMode: "minimal",
           headerTitle: "Edit Profile",
         }}
       />
